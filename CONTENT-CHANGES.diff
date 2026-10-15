@@ -1,0 +1,176 @@
+--- previous/components/MashalProductPage.tsx
++++ published/components/MashalProductPage.tsx
+@@ -42,6 +42,8 @@
+ import { mashalFeatureCount, mashalFeatureGroups } from "@/lib/mashal-features";
+ import { companyInfo } from "@/lib/site-content";
+ 
++import { mashalCaseStudy } from "@/lib/mashal-case-study";
++
+ const ROOT_ID = "mashal-landing";
+ 
+ const benefits: { icon: LucideIcon; title: string; text: string }[] = [
+@@ -345,20 +347,13 @@
+ 
+       <section className={styles.section} aria-labelledby="mashal-proof-title">
+         <div className={styles.shell}>
+-          <div className={styles.caseCard} data-reveal>
++          <div className={styles.caseCard} style={{ gridTemplateColumns: "1fr" }} data-reveal>
+             <div className={styles.caseCopy}>
+               <p className={styles.kickerLight}>استفادهٔ واقعی در افغانستان</p>
+-              <h2 id="mashal-proof-title" className={styles.h2}>نمونهٔ پیاده‌سازی محصول مشعل</h2>
+-              <p>
+-                یک شرکت فعال در واردات و توزیع مواد نفتی، قرارداد، بار، تانک، فروش و حساب را در مشعل مدیریت می‌کند.
+-                شرح همین پیاده‌سازی محصول نواتیک را در نمونهٔ پروژهٔ مشعل ببینید.
+-              </p>
+-              <Link className={styles.btnPrimary} href="/portfolio/oil-and-gas-management-system">مشاهده نمونهٔ پیاده‌سازی مشعل<ArrowLeft size={18} aria-hidden="true" /></Link>
+-            </div>
+-            <figure className={styles.caseVisual}>
+-              <Shot screen="reports" sizes="(min-width: 1024px) 640px, 94vw" />
+-              <figcaption className={styles.srOnly}>{mashalScreen("reports").caption}</figcaption>
+-            </figure>
++              <h2 id="mashal-proof-title" className={styles.h2}>{mashalCaseStudy.fa.title}</h2>
++              <p>{mashalCaseStudy.fa.text}</p>
++              <Link className={styles.btnPrimary} href="/portfolio/oil-and-gas-management-system">{mashalCaseStudy.fa.link}<ArrowLeft size={18} aria-hidden="true" /></Link>
++            </div>
+           </div>
+ 
+           <ul className={styles.serviceGrid} style={{ marginTop: "2rem" }}>
+--- previous/tests/mashal-seo.test.mjs
++++ published/tests/mashal-seo.test.mjs
+@@ -90,8 +90,8 @@
+   const caseStudyPage = read("app/portfolio/[slug]/page.tsx");
+ 
+   assert.match(product, /href="\/portfolio\/oil-and-gas-management-system"/);
+-  assert.match(studies, /seoTitle: "نمونه پروژه مشعل \| پیاده‌سازی ERP برای شرکت نفتی افغانستان"/);
+-  assert.match(studies, /pageHeading: "نمونه پیاده‌سازی مشعل برای شرکت نفتی در افغانستان"/);
++  assert.match(studies, /seoTitle: mashalCaseStudy.fa.title/);
++  assert.match(studies, /pageHeading: mashalCaseStudy.fa.title/);
+   assert.match(studies, /href: "\/oil-and-gas-software"/);
+   assert.match(caseStudyPage, /isMashalCaseStudy[\s\S]*href="\/oil-and-gas-software"[\s\S]*مشاهده صفحه محصول و امکانات ERP نفت و گاز مشعل/);
+ });
+--- previous/lib/case-studies.ts
++++ published/lib/case-studies.ts
+@@ -1,12 +1,13 @@
+ import type { ServiceKey } from "@/lib/services";
+-import { mashalScreens } from "@/lib/mashal";
++import { mashalCaseStudy } from "@/lib/mashal-case-study";
+ 
+ /**
+  * Case studies for systems Novatech has actually built and delivered. The
+  * screenshots, capability lists and summaries here come from the project's own
+  * portfolio data — nothing is invented.
+  *
+- * Deliberately absent from every entry: client names, contract values, user
++ * Except for the explicitly owner-approved Fawad Siddiqi name and usage,
++ * client identities are omitted. Also absent: contract values, user
+  * counts, percentage improvements and delivery dates. None of that is recorded
+  * anywhere in the project, and a case study is worth nothing if part of it is
+  * guessed. `outcome` describes what the delivered system does for the operator,
+@@ -15,7 +16,7 @@
+ 
+ export type CaseStudy = {
+   slug: string;
+-  /** Card title, breadcrumb label and default H1. Kept neutral — no client name. */
++  /** Card title, breadcrumb label and default H1. Customer names require explicit approval. */
+   title: string;
+   /**
+    * Overrides the H1 where the card needs a short neutral project name but the
+@@ -210,15 +211,13 @@
+   },
+   {
+     slug: "oil-and-gas-management-system",
+-    title: "مشعل — ERP نفت و گاز",
+-    pageHeading: "نمونه پیاده‌سازی مشعل برای شرکت نفتی در افغانستان",
+-    seoTitle: "نمونه پروژه مشعل | پیاده‌سازی ERP برای شرکت نفتی افغانستان",
+-    seoDescription:
+-      "نمونه واقعی مشعل، ERP نفت و گاز نواتیک؛ قرارداد، بارگیری، حمل، مخزن، فروش، مالی چندارزی، شرکا و مفاد بار در یک سیستم.",
++    title: mashalCaseStudy.fa.title,
++    pageHeading: mashalCaseStudy.fa.title,
++    seoTitle: mashalCaseStudy.fa.title,
++    seoDescription: "گروپ کمپنی‌های فواد صدیقی از مشعل، محصول نواتیک، در فعالیت‌های نفتی خود استفاده می‌کند؛ نمونهٔ پیاده‌سازی عملی در تجارت مواد نفتی افغانستان.",
+     industry: "واردات و توزیع مواد نفتی",
+     location: "افغانستان",
+-    summary:
+-      "مشعل (MASHAL) محصول شرکت تکنولوژی نواتیک (NOVATECH) برای مدیریت عملیات شرکت های واردکننده و توزیع کننده مواد نفتی است؛ از قرارداد و بارگیری تا مخزن، فروش، مصارف و مفاد و زیان.",
++    summary: mashalCaseStudy.fa.text,
+     problem: [
+       "در بسیاری از شرکت های واردات و توزیع مواد نفتی، اطلاعات یک بار بین چند جای مختلف پخش است: قرارداد و اسناد حمل در فایل کاغذی، مقدار بارگیری و تخلیه در یک اکسل، حساب مشتری و تحویل دهنده در دفتر حسابداری و مصارف مسیر در یادداشت های جداگانه.",
+       "تا وقتی این اطلاعات کنار هم گذاشته نشود، پاسخ دادن به سوال های اصلی کار سخت است: این قرارداد تا امروز چقدر اجرا شده، قیمت تمام‌شده این بار با کرایه و گمرک چند شد، موجودی واقعی هر تانک چقدر است، حساب این شریک و این مشتری کجاست و در نهایت روی این بار مفاد کردیم یا زیان.",
+@@ -305,11 +304,6 @@
+       "حساب مشتری، تحویل دهنده و شریک از یک منبع خوانده می شود و مانده هر کدام در همان لحظه در دسترس است.",
+       "راپور مفاد و زیان به تفکیک بار گرفته می شود، بنابراین مدیر لازم نیست تا بسته شدن دفاتر پایان دوره منتظر بماند.",
+     ],
+-    desktopImage: "/images/mashal/mashal-oil-gas-erp-dashboard-afghanistan.webp",
+-    desktopImageAlt:
+-      "داشبورد مشعل برای مدیریت قرارداد، موجودی و مالی شرکت نفتی افغانستان",
+-    imageOrientation: "landscape",
+-    screenshots: mashalScreens.slice(1, 7),
+     implementation: {
+       heading: "فناوری، استقرار، امنیت و پشتیبانی",
+       paragraphs: [
+--- previous/app/ps/oil-and-gas-erp-afghanistan/page.tsx
++++ published/app/ps/oil-and-gas-erp-afghanistan/page.tsx
+@@ -1,3 +1,4 @@
++import { mashalCaseStudy, mashalCaseStudyPath } from "@/lib/mashal-case-study";
+ import Image from "next/image";
+ import Link from "next/link";
+ import { ArrowLeft } from "lucide-react";
+@@ -145,6 +146,14 @@
+         <div className={styles.shell}><div className={styles.sectionHeader}><p className={styles.kicker}>واقعي محصول</p><h2 id="pashto-screens-title" className={styles.heading}>د پرېکړې تر مخه سیستم په خپله وګورئ</h2><p className={styles.sectionIntro}>دا انځورونه د مشعل له اصلي چاپېریال څخه دي؛ د اشخاصو او شرکتونو نومونه او د موټرو نمبرونه پټ شوي دي.</p></div><div className={styles.primaryGallery}>{pashtoScreens.map((screen, index) => <figure key={screen.key} className={index === 0 ? styles.featuredShot : styles.shot}><Image src={screen.src} alt={screen.alt} width={screen.width} height={screen.height} sizes={index === 0 || index === pashtoScreens.length - 1 ? "(min-width: 1320px) 1220px, 94vw" : "(min-width: 900px) 600px, 94vw"} loading="lazy" /><figcaption>{screen.caption}</figcaption></figure>)}</div></div>
+       </section>
+ 
++      <section className={styles.sectionSoft} aria-labelledby="customer-case-title">
++        <div className={styles.shell}>
++          <h2 id="customer-case-title" className={styles.heading}>{mashalCaseStudy.ps.title}</h2>
++          <p className={styles.sectionIntro}>{mashalCaseStudy.ps.text}</p>
++          <Link className={styles.secondaryAction} href={mashalCaseStudyPath}>{mashalCaseStudy.ps.link}</Link>
++        </div>
++      </section>
++
+       <section className={styles.sectionSoft} aria-labelledby="pashto-faq-title">
+         <div className={`${styles.shell} ${styles.faqLayout}`}><div className={styles.sectionHeader}><p className={styles.kicker}>لنډ ځوابونه</p><h2 id="pashto-faq-title" className={styles.heading}>د مشعل په اړه عامې پوښتنې</h2></div><div className={styles.faqList}>{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div>
+       </section>
+--- previous/app/en/oil-and-gas-erp-afghanistan/page.tsx
++++ published/app/en/oil-and-gas-erp-afghanistan/page.tsx
+@@ -1,3 +1,4 @@
++import { mashalCaseStudy, mashalCaseStudyPath } from "@/lib/mashal-case-study";
+ import Image from "next/image";
+ import Link from "next/link";
+ import { ArrowRight, Check } from "lucide-react";
+@@ -108,6 +109,14 @@
+         </div>
+       </section>
+ 
++      <section className={styles.sectionSoft} aria-labelledby="customer-case-title">
++        <div className={styles.shell}>
++          <h2 id="customer-case-title" className={styles.heading}>{mashalCaseStudy.en.title}</h2>
++          <p className={styles.sectionIntro}>{mashalCaseStudy.en.text}</p>
++          <Link className={styles.secondaryAction} href={mashalCaseStudyPath}>{mashalCaseStudy.en.link}</Link>
++        </div>
++      </section>
++
+       <section className={styles.section} aria-labelledby="english-faq-title">
+         <div className={styles.shell}><div className={styles.sectionHeader}><p className={styles.kicker}>Direct answers</p><h2 id="english-faq-title" className={styles.heading}>Mashal Oil &amp; Gas ERP FAQ</h2></div><div className={styles.faqList}>{questions.map(([question, answer]) => <details key={question}><summary>{question}</summary><p>{answer}</p></details>)}</div></div>
+       </section>
+--- /dev/null
++++ published/lib/mashal-case-study.ts
+@@ -0,0 +1,19 @@
++// Customer name and usage approved by the site owner; no customer financial data or logo is supplied.
++export const mashalCaseStudyPath = "/portfolio/oil-and-gas-management-system";
++export const mashalCaseStudy = {
++  "fa": {
++    "title": "مشعل در گروپ کمپنی‌های فواد صدیقی",
++    "text": "گروپ کمپنی‌های فواد صدیقی از نرم‌افزار مشعل، محصول شرکت تکنولوژی نواتیک، در جریان واقعی فعالیت‌های نفتی خود استفاده می‌کند. این پیاده‌سازی نمونهٔ استفادهٔ عملی مشعل در تجارت مواد نفتی افغانستان است.",
++    "link": "مشاهده نمونهٔ مشعل در گروپ کمپنی‌های فواد صدیقی"
++  },
++  "en": {
++    "title": "Mashal at Fawad Siddiqi Group of Companies",
++    "text": "Fawad Siddiqi Group of Companies uses Mashal, a product of NOVATECH Technology Solutions, in its day-to-day petroleum operations. This implementation is an example of Mashal in practical use in Afghanistan’s petroleum trade.",
++    "link": "View the Mashal implementation at Fawad Siddiqi Group of Companies"
++  },
++  "ps": {
++    "title": "د فواد صدیقي د شرکتونو په ګروپ کې مشعل",
++    "text": "د فواد صدیقي د شرکتونو ګروپ د نواتیک تکنولوژۍ شرکت محصول، مشعل نرم‌افزار، په خپلو ورځنیو نفتي فعالیتونو کې کاروي. دا پلي کول د افغانستان د نفتي موادو په سوداګرۍ کې د مشعل د عملي کارونې بېلګه ده.",
++    "link": "د فواد صدیقي د شرکتونو په ګروپ کې د مشعل د پلي کولو بېلګه وګورئ"
++  }
++} as const;

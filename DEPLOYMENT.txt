@@ -1,0 +1,6 @@
+Release: 20261009_mashal-arc-redesign
+Published: 2026-10-09
+Previous release: /home/novatechsoft.com/releases/20261008_mashal-brand-alignment
+Rollback link: /home/novatechsoft.com/rollback-20261009-mashal-arc-redesign
+Service backup: /home/novatechsoft.com/backups/20261009_mashal-arc-redesign
+Only novatechsoft-site.service restarted.
