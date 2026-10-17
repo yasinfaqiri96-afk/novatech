@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: Yekan; src: url(../../public/fonts/IRANYekanXFaNum-Regular.woff2); }
+  @font-face { font-family: YekanBold; src: url(../../public/fonts/IRANYekanXFaNum-Bold.woff2); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #050033; }
+  #stage { position: relative; width: 100vw; height: 100vh; overflow: hidden;
+    background:
+      radial-gradient(60% 70% at 78% 18%, rgba(25,0,255,.38), rgba(25,0,255,0) 70%),
+      radial-gradient(50% 60% at 18% 88%, rgba(205,108,88,.30), rgba(205,108,88,0) 70%),
+      radial-gradient(70% 80% at 50% 50%, #0d0560 0%, #07004c 45%, #050033 100%);
+  }
+  #camera { position: absolute; inset: 0; transform-origin: 60% 45%; }
+  .grain { position: absolute; inset: 0; opacity: .05; pointer-events: none;
+    background-image: radial-gradient(rgba(255,255,255,.7) .5px, transparent .6px); background-size: 3px 3px; }
+
+  /* light rays */
+  .ray { position: absolute; width: 140vw; height: 22vh; left: -20vw; top: 10vh; transform-origin: center;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(147,142,196,.10), rgba(255,255,255,0));
+    filter: blur(18px); }
+
+  .bokeh { position: absolute; border-radius: 50%; filter: blur(2px); }
+
+  /* Monitor */
+  .monitor { position: absolute; }
+  .monitor .body { position: absolute; inset: 0 0 auto 0; border-radius: 1.6vh; padding: 1.1vh;
+    background: linear-gradient(160deg, #2a2a35, #0b0b12 40%, #15151e);
+    box-shadow: 0 4vh 9vh rgba(0,0,0,.55), 0 0 0 .12vh rgba(255,255,255,.12) inset, 0 0 12vh rgba(25,0,255,.25); }
+  .screen { position: relative; width: 100%; height: 100%; border-radius: .7vh; overflow: hidden; background: #f4f6fb; }
+  .screen .stack { position: absolute; left: 0; right: 0; top: 0; will-change: transform; }
+  .screen .stack img { display: block; width: 100%; }
+  .screen::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,0) 32%, rgba(255,255,255,0) 60%, rgba(255,255,255,.05) 100%); }
+  .neck { position: absolute; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(90deg, #4b4b57, #9a9aa8 45%, #5d5d69 70%, #3a3a44);
+    clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%); }
+  .base { position: absolute; left: 50%; transform: translateX(-50%); border-radius: 50% / 40%;
+    background: linear-gradient(180deg, #a3a3b1, #5a5a66 60%, #2c2c35);
+    box-shadow: 0 2vh 4vh rgba(0,0,0,.6); }
+
+  /* Laptop */
+  .laptop { position: absolute; }
+  .laptop .lid { position: absolute; left: 6%; right: 6%; top: 0; border-radius: 1.4vh 1.4vh .4vh .4vh; padding: 1vh;
+    background: linear-gradient(160deg, #2b2b36, #0c0c13 45%, #16161f);
+    box-shadow: 0 0 0 .12vh rgba(255,255,255,.14) inset, 0 3vh 6vh rgba(0,0,0,.5); }
+  .laptop .deck { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 0 0 1.6vh 1.6vh;
+    background: linear-gradient(180deg, #d2d2dc 0%, #8d8d9a 55%, #4a4a55 100%);
+    box-shadow: 0 2.4vh 4vh rgba(0,0,0,.55); }
+  .laptop .deck::before { content: ""; position: absolute; left: 42%; right: 42%; top: 0; height: 40%;
+    background: linear-gradient(180deg, #6d6d79, #a7a7b3); border-radius: 0 0 1vh 1vh; }
+
+  /* glass cards */
+  .card { position: absolute; border-radius: 1.8vh; padding: 1.6vh 1.8vh;
+    background: linear-gradient(145deg, rgba(38,28,128,.82), rgba(9,4,62,.78));
+    border: .12vh solid rgba(255,255,255,.2);
+    box-shadow: 0 3vh 6vh rgba(3,0,26,.45), inset 0 .1vh 0 rgba(255,255,255,.25);
+    backdrop-filter: blur(14px); color: #fff; font-family: Yekan, sans-serif; direction: rtl; }
+  .card h4 { font-family: YekanBold, sans-serif; font-weight: normal; font-size: 1.9vh; line-height: 1.5; }
+  .card p { font-size: 1.45vh; opacity: .72; margin-top: .3vh; }
+  .card .icon { width: 4.6vh; height: 4.6vh; border-radius: 1.3vh; display: grid; place-items: center; flex: none;
+    background: linear-gradient(145deg, #1900ff, #0f0099); box-shadow: 0 1vh 2vh rgba(25,0,255,.45); }
+  .card .icon.coral { background: linear-gradient(145deg, #e48a75, #cd6c58); box-shadow: 0 1vh 2vh rgba(205,108,88,.45); }
+  .card .row { display: flex; align-items: center; gap: 1.4vh; }
+  .bars { display: flex; align-items: flex-end; gap: .7vh; height: 5.4vh; margin-top: 1.4vh; }
+  .bars i { flex: 1; border-radius: .5vh .5vh .2vh .2vh; background: linear-gradient(180deg, #938ec4, rgba(147,142,196,.35)); }
+  .bars i.hi { background: linear-gradient(180deg, #e48a75, rgba(205,108,88,.4)); }
+  .dbrows { margin-top: 1.2vh; display: grid; gap: .7vh; }
+  .dbrows span { display: block; height: .9vh; border-radius: .5vh; background: rgba(255,255,255,.22); }
+  .dbrows span:nth-child(2) { width: 78%; } .dbrows span:nth-child(3) { width: 58%; background: rgba(205,108,88,.6); }
+  .floor { position: absolute; left: 0; right: 0; height: 30vh; bottom: 0;
+    background: linear-gradient(180deg, rgba(5,0,51,0), rgba(3,0,26,.55)); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="ray" id="ray1"></div>
+  <div class="ray" id="ray2" style="top:55vh"></div>
+  <div id="bokeh"></div>
+  <div id="camera">
+    <div class="floor"></div>
+    <div class="monitor" id="monitor">
+      <div class="body" id="mbody"><div class="screen"><div class="stack" id="mstack"></div></div></div>
+      <div class="neck" id="neck"></div>
+      <div class="base" id="base"></div>
+    </div>
+    <div class="laptop" id="laptop">
+      <div class="lid" id="lid"><div class="screen"><div class="stack" id="lstack"></div></div></div>
+      <div class="deck" id="deck"></div>
+    </div>
+    <div class="card" id="card1">
+      <div class="row">
+        <div class="icon coral"><svg width="55%" height="55%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div>
+        <div><h4>گزارش مالی لحظه‌ای</h4><p>حسابداری و مفاد و ضرر</p></div>
+      </div>
+      <div class="bars"><i style="height:38%"></i><i style="height:55%"></i><i style="height:46%"></i><i style="height:70%"></i><i style="height:62%"></i><i class="hi" style="height:92%"></i></div>
+    </div>
+    <div class="card" id="card2">
+      <div class="row">
+        <div class="icon"><svg width="55%" height="55%" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div>
+        <div><h4>دیتابیس اختصاصی</h4><p>امن، سریع و قابل توسعه</p></div>
+      </div>
+      <div class="dbrows"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div class="grain"></div>
+</div>
+<script>
+const P = new URLSearchParams(location.search);
+const layout = P.get('layout') || 'hero';
+const L = Number(P.get('loop') || 12);
+const base = '../../public/images/mashal/mashal-';
+const monitorImgs = ['dashboard-overview', 'storage-tanks', 'chart-of-accounts', 'contract-cycle-flow'];
+const laptopImgs = ['multi-currency-ledger', 'transport-details', 'petroleum-sales-management'];
+
+// Layouts in % of stage: monitor box (x,y,w = screen+bezel width), laptop, cards.
+const layouts = {
+  hero:  { mon: [44, 9, 46], lap: null, c1: [9, 15, 22], c2: [72, 50, 19], tilt: -7 },
+  intro: { mon: [24, 7, 66], lap: [3, 47, 50], c1: [64, 64, 31], c2: [5, 9, 30], tilt: -5 },
+};
+const lay = layouts[layout];
+
+function fill(stackId, names) {
+  const s = document.getElementById(stackId);
+  // first two repeated at the end so the last stop looks exactly like the first
+  [...names, names[0], names[1]].forEach(n => { const i = new Image(); i.src = base + n + '.webp'; s.appendChild(i); });
+  return s;
+}
+const mstack = fill('mstack', monitorImgs);
+const lstack = lay.lap ? fill('lstack', laptopImgs) : null;
+if (!lay.lap) document.getElementById('laptop').style.display = 'none';
+
+const W = () => innerWidth, H = () => innerHeight;
+function place() {
+  const [mx, my, mw] = lay.mon;
+  const sw = W() * mw / 100, sh = sw * 10 / 16;
+  const m = document.getElementById('monitor');
+  Object.assign(m.style, { left: W() * mx / 100 + 'px', top: H() * my / 100 + 'px', width: sw + 'px', height: sh * 1.36 + 'px' });
+  document.getElementById('mbody').style.height = sh + 'px';
+  Object.assign(document.getElementById('neck').style, { top: sh - 2 + 'px', width: sw * .16 + 'px', height: sh * .26 + 'px' });
+  Object.assign(document.getElementById('base').style, { top: sh * 1.25 + 'px', width: sw * .36 + 'px', height: sh * .07 + 'px' });
+  m.style.transform = `perspective(${W() * 2}px) rotateY(${lay.tilt}deg)`;
+  if (lay.lap) {
+    const [lx, ly, lw] = lay.lap;
+    const w = W() * lw / 100, lidH = w * .88 * 10 / 16;
+    const l = document.getElementById('laptop');
+    Object.assign(l.style, { left: W() * lx / 100 + 'px', top: H() * ly / 100 + 'px', width: w + 'px', height: lidH + w * .045 + 'px' });
+    document.getElementById('lid').style.height = lidH + 'px';
+    document.getElementById('deck').style.height = w * .045 + 'px';
+    l.style.transform = `perspective(${W() * 2}px) rotateY(9deg)`;
+  }
+  for (const id of ['c1', 'c2']) {
+    const [cx, cy, cw] = lay[id];
+    Object.assign(document.getElementById('card' + id[1]).style, { left: W() * cx / 100 + 'px', top: H() * cy / 100 + 'px', width: W() * cw / 100 + 'px' });
+  }
+}
+
+const ease = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+function scrollPos(stack, n, t, phase) {
+  const imgs = [...stack.children];
+  const tops = []; let acc = 0;
+  for (const im of imgs) { tops.push(acc); acc += im.getBoundingClientRect().height; }
+  const u = ((t / L + phase) % 1 + 1) % 1 * n;   // n stops, then wraps to stop 0 (== duplicate n)
+  const k = Math.floor(u), f = u - k;
+  const hold = .62;
+  const p = f < hold ? 0 : ease((f - hold) / (1 - hold));
+  return tops[k] + (tops[k + 1] - tops[k]) * p;
+}
+
+// bokeh
+const bk = document.getElementById('bokeh'); const dots = [];
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+for (let i = 0; i < 22; i++) {
+  const d = document.createElement('div'); d.className = 'bokeh';
+  const s = 4 + rnd() * 18; const col = rnd() < .3 ? '205,108,88' : (rnd() < .5 ? '147,142,196' : '25,0,255');
+  Object.assign(d.style, { width: s + 'px', height: s + 'px', background: `rgba(${col},${.25 + rnd() * .35})` });
+  bk.appendChild(d); dots.push({ d, x: rnd() * 100, y: rnd() * 100, a: 1 + rnd() * 3, ph: rnd(), k: 1 + Math.floor(rnd() * 2) });
+}
+
+window.render = function (t) {
+  const w = 2 * Math.PI * t / L;
+  document.getElementById('camera').style.transform = `scale(${1.025 + .015 * Math.sin(w)}) translateY(${Math.sin(w) * .4}vh)`;
+  mstack.style.transform = `translateY(${-scrollPos(mstack, monitorImgs.length, t, 0)}px)`;
+  if (lstack) lstack.style.transform = `translateY(${-scrollPos(lstack, laptopImgs.length, t, .17)}px)`;
+  document.getElementById('card1').style.transform = `translateY(${Math.sin(w) * 1.4}vh)`;
+  document.getElementById('card2').style.transform = `translateY(${Math.sin(w + 2.1) * 1.4}vh)`;
+  document.getElementById('ray1').style.transform = `rotate(${-14 + 3 * Math.sin(w)}deg)`;
+  document.getElementById('ray2').style.transform = `rotate(${10 + 3 * Math.sin(w + 1)}deg)`;
+  for (const o of dots) {
+    o.d.style.left = (o.x + o.a * Math.sin(w * o.k + o.ph * 6.28)) + 'vw';
+    o.d.style.top = (o.y + o.a * 1.5 * Math.cos(w * o.k + o.ph * 6.28)) + 'vh';
+    o.d.style.opacity = .5 + .5 * Math.sin(w * o.k + o.ph * 9);
+  }
+};
+window.ready = Promise.all([...document.images].map(i => i.decode())).then(() => { place(); render(0); return true; });
+</script>
+</body>
+</html>

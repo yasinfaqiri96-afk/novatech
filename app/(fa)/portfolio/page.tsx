@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-img-element */
-
-import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd from "@/components/JsonLd";
-import PortfolioGallery from "@/components/PortfolioGallery";
+import PortfolioBoard from "@/components/portfolio/PortfolioBoard";
+import PortfolioIntro, { BreadcrumbBar } from "@/components/portfolio/PortfolioIntro";
+import styles from "@/components/portfolio/Portfolio.module.css";
+import portfolioData from "@/lib/portfolio-data.json";
 import { buildMetadata } from "@/lib/metadata";
 import { caseStudies } from "@/lib/case-studies";
 import { breadcrumbSchema, graph, webPageSchema } from "@/lib/seo";
@@ -33,6 +33,13 @@ const itemListSchema = {
   })),
 };
 
+/** Counted from the published portfolio itself, so the figures cannot drift. */
+const stats = [
+  { value: `${portfolioData.filter((item) => item.kind === "software").length}+`, label: "سامانه تحویل شده" },
+  { value: `${portfolioData.filter((item) => item.kind === "website").length}`, label: "وب سایت" },
+  { value: `${new Set(portfolioData.map((item) => item.category)).size}`, label: "حوزه کاری" },
+];
+
 export default function PortfolioPage() {
   return (
     <>
@@ -48,23 +55,24 @@ export default function PortfolioPage() {
         )}
       />
 
-      <div className="min-h-screen pt-32">
-        <div className="lg:mx-[130px] mx-[30px]">
-          <Breadcrumbs items={breadcrumbs} />
-          <div className="relative mt-6 flex justify-center items-center bg-no-repeat bg-cover h-60 lg:h-96 w-full rounded-2xl bg-[url('/images/website-logo.jpg')]">
-            <div className="absolute flex flex-col md:flex-row md:justify-between gap-5 justify-center w-[90%] items-center -bottom-10 bg-[#F5F5F5] p-5 rounded-2xl">
-              <div className="flex text-[26px] md:text-3xl">
-                <h1 className="light ml-1">
-                  نمونه کارهای <span className="heavy">{companyInfo.brandName}</span>
-                </h1>
-              </div>
-            </div>
-          </div>
-        </div>
+      {/* Gradients shared by the side tabs and favourite tabs on this page. */}
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: "absolute" }}>
+        <defs>
+          <linearGradient id="portfolio-side-tab" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#ffffff" />
+            <stop offset="1" stopColor="#dddce5" />
+          </linearGradient>
+          <linearGradient id="portfolio-fav-tab" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#ffffff" />
+            <stop offset="1" stopColor="#dddce5" />
+          </linearGradient>
+        </defs>
+      </svg>
 
-        <PortfolioGallery />
-
-        <div className="mx-[30px] lg:mx-[130px] sticky bottom-5 z-20"><a className="min-[1100px]:h-[142px] flex flex-col justify-around my-[60px] min-[1100px]:mt-[10px]" href="/contact"><div className="relative rounded-full hidden min-[1100px]:flex left-2 top-6 sm:top-8 min-[1100px]:top-0 w-full h-full  justify-center"><img alt="" aria-hidden="true" loading="lazy" width="145" height="149" decoding="async" data-nimg="1" className="absolute min-[1100px]:right-[20px] rounded-full" src="/images/operator-image.png" /></div><div className="min-[1100px]:h-fit min-[1100px]:justify-between min-[1100px]:pr-[200px] flex sm:flex-row justify-between gap-2 min-[1100px]:flex-row p-[10px] sm:p-[20px]  bg-[#222222] min-[1100px]:p-[20px] rounded-2xl items-center"><span className="text-white text-sm hidden md:block medium leading-[30px] text-center">برای ارتباط با کارشناسان و دریافت مشاوره کلیک کنید</span><span className="text-white text-sm md:hidden medium leading-[30px] text-center">ارتباط با کارشناسان</span><div className="flex items-center justify-between bg-white text-white rounded-3xl pr-3 min-[1100px]:mt-0 "><div className="medium hidden md:block text-primary">درخواست مشاوره</div><div className="text-xs medium md:hidden text-primary">درخواست مشاوره</div><div className="p-2"><svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" aria-hidden="true" className="p-1 bg-primary text-2xl bg-opacity-20 rounded-full" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M7.28 7.72a.75.75 0 0 1 0 1.06l-2.47 2.47H21a.75.75 0 0 1 0 1.5H4.81l2.47 2.47a.75.75 0 1 1-1.06 1.06l-3.75-3.75a.75.75 0 0 1 0-1.06l3.75-3.75a.75.75 0 0 1 1.06 0Z" clipRule="evenodd"></path></svg></div></div></div></a></div>
+      <div className={styles.page}>
+        <BreadcrumbBar items={breadcrumbs} />
+        <PortfolioIntro stats={stats} />
+        <PortfolioBoard />
       </div>
     </>
   );

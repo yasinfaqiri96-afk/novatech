@@ -99,7 +99,7 @@ export default function Header() {
   return (
     <>
       <div className={styles.preloader} aria-hidden="true"><span className={styles.preloaderTint} /><span className={styles.preloaderBg} /></div>
-      <header ref={root} id="header" className={styles.header} lang="fa-AF" dir="rtl">
+      <header ref={root} id="header" className={`${styles.header} ${path !== "/" ? styles.inner : ""} ${path.startsWith("/portfolio") ? styles.static : ""}`} lang="fa-AF" dir="rtl">
         <div className={styles.wrapper}>
           <svg className={styles.tab} viewBox="0 0 170 18" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path d="M0 0h170c-10 0-18 2-23 9-4 6-9 9-19 9H42c-10 0-15-3-19-9-5-7-13-9-23-9"/>

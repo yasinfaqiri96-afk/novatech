@@ -408,10 +408,22 @@
   animation: fadeIn 1.5s var(--expo) 0.53s both;
 }
 
+/* Inner pages: the notch floats over content, so it gets a soft shadow. */
+.inner .notch {
+  filter: drop-shadow(0 8px 4px #07004c1a);
+}
+
 .header :is(a, button, summary):focus-visible {
   outline: 2px solid var(--c-primary-400);
   outline-offset: 2px;
   border-radius: calc(var(--u) * 1);
+}
+
+/* The portfolio page has its own sticky filter bar, so the header scrolls away. */
+@media (max-width: 799px) {
+  .static {
+    position: relative;
+  }
 }
 
 @media (min-width: 800px) {

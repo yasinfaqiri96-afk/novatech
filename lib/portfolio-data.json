@@ -10,7 +10,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار کارگو و مدیریت لجستیک نواتیک",
     "summary": "صدور بارنامه، مدیریت ناوگان و رانندگان و پیگیری وضعیت مرسوله از مبدا تا مقصد.",
-    "caseStudySlug": "logistics-management-system"
+    "caseStudySlug": "logistics-management-system",
+    "cardColor": "#0b5a4f"
   },
   {
     "kind": "software",
@@ -27,7 +28,8 @@
     "productHref": "/oil-and-gas-software",
     "desktopImg": "/images/mashal/mashal-dashboard-overview.webp",
     "imagePresentation": "screenshot",
-    "hideOnHome": true
+    "hideOnHome": true,
+    "cardColor": "#1d4f91"
   },
   {
     "key": "tank-til",
@@ -40,7 +42,8 @@
     "previewLabel": "مشاهده پوستر",
     "linkLabel": "مشاهده پوستر اصلی",
     "imageAlt": "پوستر نرم افزار تانک تیل نواتیک برای مدیریت ساده تر و هوشمندانه تر پمپ استیشن",
-    "summary": "نرم افزار تانک تیل برای مدیریت ساده تر و هوشمندانه تر پمپ استیشن."
+    "summary": "نرم افزار تانک تیل برای مدیریت ساده تر و هوشمندانه تر پمپ استیشن.",
+    "cardColor": "#0a2f6b"
   },
   {
     "kind": "software",
@@ -53,7 +56,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار رستورانت نواتیک برای مدیریت سفارش، فروش و حسابات",
     "summary": "ثبت سفارش با رابط لمسی، ارتباط سالن با آشپزخانه، کنترل موجودی مواد اولیه و گزارش فروش شیفتی.",
-    "caseStudySlug": "restaurant-pos"
+    "caseStudySlug": "restaurant-pos",
+    "cardColor": "#8a5a3c"
   },
   {
     "kind": "software",
@@ -66,7 +70,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار مدیریت سوپرمارکت نواتیک با فروش، موجودی و حسابات",
     "summary": "فروش با بارکد، کنترل موجودی و تاریخ انقضا، حساب مشتریان و تامین کنندگان و گزارش فروش روزانه فروشگاه.",
-    "caseStudySlug": "supermarket-management-system"
+    "caseStudySlug": "supermarket-management-system",
+    "cardColor": "#0f766e"
   },
   {
     "kind": "software",
@@ -79,7 +84,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار مدیریت گدام و انبار نواتیک",
     "summary": "ثبت ورود و خروج کالا، موجودی به تفکیک گدام و لات، حواله انبار و گزارش لحظه ای موجودی.",
-    "caseStudySlug": "warehouse-management-system"
+    "caseStudySlug": "warehouse-management-system",
+    "cardColor": "#3d6b45"
   },
   {
     "kind": "software",
@@ -92,7 +98,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار مدیریت کارگاه های خیاطی نواتیک",
     "summary": "ثبت سفارش و اندازه مشتری، پیگیری مراحل دوخت، محاسبه کارکرد خیاط و حساب مشتری در یک سیستم.",
-    "caseStudySlug": "tailoring-management-system"
+    "caseStudySlug": "tailoring-management-system",
+    "cardColor": "#2b7a85"
   },
   {
     "kind": "software",
@@ -105,7 +112,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار شرکت های سیاحتی و تکت فروشی نواتیک",
     "summary": "مدیریت تور و بلیط، بایگانی اطلاعات مسافران و حسابداری اختصاصی خدمات مسافرتی.",
-    "caseStudySlug": "travel-agency-system"
+    "caseStudySlug": "travel-agency-system",
+    "cardColor": "#1e4d4a"
   },
   {
     "kind": "software",
@@ -118,7 +126,8 @@
     "linkLabel": "مشاهده تصویر اصلی",
     "imageAlt": "معرفی نرم افزار حضور و غیاب نواتیک برای مکاتب و سازمان ها",
     "summary": "ثبت خودکار تردد و شیفت، مدیریت مرخصی و اضافه کاری و اتصال به محاسبه حقوق پایان ماه.",
-    "caseStudySlug": "attendance-system"
+    "caseStudySlug": "attendance-system",
+    "cardColor": "#4b4f8c"
   },
   {
     "kind": "website",
@@ -130,7 +139,8 @@
     "location": "آلمان",
     "link": "https://lepetit-isenburg.de/",
     "imageAlt": "صفحه اصلی وب سایت فروشگاه لباس کودک Le Petit Isenburg",
-    "summary": "وب سایت فروشگاهی برای معرفی و فروش لباس کودک با ساختار دسته بندی و صفحه محصول."
+    "summary": "وب سایت فروشگاهی برای معرفی و فروش لباس کودک با ساختار دسته بندی و صفحه محصول.",
+    "cardColor": "#8c6448"
   },
   {
     "kind": "website",
@@ -142,7 +152,8 @@
     "location": "افغانستان",
     "link": "https://arianamotor.com/",
     "imageAlt": "صفحه اصلی وب سایت آریانا موتور با معرفی مدل های موتورسیکلت",
-    "summary": "وب سایت شرکتی و کاتالوگ محصول برای معرفی مدل ها، نمایندگی ها و راه های تماس."
+    "summary": "وب سایت شرکتی و کاتالوگ محصول برای معرفی مدل ها، نمایندگی ها و راه های تماس.",
+    "cardColor": "#2e3a46"
   },
   {
     "kind": "website",
@@ -154,6 +165,7 @@
     "location": "افغانستان",
     "link": "https://nooralmadinahhospital.com/",
     "imageAlt": "صفحه اصلی وب سایت شفاخانه نورالمدینه با معرفی بخش ها و خدمات",
-    "summary": "وب سایت خدماتی برای معرفی بخش ها، داکتران و خدمات شفاخانه به مراجعین."
+    "summary": "وب سایت خدماتی برای معرفی بخش ها، داکتران و خدمات شفاخانه به مراجعین.",
+    "cardColor": "#1a7f8e"
   }
 ]
