@@ -60,13 +60,15 @@ export function NavBadge({ className }: { className?: string }) {
 
 export default function Header() {
   const path = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuRequested, setMenuOpen] = useState(false);
+  const [menuPath, setMenuPath] = useState(path);
+  const menuOpen = menuRequested && menuPath === path;
   const root = useRef<HTMLElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   const lastTrigger = useRef<HTMLElement | null>(null);
   const productsMenu = useRef<HTMLDetailsElement>(null);
 
-  const openMenu = (trigger: HTMLElement) => { lastTrigger.current = trigger; setMenuOpen(true); };
+  const openMenu = (trigger: HTMLElement) => { lastTrigger.current = trigger; setMenuPath(path); setMenuOpen(true); };
   const closeMenu = () => setMenuOpen(false);
   const closeAll = () => { setMenuOpen(false); if (productsMenu.current) productsMenu.current.open = false; };
 
@@ -99,7 +101,7 @@ export default function Header() {
   return (
     <>
       <div className={styles.preloader} aria-hidden="true"><span className={styles.preloaderTint} /><span className={styles.preloaderBg} /></div>
-      <header ref={root} id="header" className={`${styles.header} ${path !== "/" ? styles.inner : ""} ${path.startsWith("/portfolio") ? styles.static : ""}`} lang="fa-AF" dir="rtl">
+      <header ref={root} id="header" className={`${styles.header} ${path !== "/" ? styles.inner : ""}`} lang="fa-AF" dir="rtl">
         <div className={styles.wrapper}>
           <svg className={styles.tab} viewBox="0 0 170 18" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path d="M0 0h170c-10 0-18 2-23 9-4 6-9 9-19 9H42c-10 0-15-3-19-9-5-7-13-9-23-9"/>
@@ -144,7 +146,7 @@ export default function Header() {
                   <span className={styles.circle}>
                     <span className={styles.circleInside} />
                     <span className={styles.circleMark}>
-                      <Image src="/images/brand/novatech-mark-navy.webp" alt="" width={256} height={256} priority sizes="48px" />
+                      <Image src="/images/brand/icon-512.png" alt="" width={256} height={256} priority sizes="48px" />
                     </span>
                   </span>
                   <span className={styles.logotype}>
@@ -197,30 +199,31 @@ export default function Header() {
       >
         <div className={styles.offcanvasHeader}>
           <Link href="/" onClick={closeMenu} className={styles.offcanvasLogo} aria-label="صفحه اصلی نواتیک">
-            <Image src="/images/brand/novatech-wordmark-white.webp" alt="" width={640} height={241} sizes="150px" />
+            <Image src="/images/brand/novatech-wordmark-navy.webp" alt="" width={640} height={241} sizes="150px" />
           </Link>
           <button type="button" className={styles.offcanvasClose} onClick={closeMenu} aria-label="بستن منو">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
           </button>
         </div>
         <div className={styles.offcanvasBody}>
-          <p className={styles.offcanvasGroup}>محصولات</p>
-          <ul className={styles.levelMenu}>
-            {products.map(item => (
-              <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}><span>{item.label}</span><small>{item.en}</small></Link></li>
+          <nav aria-label="راهنمای سایت" className={styles.offcanvasNav}>
+            <ul className={styles.flatMenu}>
+              <li><Link href="/" onClick={closeMenu} aria-current={current("/")}>صفحه اصلی</Link></li>
+              {flatLinks.map(item => (
+                <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</Link></li>
+              ))}
+            </ul>
+            {[{ title: "محصولات نواتیک", items: products }, { title: "خدمات نواتیک", items: services }].map(group => (
+              <details key={group.title} className={styles.menuGroup} open={group.items.some(item => path === item.href) || undefined}>
+                <summary>{group.title}<span aria-hidden="true" /></summary>
+                <ul className={styles.levelMenu}>
+                  {group.items.map(item => (
+                    <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</Link></li>
+                  ))}
+                </ul>
+              </details>
             ))}
-          </ul>
-          <p className={styles.offcanvasGroup}>خدمات</p>
-          <ul className={styles.levelMenu}>
-            {services.map(item => (
-              <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}><span>{item.label}</span><small>{item.en}</small></Link></li>
-            ))}
-          </ul>
-          <ul className={styles.flatMenu}>
-            {flatLinks.map(item => (
-              <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</Link></li>
-            ))}
-          </ul>
+          </nav>
           <div className={styles.offcanvasBtns}>
             <Link href="/contact" onClick={closeMenu} className={styles.offcanvasRequest}>درخواست مشاوره</Link>
             <a href={`tel:${companyInfo.primaryPhoneHref}`} className={styles.offcanvasPhone} dir="ltr">{companyInfo.primaryPhoneLabel}</a>

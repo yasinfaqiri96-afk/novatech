@@ -162,6 +162,12 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                   <ArrowLeft size={14} aria-hidden="true" />
                 </Link>
               )}
+              {study.websiteUrl && (
+                <a href={study.websiteUrl} className={styles.introLink} target="_blank" rel="noopener noreferrer">
+                  بازدید از وب‌سایت
+                  <ArrowLeft size={14} aria-hidden="true" />
+                </a>
+              )}
             </div>
           </header>
 
@@ -196,7 +202,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
                 </div>
               )}
               <div className={styles.rowText}>
-                <h2 className={styles.rowTitle}>مشکلی که وجود داشت</h2>
+                <h2 className={styles.rowTitle}>{study.websiteUrl ? "هدف وب‌سایت" : "مشکلی که وجود داشت"}</h2>
                 <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">
                   {study.problem.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
@@ -354,13 +360,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
 
             <section className={styles.row}>
               <div className={styles.rowText}>
-                <h2 className={styles.rowTitle}>نتیجه در کار روزمره</h2>
+                <h2 className={styles.rowTitle}>{study.websiteUrl ? "مشاهده پروژه" : "نتیجه در کار روزمره"}</h2>
                 {study.outcome.map((paragraph) => (
                   <p key={paragraph}>{paragraph}</p>
                 ))}
-                <p className={styles.note}>
+                {!study.websiteUrl && <p className={styles.note}>
                   اطلاعات مشتری، ارقام قرارداد و آمار داخلی این پروژه منتشر نمی شود.
-                </p>
+                </p>}
               </div>
             </section>
 

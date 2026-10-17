@@ -100,6 +100,7 @@ function Card({ item, favourite, onFavourite }: { item: Item; favourite: boolean
       <Link href={href} {...linkProps} className={`${styles.cardLink} ${isSite ? styles.isSite : ""}`} aria-label={`${item.title} — ${item.category}${external ? " (در پنجره جدید)" : ""}`}>
         <div className={styles.cardMedia}>
           <Image src={isSite ? item.desktopImg ?? item.img : item.img} alt={item.imageAlt ?? ""} fill sizes="(min-width: 800px) 34vw, 60vw" className={styles.cardMediaImg} />
+          <span className={styles.mobileCardCaption}>{item.title}</span>
         </div>
         <div className={styles.cardSide}>
           {isSite && item.mobileImg ? (
@@ -199,6 +200,13 @@ export default function PortfolioBoard() {
 
   return (
     <section className={styles.board} aria-label="فهرست نمونه کارها">
+      <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: "absolute" }}>
+        <defs>
+          <clipPath id="portfolio-regular-curve" clipPathUnits="objectBoundingBox">
+            <path d="M0 60C0 31.716 0 17.574 8.787 8.787 17.574 0 31.716 0 60 0h135c28.284 0 42.426 0 51.213 8.787C255 17.574 255 31.716 255 60v335c0 28.284 0 42.426-8.787 51.213C237.426 455 223.284 455 195 455H60c-28.284 0-42.426 0-51.213-8.787C0 437.426 0 423.284 0 395V60Z" transform="scale(0.00392156862745098,0.002197802197802198)" />
+          </clipPath>
+        </defs>
+      </svg>
       <div className={styles.container}>
         <div className={styles.menuWrap}>
           <div className={styles.menu}>

@@ -1,325 +1,85 @@
-/*
- * Services deck.
- *
- * The section is pinned for its own scroll length and the cards share one
- * clipped box, so exactly one card is ever on screen: the next slides up over
- * the current one and the covered one recedes behind it. Inside a card there is
- * no empty dark field either — the artwork fills its whole column edge to edge,
- * and the dark surface only carries the text.
- */
-
 .section {
-  width: 100%;
-  background: #ffffff;
+  background: #fff;
+  color: #050033;
   direction: rtl;
+  padding: 100px 28px 105px;
 }
-
-.track {
-  position: relative;
-  width: 100%;
-}
-
-.sticky {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 5vw, 5rem);
-}
-
+.container { max-width: 1200px; margin: 0 auto; }
 .heading {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 auto clamp(1.5rem, 4vh, 2.5rem);
-  text-align: center;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 60px;
+  margin-bottom: 65px;
 }
-
-.title {
-  display: flex;
-  gap: 0.3rem;
-  align-items: baseline;
-  margin: 0;
-  color: #111827;
-  font-size: clamp(1.5rem, 2.2vw, 1.9rem);
-}
-
-.signature {
-  width: 129px;
-  height: 19px;
-  margin-top: 0.55rem;
-  object-fit: contain;
-  user-select: none;
-}
-
-.intro {
-  max-width: 38rem;
-  margin: 0.9rem auto 0;
-  color: #64748b;
-  font-size: 0.9rem;
-  line-height: 1.95;
-}
-
-.stage {
-  position: relative;
-  width: min(100%, 1080px);
-  height: clamp(340px, 46svh, 440px);
-  margin: 0 auto;
-  /* Clips the card waiting below, so it cannot be seen before its turn. */
-  overflow: hidden;
-  border-radius: 1.5rem;
-  box-shadow: 0 22px 55px rgb(15 23 42 / 20%);
-}
-
-.card {
-  --service-image-scale: 1;
-
-  position: absolute;
-  inset: 0;
-  display: grid;
-  overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 10%);
-  border-radius: 1.5rem;
-  background: #111827;
-  color: #ffffff;
-  grid-template-columns: 1.1fr 1fr;
-  transform-origin: 50% 70%;
-  will-change: transform, opacity;
-}
-
-.card1 { background-color: #102c31; }
-.card2 { background-color: #161f2e; }
-.card3 { background-color: #26302f; }
-
-/* The artwork owns its column completely: no dark margin around it. */
-.visual {
-  position: relative;
-  overflow: hidden;
-}
-
-.artwork {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  transform: scale(var(--service-image-scale));
-  transform-origin: center;
-  will-change: transform;
-}
-
-/* Hides the hard seam where the artwork meets the text surface. */
-.visualEdge {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    270deg,
-    rgb(17 24 39 / 55%) 0%,
-    rgb(17 24 39 / 0%) 26%
-  );
-  pointer-events: none;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding: clamp(1.5rem, 3vw, 2.75rem);
-}
-
-.indexRow {
-  display: inline-flex;
-  gap: 0.7rem;
-  align-items: center;
-  margin: 0 0 0.9rem;
-}
-
-.index {
-  color: #54dcc6;
-  font-size: clamp(1.6rem, 2.4vw, 2.2rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.04em;
-}
-
-.progress {
-  padding: 0.18rem 0.55rem;
-  border: 1px solid rgb(255 255 255 / 22%);
-  border-radius: 999px;
-  color: rgb(255 255 255 / 62%);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  direction: ltr;
-}
-
 .eyebrow {
-  margin: 0 0 0.5rem;
-  color: #54dcc6;
-  font-size: 0.74rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-}
-
-.serviceTitle {
-  margin: 0;
-  color: #ffffff;
-  font-size: clamp(1.3rem, 2.1vw, 1.85rem);
-  font-weight: 800;
-  line-height: 1.5;
-  text-wrap: balance;
-}
-
-.description {
-  max-width: 24rem;
-  margin: 0.75rem 0 1.3rem;
-  color: rgb(255 255 255 / 72%);
-  font-size: clamp(0.83rem, 0.92vw, 0.9rem);
-  line-height: 2;
-}
-
-.action {
-  display: inline-flex;
-  gap: 0.6rem;
+  display: flex;
   align-items: center;
-  min-height: 2.6rem;
-  padding: 0.55rem 1.3rem;
-  border: 1px solid rgb(255 255 255 / 55%);
-  border-radius: 999px;
-  color: #ffffff;
-  font-size: 0.83rem;
+  gap: 10px;
+  margin: 0 0 20px;
+  color: #52706d;
+  font-size: 12px;
+  font-weight: 500;
+}
+.eyebrow > span { width: 6px; height: 6px; background: #149c90; border-radius: 50%; }
+.heading h2 {
+  font-size: clamp(32px, 3.4vw, 46px);
   font-weight: 700;
-  transition:
-    border-color 200ms ease,
-    background-color 200ms ease,
-    color 200ms ease;
+  line-height: 1.7;
+  letter-spacing: -1.5px;
+  margin: 0;
 }
-
-.action:hover {
-  border-color: #54dcc6;
-  background: #54dcc6;
-  color: #0f2528;
+.heading h2 > span { font-weight: 300; }
+.intro { color: #6c6c7b; font-size: 14px; line-height: 2.3; margin: 0 0 8px; }
+.service {
+  display: grid;
+  grid-template-columns: 65px minmax(0, 1fr) minmax(0, 1.06fr);
+  align-items: center;
+  gap: 35px;
+  border-top: 1px solid #e5e8e9;
+  padding: 42px 0;
 }
-
-.action:focus-visible {
-  outline: 2px solid #ffffff;
-  outline-offset: 3px;
+.service:last-child { border-bottom: 1px solid #e5e8e9; }
+.number { align-self: flex-start; margin-top: 32px; color: #bd7463; font-size: 31px; font-weight: 300; line-height: 1; }
+.content { padding-block: 10px; }
+.label { color: #14897e; font-size: 11px; font-weight: 500; margin: 0 0 10px; }
+.content h3 { margin: 0 0 16px; font-size: clamp(20px, 2vw, 26px); font-weight: 700; line-height: 1.8; letter-spacing: -.6px; }
+.content h3 a { color: inherit; text-decoration: none; transition: color .2s ease; }
+.content h3 a:hover { color: #14897e; }
+.description { max-width: 420px; font-size: 13px; line-height: 2.25; color: #6b6c79; margin: 0; }
+.details { list-style: none; display: flex; flex-wrap: wrap; gap: 5px 14px; margin: 20px 0 25px; padding: 0; color: #777984; font-size: 10px; line-height: 1.8; }
+.details li + li::before { content: "/"; color: #c4c7cb; margin-left: 14px; }
+.action { display: inline-flex; gap: 20px; align-items: center; color: #050033; text-decoration: none; font-size: 12px; font-weight: 500; }
+.action > span { display: grid; place-items: center; width: 35px; height: 35px; border: 1px solid #d9dce4; border-radius: 50%; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+.action:hover > span { background: #050033; border-color: #050033; color: white; }
+.visual { display: block; border-radius: 8px; overflow: hidden; background: #f3f6f5; aspect-ratio: 1.5; }
+.artwork { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.visual:hover .artwork { transform: scale(1.025); }
+.section a:focus-visible { outline: 2px solid #14897e; outline-offset: 6px; border-radius: 3px; }
+@media (max-width: 1099px) {
+  .service { grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1fr); gap: 22px; }
+  .number { font-size: 25px; }
+  .details { gap: 5px 9px; }
+  .details li + li::before { margin-left: 9px; }
 }
-
-.arrow {
-  font-size: 1rem;
-  line-height: 1;
-  transition: transform 200ms ease;
-}
-
-.action:hover .arrow {
-  transform: translateX(-0.22rem);
-}
-
-/* ---- pinned range ------------------------------------------------------ */
-
-@media (min-width: 768px) {
-  .track {
-    /* One screen of scroll per card, plus a beat to read the last one. */
-    height: 340vh;
-  }
-
-  .sticky {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100svh;
-    padding-top: clamp(5rem, 11vh, 7rem);
-  }
-}
-
-/* ---- phone ------------------------------------------------------------- */
-
 @media (max-width: 767px) {
-  .track {
-    height: 300vh;
-  }
-
-  .sticky {
-    position: sticky;
-    top: 0;
-    height: 100svh;
-    padding-top: 5.5rem;
-  }
-
-  .stage {
-    height: clamp(380px, 56svh, 480px);
-    border-radius: 1.25rem;
-  }
-
-  .card {
-    grid-template-columns: 1fr;
-    grid-template-rows: 44% 1fr;
-    border-radius: 1.25rem;
-  }
-
-  .visualEdge {
-    background: linear-gradient(
-      0deg,
-      rgb(17 24 39 / 65%) 0%,
-      rgb(17 24 39 / 0%) 34%
-    );
-  }
-
-  .content {
-    padding: 1.15rem 1.25rem 1.35rem;
-  }
-
-  .indexRow {
-    margin-bottom: 0.6rem;
-  }
-
-  .description {
-    margin: 0.55rem 0 1rem;
-    font-size: 0.84rem;
-    line-height: 1.9;
-  }
-
-  .intro {
-    max-width: 22rem;
-    font-size: 0.84rem;
-  }
+  .section { padding: 65px 24px 70px; }
+  .heading { display: block; margin-bottom: 35px; }
+  .eyebrow { margin-bottom: 15px; font-size: 11px; }
+  .heading h2 { font-size: 32px; line-height: 1.65; letter-spacing: -1px; }
+  .intro { max-width: 370px; font-size: 12px; line-height: 2.2; margin: 22px 0 0; }
+  .desktopBreak { display: none; }
+  .service { grid-template-columns: 30px minmax(0, 1fr); gap: 20px 14px; padding: 30px 0 32px; }
+  .number { margin-top: 3px; font-size: 22px; }
+  .content { padding-block: 0; }
+  .label { font-size: 10px; margin-bottom: 8px; }
+  .content h3 { font-size: 20px; line-height: 1.9; margin-bottom: 10px; }
+  .description { font-size: 12px; line-height: 2.2; }
+  .details { font-size: 9px; margin: 15px 0 18px; }
+  .action { font-size: 11px; gap: 15px; }
+  .action > span { width: 31px; height: 31px; }
+  .visual { grid-column: 1 / -1; aspect-ratio: 1.55; margin-top: 3px; }
 }
-
-/* ---- reduced motion: plain stacked list -------------------------------- */
-
 @media (prefers-reduced-motion: reduce) {
-  .track {
-    height: auto;
-  }
-
-  .sticky {
-    position: static;
-    height: auto;
-    padding: 3.5rem 1rem;
-  }
-
-  .stage {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: auto;
-    overflow: visible;
-    box-shadow: none;
-  }
-
-  .card {
-    position: relative;
-    inset: auto;
-    min-height: 340px;
-    transform: none;
-    opacity: 1;
-  }
-
-  .artwork,
-  .action,
-  .arrow {
-    transition: none;
-    transform: none;
-  }
+  .section * { transition: none; }
 }

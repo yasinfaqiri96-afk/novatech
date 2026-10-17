@@ -274,6 +274,7 @@
   animation: scaleIn 1.5s var(--expo) 0.425s both;
 }
 .circleMark img {
+  border-radius: 50%;
   display: block;
   width: 100%;
   height: auto;
@@ -463,224 +464,83 @@
   }
 }
 
-/* ---------- Off-canvas menu ---------- */
-
+/* A light navigation drawer with a quiet, deliberately spaced hierarchy. */
 .overlay {
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: #0000007a;
+  background: rgb(5 0 51 / 28%);
   opacity: 0;
   visibility: hidden;
-  transition: opacity var(--t-ease) var(--ease4), visibility var(--t-ease) var(--ease4);
+  transition: opacity 260ms ease, visibility 260ms ease;
 }
-.overlayActive {
-  opacity: 1;
-  visibility: visible;
-}
-
+.overlayActive { opacity: 1; visibility: visible; }
 .offcanvas {
-  --offcanvas-width: calc(100% - var(--u) * 4);
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0 0 0 auto;
   z-index: 91;
   display: flex;
   flex-direction: column;
-  width: var(--offcanvas-width);
-  max-width: 100%;
-  color: var(--c-white);
-  background-color: var(--c-primary);
+  width: min(390px, calc(100% - 32px));
+  color: #171a34;
+  background: #fff;
+  box-shadow: -12px 0 60px rgb(5 0 51 / 9%);
   font-family: IranYekanRegular, sans-serif;
   visibility: hidden;
   transform: translateX(100%);
-  transition: transform var(--t-ease) var(--ease4), visibility var(--t-ease) var(--ease4);
+  transition: transform 320ms var(--ease4), visibility 320ms ease;
 }
-.offcanvasActive {
-  transform: none;
-  visibility: visible;
-  /* Visible immediately on open so focus can move into the panel. */
-  transition: transform var(--t-ease) var(--ease4), visibility 0s;
-}
-
+.offcanvasActive { transform: none; visibility: visible; transition: transform 320ms var(--ease4), visibility 0s; }
 .offcanvasHeader {
   display: flex;
   flex: none;
   align-items: center;
   justify-content: space-between;
-  gap: calc(var(--u) * 1);
-  min-height: calc(var(--u) * 17);
-  padding: calc(var(--u) * 4) calc(var(--u) * 4) calc(var(--u) * 6);
+  min-height: 108px;
+  gap: 24px;
+  margin: 0 28px;
+  border-bottom: 1px solid #e9eded;
 }
-.offcanvasLogo {
-  display: block;
-  width: calc(var(--u) * 21);
-}
-.offcanvasLogo img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
+.offcanvasLogo { display: block; width: 116px; }
+.offcanvasLogo img { display: block; width: 100%; height: auto; }
 .offcanvasClose {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: calc(var(--u) * 4.5);
-  height: calc(var(--u) * 4.5);
-  border: 0;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e8eded;
   border-radius: 50%;
-  background: var(--c-white);
-  color: var(--c-primary);
+  background: #f7f9f9;
+  color: #171a34;
   cursor: pointer;
 }
-.offcanvasClose svg {
-  width: calc(var(--u) * 1.8);
-  height: calc(var(--u) * 1.8);
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.4;
-  stroke-linecap: round;
-  transition: transform var(--t-ease) var(--ease3);
-}
-.offcanvasClose:hover svg {
-  transform: rotate(-90deg);
-}
-
-.offcanvasBody {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow-y: auto;
-}
-.offcanvasGroup {
-  margin: 0 calc(var(--u) * 4.5) calc(var(--u) * 2);
-  font-size: var(--fs-14);
-  color: var(--c-secondary);
-}
-.levelMenu {
-  margin: 0 calc(var(--u) * 4.5) calc(var(--u) * 4);
-  padding: 0 0 calc(var(--u) * 4);
-  list-style: none;
-  border-bottom: 1px solid var(--c-primary-500);
-}
-.levelMenu li {
-  margin-bottom: calc(var(--u) * 2.4);
-}
-.levelMenu li:last-child {
-  margin-bottom: 0;
-}
-.levelMenu a {
-  display: flex;
-  flex-direction: column;
-  font-family: IranYekanBold, sans-serif;
-  font-size: var(--fs-18);
-  line-height: 1.8;
-  color: var(--c-white);
-  text-decoration: none;
-  transition: color 0.3s var(--ease2);
-}
-.levelMenu small {
-  font-family: IranYekanLight, sans-serif;
-  font-size: var(--fs-15);
-  text-transform: uppercase;
-  color: var(--c-white);
-  opacity: 0.75;
-}
-.levelMenu a:hover,
-.levelMenu a[aria-current="page"] {
-  color: var(--c-secondary);
-}
-
-.flatMenu {
-  margin: 0 calc(var(--u) * 6) calc(var(--u) * 4) calc(var(--u) * 4.5);
-  padding: 0;
-  list-style: none;
-}
-.flatMenu li {
-  margin-bottom: calc(var(--u) * 2);
-}
-.flatMenu li:last-child {
-  margin-bottom: 0;
-}
-.flatMenu a {
-  display: flex;
-  align-items: center;
-  gap: calc(var(--u) * 1);
-  font-size: var(--fs-16);
-  line-height: 1.8;
-  color: var(--c-white);
-  text-decoration: none;
-}
-.flatMenu a:hover,
-.flatMenu a[aria-current="page"] {
-  color: var(--c-secondary);
-}
-
-.offcanvasBtns {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: calc(var(--u) * 1);
-  width: max-content;
-  margin: auto auto calc(var(--u) * 2.5);
-  padding: calc(var(--u) * 1.2);
-  border-radius: calc(var(--u) * 3.2);
-  background: var(--c-primary-600);
-  filter: drop-shadow(0 4px 6px #00000021);
-}
-.offcanvasRequest,
-.offcanvasPhone {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(var(--u) * 15);
-  height: calc(var(--u) * 4);
-  padding: calc(var(--u) * 0.8) calc(var(--u) * 2);
-  border-radius: calc(var(--u) * 2.8);
-  color: var(--c-white);
-  line-height: 1;
-  white-space: nowrap;
-  text-decoration: none;
-}
-.offcanvasRequest {
-  background: var(--c-primary-400);
-  font-family: IranYekanBold, sans-serif;
-  font-size: var(--fs-15);
-}
-.offcanvasPhone {
-  background: var(--c-primary-500);
-  font-size: var(--fs-18);
-}
-
-.offcanvas :is(a, button):focus-visible {
-  outline: 2px solid var(--c-secondary);
-  outline-offset: 2px;
-}
-
-@media (min-width: 800px) {
-  .offcanvas {
-    --offcanvas-width: calc(var(--u) * 51);
-  }
-}
-
+.offcanvasClose svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; }
+.offcanvasClose:hover { background: #e8f5f2; }
+.offcanvasBody { display: flex; flex: 1; min-height: 0; flex-direction: column; overflow-y: auto; overscroll-behavior: contain; }
+.offcanvasNav { padding: 20px 28px 32px; }
+.flatMenu { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 16px; list-style: none; margin: 0 0 24px; padding: 0 0 24px; border-bottom: 1px solid #e9eded; }
+.flatMenu a { display: flex; align-items: center; min-height: 48px; color: #282b42; font-size: 14px; line-height: 1.8; text-decoration: none; }
+.menuGroup { border-bottom: 1px solid #e9eded; }
+.menuGroup summary { display: flex; align-items: center; justify-content: space-between; min-height: 62px; gap: 16px; list-style: none; font-family: IranYekanBold, sans-serif; font-size: 15px; cursor: pointer; }
+.menuGroup summary::-webkit-details-marker { display: none; }
+.menuGroup summary span { position: relative; flex: none; width: 12px; height: 12px; color: #008f83; }
+.menuGroup summary span::before, .menuGroup summary span::after { content: ""; position: absolute; background: currentColor; border-radius: 1px; }
+.menuGroup summary span::before { width: 12px; height: 1.5px; top: 5px; }
+.menuGroup summary span::after { width: 1.5px; height: 12px; right: 5px; transition: transform 200ms ease; }
+.menuGroup[open] summary span::after { transform: rotate(90deg); }
+.levelMenu { display: grid; gap: 2px; margin: 0; padding: 0 0 16px; list-style: none; }
+.levelMenu a { display: flex; align-items: center; min-height: 48px; padding: 8px 12px; border-radius: 7px; font-size: 13px; line-height: 1.9; color: #50566b; text-decoration: none; }
+.flatMenu a:hover, .flatMenu a[aria-current="page"] { color: #00897b; }
+.levelMenu a:hover, .levelMenu a[aria-current="page"] { background: #edf7f4; color: #007d72; }
+.flatMenu a[aria-current="page"] { font-family: IranYekanBold, sans-serif; }
+.offcanvasBtns { display: grid; gap: 14px; margin: auto 28px 0; padding: 24px 0 max(24px, env(safe-area-inset-bottom)); }
+.offcanvasRequest { display: flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 8px; color: #fff; background: #008d80; font-family: IranYekanBold, sans-serif; font-size: 14px; text-decoration: none; transition: background 200ms ease; }
+.offcanvasRequest:hover { background: #00766c; }
+.offcanvasPhone { display: block; color: #353b52; text-align: center; font-size: 15px; line-height: 1.8; text-decoration: none; }
+.offcanvas :is(a, button, summary):focus-visible { outline: 2px solid #008d80; outline-offset: 3px; border-radius: 5px; }
 @media (prefers-reduced-motion: reduce) {
-  .preloader {
-    display: none;
-  }
-  .tab,
-  .right,
-  .left,
-  .circle,
-  .circleInside,
-  .circleMark,
-  .logotype,
-  .notchBadge {
-    animation: none;
-  }
-  .offcanvas,
-  .overlay {
-    transition: none;
-  }
+  .preloader { display: none; }
+  .tab, .right, .left, .circle, .circleInside, .circleMark, .logotype, .notchBadge { animation: none; }
+  .offcanvas, .overlay, .menuGroup summary span::after { transition: none; }
 }
