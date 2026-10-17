@@ -55,7 +55,10 @@ export default function PortfolioIntro({ stats }: { stats: IntroStat[] }) {
           </p>
           <div className={styles.editor}>
             <h1>نمونه کارهای نواتیک</h1>
-            <p>
+            <p className={styles.mobileSummary}>
+              از طراحی وب‌سایت تا نرم‌افزارهای مشعل و ناظر؛ راه‌حل‌هایی که برای نیاز واقعی کسب‌وکارها ساخته‌ایم.
+            </p>
+            <p className={styles.desktopSummary}>
               در نواتیک هر پروژه از یک نیاز واقعی شروع می‌شود: انباری که موجودی‌اش گم می‌شود، شرکتی که حساب
               شرکایش در چند دفتر پخش است، یا کسب‌وکاری که مشتری آنلاین پیدا نمی‌کند. این‌جا سامانه‌ها و
               وب‌سایت‌هایی را می‌بینید که برای همین نیازها طراحی، پیاده‌سازی و تحویل داده‌ایم؛ از ERP نفت و
@@ -77,7 +80,7 @@ export default function PortfolioIntro({ stats }: { stats: IntroStat[] }) {
           {/* iMac photo: Unsplash (photo-1527443195645), Unsplash License. Screen
               content is Novatech's own pages; see scripts/mockup-video/imac-portfolio.py. */}
           <div className={styles.introVideo}>
-            <Image src="/media/portfolio-imac-poster.webp" alt="" fill sizes="(min-width: 800px) 50vw, 100vw" className={styles.introPoster} />
+            <Image src="/media/portfolio-imac-poster.webp" alt="" fill preload sizes="(min-width: 800px) 50vw, 100vw" className={styles.introPoster} />
             <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/media/portfolio-imac-poster.webp" aria-label="نمایش وب‌سایت نواتیک، نرم‌افزار مشعل و نمونه وب‌سایت‌ها روی مانیتور">
               <source src="/media/portfolio-imac.webm" type="video/webm" />
               <source src="/media/portfolio-imac.mp4" type="video/mp4" />

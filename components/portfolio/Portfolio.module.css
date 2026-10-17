@@ -126,7 +126,12 @@
 /* ---------- Intro ---------- */
 
 .intro {
+  display: flex;
+  flex-direction: column;
   padding: calc(var(--u) * 6) 0 0;
+}
+.mobileSummary {
+  display: none;
 }
 .introText {
   margin-bottom: calc(var(--u) * 3);
@@ -944,6 +949,7 @@
   }
   .intro {
     display: flex;
+    flex-direction: row;
     align-items: center;
     column-gap: calc(var(--u) * 3.5);
     padding: calc(var(--u) * 8) calc(var(--u) * 12) 0;
@@ -1045,6 +1051,87 @@
   .fav:hover .favText {
     width: calc(var(--u) * 11);
     opacity: 1;
+  }
+}
+
+@media (max-width: 799px) {
+  .page {
+    padding-top: 0;
+  }
+  .intro {
+    padding-top: calc(var(--u) * 5);
+  }
+  .introMedia {
+    order: -1;
+    width: 100%;
+    margin: 0 0 calc(var(--u) * 3);
+  }
+  .introText {
+    width: 100%;
+    margin-bottom: 0;
+  }
+  .entitle,
+  .typography,
+  .desktopSummary,
+  .features {
+    display: none;
+  }
+  .editor {
+    margin-top: 0;
+  }
+  .editor h1 {
+    font-size: calc(var(--u) * 2.8);
+  }
+  .editor .mobileSummary {
+    display: block;
+    max-width: 34em;
+    margin: calc(var(--u) * 1.2) auto 0;
+    font-size: calc(var(--u) * 1.8);
+    line-height: 2;
+    text-align: center;
+  }
+  .cards {
+    gap: 32px 12px;
+    margin-top: 36px;
+  }
+  .card {
+    --u: clamp(3px, 0.9vw, 5px);
+    width: calc((100% - 12px) / 2);
+    min-width: 0;
+    margin: 0;
+  }
+  .cardLink {
+    gap: 6px;
+    padding: 9px;
+    grid-template-columns: minmax(0, 1fr) 34%;
+    border-radius: 15px;
+  }
+  .cardSide {
+    min-width: 0;
+  }
+  .cardInfoCat {
+    font-size: 9px;
+  }
+  .cardInfo p {
+    display: none;
+  }
+  .servicesHelp {
+    display: none;
+  }
+  .cardTitle {
+    right: 6px;
+    display: block;
+    width: calc(100% - 12px);
+    min-width: 0;
+    max-width: none;
+    padding: 4px 13px 2px;
+    font-size: 10px;
+    line-height: 1.6;
+  }
+  .fav::after {
+    content: "";
+    position: absolute;
+    inset: -14px -6px;
   }
 }
 

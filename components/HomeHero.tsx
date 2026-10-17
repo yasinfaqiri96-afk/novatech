@@ -9,8 +9,8 @@ import styles from "./HomeHero.module.css";
  * cut away by the layered wave. The header's notch hangs into its top edge.
  * This block carries the page's single <h1>.
  *
- * Video: a rendered mockup of Mashal's own screens scrolling on a monitor
- * (12s seamless loop, no third-party footage).
+ * The requested reference film is served locally, including its first frame.
+ * The heading remains available to assistive technology without obscuring it.
  */
 export default function HomeHero() {
   return (
@@ -21,18 +21,16 @@ export default function HomeHero() {
             {/* The poster image paints first (and is all that shows under
                 reduced motion); the looping video covers it once playing. */}
             <Image
-              src="/media/mockup-hero-poster.webp"
+              src="/media/new-reference-home-poster.webp"
               alt=""
               fill
-              priority
+              preload
               sizes="(min-width: 1680px) 1680px, 100vw"
               className={styles.image}
             />
-            <video className={styles.video} autoPlay muted loop playsInline preload="auto" poster="/media/mockup-hero-poster.webp" aria-hidden="true">
-              <source src="/media/mockup-hero.webm" type="video/webm" />
-              <source src="/media/mockup-hero.mp4" type="video/mp4" />
+            <video className={styles.video} autoPlay muted loop playsInline preload="metadata" poster="/media/new-reference-home-poster.webp" aria-hidden="true">
+              <source src="/media/new-reference-home.mp4" type="video/mp4" />
             </video>
-            <div className={styles.shade} aria-hidden="true" />
           </div>
           <div className={styles.copy}>
             <h1 id="home-hero-title" className={styles.title}>
