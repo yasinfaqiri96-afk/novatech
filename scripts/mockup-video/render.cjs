@@ -1,11 +1,11 @@
 /*
- * Renders the monitor/laptop mockup used in the home hero and on /portfolio:
+ * Renders the monitor mockup used in the home hero:
  * Mashal screens scrolling inside the devices, as a seamless 12s loop.
  *
- *   node scripts/mockup-video/render.cjs            # both layouts
+ *   node scripts/mockup-video/render.cjs
  *   PLAYWRIGHT=/path/to/playwright node ...         # if playwright isn't resolvable
  *
- * Needs ffmpeg on PATH. Writes public/media/mockup-{hero,intro}.{mp4,webm} and
+ * Needs ffmpeg on PATH. Writes public/media/mockup-hero.{mp4,webm} and
  * the matching -poster.webp. Swap screenshots in scene.html to refresh it.
  */
 const { chromium } = require(process.env.PLAYWRIGHT || "playwright");
@@ -17,10 +17,7 @@ const path = require("node:path");
 const FPS = 25;
 const LOOP = 12;
 const media = path.join(__dirname, "../../public/media");
-const layouts = [
-  ["hero", 1680, 1000],
-  ["intro", 1024, 808],
-];
+const layouts = [["hero", 1680, 1000]];
 
 (async () => {
   const browser = await chromium.launch({ args: ["--allow-file-access-from-files"] });

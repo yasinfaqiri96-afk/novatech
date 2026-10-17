@@ -74,11 +74,13 @@ export default function PortfolioIntro({ stats }: { stats: IntroStat[] }) {
         </div>
 
         <div className={styles.introMedia}>
+          {/* iMac photo: Unsplash (photo-1527443195645), Unsplash License. Screen
+              content is Novatech's own pages; see scripts/mockup-video/imac-portfolio.py. */}
           <div className={styles.introVideo}>
-            <Image src="/media/mockup-intro-poster.webp" alt="" fill sizes="(min-width: 800px) 50vw, 100vw" className={styles.introPoster} />
-            <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/media/mockup-intro-poster.webp" aria-label="نمایش نرم‌افزار مشعل روی مانیتور و لپ‌تاپ">
-              <source src="/media/mockup-intro.webm" type="video/webm" />
-              <source src="/media/mockup-intro.mp4" type="video/mp4" />
+            <Image src="/media/portfolio-imac-poster.webp" alt="" fill sizes="(min-width: 800px) 50vw, 100vw" className={styles.introPoster} />
+            <video ref={video} autoPlay muted loop playsInline preload="auto" poster="/media/portfolio-imac-poster.webp" aria-label="نمایش وب‌سایت نواتیک، نرم‌افزار مشعل و نمونه وب‌سایت‌ها روی مانیتور">
+              <source src="/media/portfolio-imac.webm" type="video/webm" />
+              <source src="/media/portfolio-imac.mp4" type="video/mp4" />
             </video>
           </div>
           <button type="button" className={styles.playBadge} onClick={toggle} aria-label={playing ? "توقف ویدیو" : "پخش ویدیو"} aria-pressed={!playing}>
