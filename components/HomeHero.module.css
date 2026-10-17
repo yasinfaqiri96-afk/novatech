@@ -1,0 +1,185 @@
+/* Same sizing unit as the header (see Header.module.css). */
+.hero {
+  --u: min(2.1vw, 7px);
+  --c-primary: #050033;
+  --c-primary-500: #0f0099;
+  --c-secondary: #cd6c58;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  color: var(--c-primary);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--u) * 172);
+  margin: 0 auto;
+  padding: 0 calc(var(--u) * 2);
+}
+
+.media {
+  position: relative;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--u) * 4) calc(var(--u) * 4) 0 0;
+  background: var(--c-primary);
+}
+
+.image {
+  object-fit: cover;
+  transform-origin: 60% 40%;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+
+/* Darkens the corner the copy sits on so white text stays readable. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #050033b3 0%, #05003366 45%, #05003300 75%);
+}
+
+.copy {
+  position: absolute;
+  right: 6%;
+  bottom: calc(40vw + 6%);
+  left: 6%;
+  z-index: 4;
+  color: #fff;
+  text-align: center;
+}
+.title {
+  margin: 0;
+  font-family: IranYekanHeavy, sans-serif;
+  font-size: calc(var(--u) * 3.6);
+  line-height: 1.45;
+  text-shadow: 0 2px 18px #05003380;
+}
+.title span {
+  display: block;
+}
+.subtitle {
+  margin: calc(var(--u) * 1.2) 0 0;
+  font-family: IranYekanRegular, sans-serif;
+  font-size: calc(var(--u) * 1.9);
+  line-height: 1.8;
+  opacity: 0.92;
+}
+
+.wave {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  z-index: 5;
+  display: block;
+  width: 100%;
+  height: 40vw;
+  pointer-events: none;
+}
+.wave path[data-band] {
+  fill: url(#hero-wave-mobile);
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: calc(var(--u) * 2) auto 0;
+  text-align: center;
+}
+.intro p {
+  margin: calc(var(--u) * 1.6) 0 0;
+  font-family: IranYekanRegular, sans-serif;
+  font-size: calc(var(--u) * 1.9);
+  line-height: 1.8;
+}
+.intro a {
+  color: var(--c-primary-500);
+  text-decoration: underline;
+  text-decoration-color: #cd6c5880;
+  text-underline-offset: 0.3em;
+  transition: color 0.3s ease;
+}
+.intro a:hover {
+  color: var(--c-secondary);
+}
+
+/* Coral ring with a navy dot. */
+.dot {
+  position: relative;
+  display: block;
+  width: calc(var(--u) * 3.2);
+  height: calc(var(--u) * 3.2);
+  border: calc(var(--u) * 0.3) solid var(--c-secondary);
+  border-radius: 50%;
+}
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: var(--c-primary);
+}
+
+@keyframes drift {
+  from { transform: scale(1); }
+  to { transform: scale(1.08); }
+}
+
+@media (min-width: 800px) {
+  .hero {
+    --u: min(0.57vw, 10px);
+  }
+  .frame {
+    aspect-ratio: 1680 / 1000;
+    border-radius: calc(var(--u) * 7) calc(var(--u) * 7) 0 0 / calc(var(--u) * 8) calc(var(--u) * 8) 0 0;
+  }
+  .shade {
+    background: radial-gradient(ellipse 55% 75% at 22% 80%, #050033b3 0%, #05003366 50%, #05003300 100%);
+  }
+  .copy {
+    right: auto;
+    bottom: 16%;
+    left: 6.5%;
+    width: 40%;
+    text-align: right;
+  }
+  .title {
+    font-size: calc(var(--u) * 5);
+    line-height: 1.4;
+  }
+  .subtitle {
+    margin-top: calc(var(--u) * 1.6);
+    font-size: calc(var(--u) * 2.2);
+  }
+  .wave {
+    height: min(calc(var(--u) * 63), 40vw);
+  }
+  .wave path[data-band] {
+    fill: url(#hero-wave-desktop);
+  }
+  .intro {
+    width: 53%;
+    margin-top: calc(var(--u) * 1.5);
+  }
+  .intro p {
+    font-size: calc(var(--u) * 1.8);
+  }
+}
+
+@media (min-width: 1680px) {
+  .wave {
+    width: 1680px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    animation: none;
+  }
+}
