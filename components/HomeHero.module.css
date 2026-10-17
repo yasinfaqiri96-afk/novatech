@@ -30,10 +30,15 @@
   background: var(--c-primary);
 }
 
-.image {
+.image,
+.video {
   object-fit: cover;
-  transform-origin: 60% 40%;
-  animation: drift 22s ease-in-out infinite alternate;
+}
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* Darkens the corner the copy sits on so white text stays readable. */
@@ -126,11 +131,6 @@
   background: var(--c-primary);
 }
 
-@keyframes drift {
-  from { transform: scale(1); }
-  to { transform: scale(1.08); }
-}
-
 @media (min-width: 800px) {
   .hero {
     --u: min(0.57vw, 10px);
@@ -179,7 +179,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .image {
-    animation: none;
+  .video {
+    display: none;
   }
 }

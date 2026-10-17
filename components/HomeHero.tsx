@@ -8,6 +8,9 @@ import styles from "./HomeHero.module.css";
  * Home hero: a full-width media panel with rounded top corners whose bottom is
  * cut away by the layered wave. The header's notch hangs into its top edge.
  * This block carries the page's single <h1>.
+ *
+ * Video: Mixkit "Flowing blue lights in motion" (#101442, Mixkit Stock Video
+ * Free License), colour-graded towards the site's navy and looped seamlessly.
  */
 export default function HomeHero() {
   return (
@@ -15,14 +18,20 @@ export default function HomeHero() {
       <div className={styles.container}>
         <div className={styles.media}>
           <div className={styles.frame}>
+            {/* The poster image paints first (and is all that shows under
+                reduced motion); the looping video covers it once playing. */}
             <Image
-              src="/images/portfolio/site.webp"
+              src="/media/hero-tech-poster.webp"
               alt=""
               fill
               priority
               sizes="(min-width: 1680px) 1680px, 100vw"
               className={styles.image}
             />
+            <video className={styles.video} autoPlay muted loop playsInline preload="auto" poster="/media/hero-tech-poster.webp" aria-hidden="true">
+              <source src="/media/hero-tech.webm" type="video/webm" />
+              <source src="/media/hero-tech.mp4" type="video/mp4" />
+            </video>
             <div className={styles.shade} aria-hidden="true" />
           </div>
           <div className={styles.copy}>
