@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<style>
+@font-face { font-family: Y; src: url(a/IRANYekanXFaNum-Regular.woff2); }
+@font-face { font-family: YB; src: url(a/IRANYekanXFaNum-Bold.woff2); }
+@font-face { font-family: YH; src: url(a/IRANYekanXFaNum-ExtraBlack.woff2); }
+@font-face { font-family: YL; src: url(a/IRANYekanXFaNum-Light.woff2); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1500px; height: 1000px; overflow: hidden; background: #07004c; font-family: Y, sans-serif; }
+.scene { position: absolute; inset: 0; overflow: hidden; opacity: 0; }
+img { display: block; }
+
+/* tilted collage */
+.plane { position: absolute; left: 50%; top: 50%; transform-style: preserve-3d; display: grid; gap: 34px; }
+.plane .tile { width: 520px; border-radius: 14px; overflow: hidden; background: #fff; box-shadow: 0 24px 50px rgba(3,0,30,.35); }
+.plane .tile img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.tint { position: absolute; inset: 0; }
+
+/* logo lockup */
+#lock { position: absolute; left: 50%; top: 50%; display: flex; flex-direction: column; align-items: center; transform: translate(-50%, -50%); }
+#circle { position: relative; width: 250px; height: 250px; border-radius: 50%; background: #cd6c58; display: grid; place-items: center; }
+#inner { position: absolute; width: 86%; height: 86%; border-radius: 50%; background: #fff; }
+#mark { position: absolute; width: 73%; }
+#word { width: 430px; margin-top: 34px; }
+#tag { margin-top: 14px; color: #fff; font: 600 21px/1 "Segoe UI", Arial, sans-serif; letter-spacing: 6px; opacity: .92; }
+
+/* client logos */
+#clientsGrid { position: absolute; left: 50%; top: 50%; display: grid; grid-template-columns: repeat(7, 170px); grid-auto-rows: 150px; gap: 26px 40px; align-items: center; justify-items: center; }
+#clientsGrid img { max-width: 150px; max-height: 110px; opacity: .95; }
+
+/* browser frame */
+.browser { position: absolute; border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.browser .bar { height: 34px; background: #f1f2f6; display: flex; align-items: center; gap: 8px; padding: 0 16px; direction: ltr; }
+.browser .bar i { width: 11px; height: 11px; border-radius: 50%; background: #d4d6de; }
+.browser .bar b { margin-left: 18px; height: 18px; flex: 0 0 38%; border-radius: 9px; background: #e4e6ed; }
+.browser .view { position: absolute; left: 0; right: 0; top: 34px; bottom: 0; overflow: hidden; }
+.browser .view img { width: 100%; }
+.phone { position: absolute; width: 230px; height: 470px; border-radius: 36px; background: #0e0f14; padding: 11px; box-shadow: 0 30px 60px rgba(0,0,0,.4); }
+.phone .scr { width: 100%; height: 100%; border-radius: 27px; overflow: hidden; background: #fff; }
+.phone img { width: 100%; }
+
+/* Mashal dashboard */
+.dash { position: absolute; width: 1180px; height: 740px; border-radius: 18px; overflow: hidden; background: #f3f6fb; box-shadow: 0 34px 80px rgba(2,10,40,.45); display: flex; direction: rtl; font-family: Y; color: #17223b; }
+.side { width: 210px; background: linear-gradient(180deg, #1f4f96, #173d78); color: #dce6f7; padding: 26px 18px; }
+.side .brand { display: flex; align-items: center; gap: 10px; font: 30px YH; color: #fff; margin-bottom: 30px; }
+.side .flame { width: 18px; height: 26px; background: #ff7a45; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; transform: rotate(8deg); box-shadow: inset -4px -6px 0 #ffb067; }
+.side .nav { display: grid; gap: 6px; font-size: 15px; }
+.side .nav div { display: flex; align-items: center; gap: 11px; padding: 10px 12px; border-radius: 10px; }
+.side .nav div i { width: 16px; height: 16px; border-radius: 4px; border: 2px solid currentColor; opacity: .8; }
+.side .nav .on { background: rgba(255,255,255,.14); color: #fff; font-family: YB; }
+.main { flex: 1; padding: 22px 26px; display: grid; grid-template-rows: auto auto 1fr auto; gap: 18px; }
+.top { display: flex; align-items: center; justify-content: space-between; }
+.top h3 { font: 22px YB; }
+.top .search { width: 300px; height: 38px; border-radius: 19px; background: #fff; border: 1px solid #e3e8f2; display: flex; align-items: center; padding: 0 16px; color: #9aa6bd; font-size: 14px; }
+.top .me { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #5a6886; }
+.top .me i { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #cd6c58, #e9a37f); }
+.kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.kpi { background: #fff; border-radius: 14px; padding: 16px 18px; border: 1px solid #e8edf5; }
+.kpi span { font-size: 13px; color: #6b7891; }
+.kpi b { display: block; font: 26px YH; margin-top: 6px; color: #17223b; }
+.kpi em { font-style: normal; font-size: 12px; color: #1d9a63; background: #e6f6ee; border-radius: 8px; padding: 2px 8px; margin-top: 6px; display: inline-block; }
+.kpi em.down { color: #c2412d; background: #fbebe7; }
+.grid2 { display: grid; grid-template-columns: 1.65fr 1fr; gap: 16px; min-height: 0; }
+.card { background: #fff; border-radius: 14px; border: 1px solid #e8edf5; padding: 16px 18px; position: relative; min-height: 0; }
+.card h4 { font: 15px YB; display: flex; justify-content: space-between; align-items: center; }
+.card h4 small { font: 12px Y; color: #8a96ad; }
+.legend { display: flex; gap: 14px; font-size: 12px; color: #6b7891; margin-top: 4px; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-left: 5px; vertical-align: middle; }
+.table { display: grid; gap: 0; font-size: 13px; margin-top: 6px; }
+.table div { display: grid; grid-template-columns: 1.1fr 1.6fr 1fr .9fr; padding: 9px 4px; border-bottom: 1px solid #eef2f7; align-items: center; }
+.table .h { color: #8a96ad; font-size: 12px; }
+.chip { justify-self: start; font-size: 11.5px; padding: 3px 10px; border-radius: 10px; }
+.c1 { background: #e7f0fe; color: #1f5fbf; } .c2 { background: #fff2e6; color: #c86a12; } .c3 { background: #e6f6ee; color: #1d9a63; }
+
+/* header band (project title) */
+.band { position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; }
+.band h2 { font: 600 44px/1.1 "Segoe UI", Arial, sans-serif; letter-spacing: 3px; }
+.band p { margin-top: 10px; font: 18px/1 "Segoe UI", Arial, sans-serif; letter-spacing: 2px; opacity: .85; }
+.band .fa { font-family: YB; letter-spacing: 0; font-size: 22px; margin-top: 8px; }
+.pattern { position: absolute; inset: 0; opacity: .12; background-image: linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px); background-size: 46px 46px; }
+
+#swirlLines { position: absolute; inset: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <clipPath id="petals" clipPathUnits="userSpaceOnUse"><g id="petalG"></g></clipPath>
+  </defs>
+</svg>
+
+<!-- S0/S12: logo over collage -->
+<div class="scene" id="s0">
+  <div class="plane" id="collage0"></div>
+  <div class="tint" style="background: linear-gradient(135deg, rgba(29,49,128,.78), rgba(10,14,80,.86));"></div>
+  <div id="lock">
+    <div id="circle"><div id="inner"></div><img id="mark" src="a/novatech-mark-navy.png"></div>
+    <img id="word" src="a/novatech-wordmark-white.png">
+    <div id="tag">TECHNOLOGY SOLUTIONS</div>
+  </div>
+</div>
+
+<!-- S2: client logos -->
+<div class="scene" id="s2" style="background: radial-gradient(120% 90% at 50% 40%, #1a2470 0%, #0d1158 60%, #070a45 100%);">
+  <div id="clientsGrid"></div>
+</div>
+
+<!-- S4: Mashal on blue -->
+<div class="scene" id="s4" style="background: #1d4f91;">
+  <div class="pattern"></div>
+  <div class="dash" id="dash">
+    <aside class="side">
+      <div class="brand"><span class="flame"></span>مشعل</div>
+      <div class="nav">
+        <div class="on"><i></i>داشبورد</div><div><i></i>قراردادها</div><div><i></i>بارگیری و حمل</div><div><i></i>مخازن و موجودی</div><div><i></i>فروش</div><div><i></i>حسابداری</div><div><i></i>حساب شرکا</div><div><i></i>گزارش‌ها</div>
+      </div>
+    </aside>
+    <section class="main">
+      <div class="top"><h3>داشبورد مدیریت</h3><div class="search">جستجو در قراردادها، بارها، اسناد…</div><div class="me">مدیر مالی<i></i></div></div>
+      <div class="kpis">
+        <div class="kpi"><span>قراردادهای فعال</span><b>۲۴</b><em>۳+ این ماه</em></div>
+        <div class="kpi"><span>بار در جریان</span><b>۶٬۴۲۰ تن</b><em>۱۸ تانکر</em></div>
+        <div class="kpi"><span>موجودی مخازن</span><b>۱۱٬۸۵۰ تن</b><em class="down">۴٪- نسبت به هفته قبل</em></div>
+        <div class="kpi"><span>فروش این ماه</span><b>$ ۱٫۲۸M</b><em>۱۲٪+</em></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h4>روند درآمد و مصارف <small>۶ ماه اخیر</small></h4>
+          <div class="legend"><span><i style="background:#1f5fbf"></i>درآمد</span><span><i style="background:#cd6c58"></i>مصارف</span></div>
+          <svg viewBox="0 0 600 230" style="width:100%;height:230px;margin-top:6px">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f5fbf" stop-opacity=".28"/><stop offset="1" stop-color="#1f5fbf" stop-opacity="0"/></linearGradient>
+            <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cd6c58" stop-opacity=".22"/><stop offset="1" stop-color="#cd6c58" stop-opacity="0"/></linearGradient></defs>
+            <g stroke="#eef2f7"><line x1="0" y1="40" x2="600" y2="40"/><line x1="0" y1="95" x2="600" y2="95"/><line x1="0" y1="150" x2="600" y2="150"/><line x1="0" y1="205" x2="600" y2="205"/></g>
+            <path d="M0 170 C60 150 90 160 130 140 S220 110 260 118 S350 80 400 74 S500 46 600 30 V210 H0Z" fill="url(#g1)"/>
+            <path id="rev" d="M0 170 C60 150 90 160 130 140 S220 110 260 118 S350 80 400 74 S500 46 600 30" fill="none" stroke="#1f5fbf" stroke-width="3.5" stroke-linecap="round"/>
+            <path d="M0 190 C70 182 110 186 150 176 S240 164 290 168 S380 150 430 146 S520 132 600 124 V210 H0Z" fill="url(#g2)"/>
+            <path id="exp" d="M0 190 C70 182 110 186 150 176 S240 164 290 168 S380 150 430 146 S520 132 600 124" fill="none" stroke="#cd6c58" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="400" cy="74" r="6" fill="#fff" stroke="#1f5fbf" stroke-width="3"/>
+          </svg>
+          <div style="display:flex;justify-content:space-between;font-size:12px;color:#8a96ad;direction:rtl"><span>میزان</span><span>ثور</span><span>جوزا</span><span>سرطان</span><span>اسد</span><span>سنبله</span></div>
+        </div>
+        <div class="card"><h4>ترکیب فروش <small>این ماه</small></h4>
+          <svg viewBox="0 0 200 200" style="width:200px;height:200px;display:block;margin:10px auto 0">
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#eef2f7" stroke-width="22"/>
+            <circle id="d1" cx="100" cy="100" r="70" fill="none" stroke="#1f5fbf" stroke-width="22" stroke-dasharray="230 440" transform="rotate(-90 100 100)"/>
+            <circle id="d2" cx="100" cy="100" r="70" fill="none" stroke="#cd6c58" stroke-width="22" stroke-dasharray="120 440" stroke-dashoffset="-236" transform="rotate(-90 100 100)"/>
+            <circle id="d3" cx="100" cy="100" r="70" fill="none" stroke="#22a06b" stroke-width="22" stroke-dasharray="70 440" stroke-dashoffset="-362" transform="rotate(-90 100 100)"/>
+            <text x="100" y="96" text-anchor="middle" font-family="YH" font-size="26" fill="#17223b">۸۴۳</text>
+            <text x="100" y="120" text-anchor="middle" font-family="Y" font-size="12" fill="#8a96ad">تن فروخته شده</text>
+          </svg>
+          <div class="legend" style="justify-content:center;margin-top:8px"><span><i style="background:#1f5fbf"></i>دیزل</span><span><i style="background:#cd6c58"></i>پطرول</span><span><i style="background:#22a06b"></i>گاز مایع</span></div>
+        </div>
+      </div>
+      <div class="card" style="padding-top:12px;padding-bottom:6px"><h4>آخرین بارها <small>امروز</small></h4>
+        <div class="table">
+          <div class="h"><span>شماره بار</span><span>مسیر</span><span>مقدار</span><span>وضعیت</span></div>
+          <div><span>LD-۲۰۴۸</span><span>بندر ترکمنباشی ← هرات</span><span>۳۸٫۵ تن</span><span class="chip c1">در مسیر</span></div>
+          <div><span>LD-۲۰۴۷</span><span>حیرتان ← مخزن شماره ۲</span><span>۴۲٫۰ تن</span><span class="chip c2">در حال تخلیه</span></div>
+          <div><span>LD-۲۰۴۵</span><span>اسلام‌قلعه ← کابل</span><span>۳۶٫۲ تن</span><span class="chip c3">تحویل شد</span></div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <div class="browser" id="tankWin" style="width:900px;height:600px"><div class="bar"><i></i><i></i><i></i><b></b></div><div class="view"><img src="a/mashal-storage-tanks.jpg"></div></div>
+</div>
+<svg id="swirlLines" viewBox="0 0 1500 1000"><g id="lineG" fill="none" stroke="#fff" stroke-width="3"></g></svg>
+
+<!-- S5: Le Petit (brown) -->
+<div class="scene" id="s5" style="background:#8c6448">
+  <div class="pattern"></div>
+  <div class="band" id="band5" style="height:330px"><h2>LE PETIT ISENBURG</h2><p>ONLINE STORE · GERMANY</p><div class="fa">طراحی وب‌سایت فروشگاهی</div></div>
+  <div class="browser" id="lp1" style="width:1240px;height:760px;left:130px"><div class="bar"><i></i><i></i><i></i><b></b></div><div class="view"><img src="a/lepetit_0.jpg"></div></div>
+  <div class="plane" id="collage5"></div>
+</div>
+
+<!-- S6: Noor (teal) -->
+<div class="scene" id="s6" style="background:#1a7f8e">
+  <div class="pattern"></div>
+  <div class="plane" id="collage6"></div>
+  <div class="browser" id="noorWin" style="width:1060px;height:660px"><div class="bar"><i></i><i></i><i></i><b></b></div><div class="view"><img src="a/noor_1.jpg"></div></div>
+</div>
+
+<!-- S7: posters slideshow (dark navy) -->
+<div class="scene" id="s7" style="background:#0b0a3c">
+  <div class="browser" id="slideWin" style="width:1380px;height:860px;left:60px;top:70px;background:#0b0a3c">
+    <div class="bar" style="background:#13124a"><i style="background:#2c2b66"></i><i style="background:#2c2b66"></i><i style="background:#2c2b66"></i><b style="background:#1d1c5a"></b></div>
+    <div class="view" id="slides"></div>
+  </div>
+</div>
+
+<!-- S8/S11: blue collage -->
+<div class="scene" id="s8" style="background:#1f3f8f"><div class="plane" id="collage8"></div></div>
+
+<!-- S9: Ariana (red) -->
+<div class="scene" id="s9" style="background:#b3121b">
+  <div class="pattern"></div>
+  <div class="browser" id="arWin" style="width:1240px;height:780px;left:130px;top:110px"><div class="bar"><i></i><i></i><i></i><b></b></div><div class="view"><img id="arImg" src="a/ariana_0.jpg"></div></div>
+  <div class="phone" id="arPhone"><div class="scr"><img src="a/ariana_m1.jpg"></div></div>
+</div>
+
+<!-- S10: teal-dark panels -->
+<div class="scene" id="s10" style="background:linear-gradient(135deg,#0f9aa8,#0b4f5c)"><div class="plane" id="collage10"></div></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const L = 16.8;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const eo = x => 1 - Math.pow(1 - x, 3);
+const ei = x => x * x * x;
+const lerp = (a, b, x) => a + (b - a) * x;
+
+function collage(el, imgs, cols, w, h) {
+  el.style.gridTemplateColumns = `repeat(${cols}, ${w}px)`;
+  imgs.forEach(src => { const d = document.createElement('div'); d.className = 'tile'; d.style.height = h + 'px'; d.style.width = w + 'px'; d.innerHTML = `<img src="a/${src}">`; el.appendChild(d); });
+}
+const mix = ['mashal-dashboard-overview.jpg','lepetit_1.jpg','novatech-restaurant-pos-system.jpg','noor_0.jpg','mashal-storage-tanks.jpg','ariana_1.jpg','mashal-contract-cycle-flow.jpg','novatech-logistics-management-system.jpg','lepetit_2.jpg','mashal-reports-center.jpg','noor_2.jpg','ariana_2.jpg','mashal-chart-of-accounts.jpg','novatech-supermarket-management-system.jpg','noor_3.jpg','lepetit_3.jpg','mashal-transport-details.jpg','ariana_3.jpg','novatech-warehouse-management-system.jpg','mashal-multi-currency-ledger.jpg','noor_4.jpg','ariana_4.jpg','lepetit_4.jpg','mashal-petroleum-sales-management.jpg'];
+collage($('collage0'), mix, 6, 420, 270);
+collage($('collage5'), ['lepetit_1.jpg','lepetit_2.jpg','lepetit_3.jpg','lepetit_4.jpg','lepetit_0.jpg','lepetit_2.jpg','lepetit_m0.jpg','lepetit_m1.jpg','lepetit_3.jpg','lepetit_1.jpg','lepetit_4.jpg','lepetit_0.jpg'], 4, 470, 300);
+collage($('collage6'), ['noor_0.jpg','noor_2.jpg','noor_3.jpg','noor_4.jpg','noor_5.jpg','noor_6.jpg','noor_1.jpg','noor_3.jpg','noor_2.jpg','noor_5.jpg','noor_0.jpg','noor_4.jpg','noor_6.jpg','noor_1.jpg','noor_2.jpg','noor_3.jpg'], 4, 520, 330);
+collage($('collage8'), ['mashal-dashboard-overview.jpg','mashal-storage-tanks.jpg','mashal-contract-cycle-flow.jpg','mashal-chart-of-accounts.jpg','mashal-reports-center.jpg','mashal-transport-details.jpg','mashal-multi-currency-ledger.jpg','mashal-petroleum-sales-management.jpg','mashal-loading-details.jpg','mashal-partner-balances-settlement.jpg','mashal-fuel-tank-inventory.jpg','mashal-tanker-logistics-goods-in-transit.jpg','mashal-company-reports.jpg','mashal-expense-traceability.jpg','mashal-payment-entry.jpg','mashal-oil-gas-erp-dashboard-afghanistan.jpg'], 4, 520, 325);
+collage($('collage10'), ['novatech-supermarket-management-system.jpg','novatech-oil-and-gas-management-system.jpg','novatech-logistics-management-system.jpg','novatech-attendance-system.jpg','novatech-restaurant-pos-system.jpg','novatech-warehouse-management-system.jpg','novatech-custom-software-service.jpg','novatech-supermarket-management-system.jpg','novatech-logistics-management-system.jpg','novatech-oil-and-gas-management-system.jpg'], 5, 300, 380);
+
+const logos = ['2','4','5','6','9a','12','13','14','15','16','17','77','200','client-18','client-19','client-20','client-21','client-22','client-23','client-24','client-25'];
+logos.forEach(n => { const i = document.createElement('img'); i.src = `a/logo_${n}.png`; $('clientsGrid').appendChild(i); });
+
+const slideSrc = ['novatech-restaurant-pos-system.jpg','novatech-oil-and-gas-management-system.jpg','novatech-attendance-system.jpg'];
+slideSrc.forEach(s => { const i = document.createElement('img'); i.src = `a/${s}`; Object.assign(i.style, { position: 'absolute', inset: '0', width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 38%' }); $('slides').appendChild(i); });
+
+// petals for the swirl wipe
+const NP = 7;
+for (let k = 0; k < NP; k++) {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse'); $('petalG').appendChild(e);
+  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); $('lineG').appendChild(p);
+}
+
+const plane3d = (el, rx, rz, x, y, s = 1) => { el.style.transform = `translate(-50%,-50%) perspective(2200px) translate3d(${x}px, ${y}px, 0) rotateX(${rx}deg) rotateZ(${rz}deg) scale(${s})`; };
+const show = (id, o) => { $(id).style.opacity = o; $(id).style.visibility = o > 0 ? 'visible' : 'hidden'; };
+
+window.render = (t) => {
+  t = ((t % L) + L) % L;
+  ['s0','s2','s4','s5','s6','s7','s8','s9','s10'].forEach(s => show(s, 0));
+  $('s4').style.clipPath = 'none'; $('swirlLines').style.opacity = 0;
+
+  // S0 logo + collage (start), and loop back at the end
+  const loopBack = prog(t, 16.35, 16.8);
+  if (t < 1.75 || t >= 16.35) {
+    const tt = t >= 16.35 ? 0 : t;
+    show('s0', t >= 16.35 ? eio(loopBack) : 1);
+    plane3d($('collage0'), 32, -24, lerp(-60, 60, (t >= 16.35 ? 0 : t) / 1.75) - 40, -20, 1.05);
+    // zoom into the circle
+    const z = eio(prog(tt, 0.78, 1.62));
+    const sc = lerp(1, 13, ei(prog(tt, 0.78, 1.62)));
+    $('circle').style.transform = `scale(${sc})`;
+    $('inner').style.background = `rgb(${lerp(255, 18, z)},${lerp(255, 24, z)},${lerp(255, 100, z)})`;
+    $('mark').style.opacity = 1 - prog(tt, 1.1, 1.45) * .7;
+    $('word').style.opacity = $('tag').style.opacity = 1 - prog(tt, 0.78, 1.0);
+    $('word').style.transform = `translateY(${lerp(0, 60, prog(tt, 0.78, 1.1))}px) scale(${lerp(1, 1.3, prog(tt, 0.78, 1.1))})`;
+    const intro = t >= 16.35 ? 1 : 1;
+    $('lock').style.opacity = intro;
+  }
+  // S2 clients
+  if (t >= 1.55 && t < 4.4) {
+    show('s2', prog(t, 1.55, 1.85));
+    const p = prog(t, 1.55, 4.0);
+    $('clientsGrid').style.transform = `translate(-50%,-50%) scale(${lerp(1.12, 1.0, eo(p))})`;
+    [...$('clientsGrid').children].forEach((im, i) => { im.style.opacity = clamp((t - 1.7 - (i % 7) * 0.05 - Math.floor(i / 7) * 0.08) / 0.3) * .95; });
+  }
+  // S4 Mashal, revealed by the swirl
+  if (t >= 3.6 && t < 6.0) {
+    show('s4', 1);
+    const w = prog(t, 3.65, 4.35);
+    if (w < 1) {
+      const R = lerp(0, 1100, eio(w)), rot = lerp(-40, 70, w);
+      [...$('petalG').children].forEach((e, k) => {
+        const a = rot + k * 360 / NP;
+        e.setAttribute('cx', 750); e.setAttribute('cy', 500); e.setAttribute('rx', R * .55); e.setAttribute('ry', R * 0.22);
+        e.setAttribute('transform', `rotate(${a} 750 500) translate(${R * .5} 0)`);
+      });
+      $('s4').style.clipPath = 'url(#petals)';
+      $('swirlLines').style.opacity = 1 - prog(t, 4.1, 4.35);
+      [...$('lineG').children].forEach((p, k) => {
+        const a = (rot + k * 360 / NP + 18) * Math.PI / 180, r1 = R * 0.15, r2 = R * 1.2;
+        p.setAttribute('d', `M${750 + Math.cos(a) * r1} ${500 + Math.sin(a) * r1} Q ${750 + Math.cos(a + .6) * r2 * .6} ${500 + Math.sin(a + .6) * r2 * .6} ${750 + Math.cos(a + 1) * r2} ${500 + Math.sin(a + 1) * r2}`);
+      });
+    }
+    // dashboard slides in, then the tanks window comes over it
+    const d = eo(prog(t, 3.9, 4.7));
+    const out = eio(prog(t, 5.15, 5.75));
+    $('dash').style.transform = `translate(${lerp(500, 0, d) - out * 380}px, 0) scale(${lerp(.92, 1, d) - out * .12})`;
+    $('dash').style.left = '160px'; $('dash').style.top = '130px';
+    const tw = eio(prog(t, 5.1, 5.75));
+    $('tankWin').style.left = '300px'; $('tankWin').style.top = '200px';
+    $('tankWin').style.transform = `translateX(${lerp(-1400, 0, tw)}px) rotate(${lerp(-6, 0, tw)}deg)`;
+    show('s4', 1 - prog(t, 5.8, 6.0));
+  }
+  // S5 Le Petit
+  if (t >= 5.8 && t < 8.1) {
+    show('s5', prog(t, 5.8, 6.0));
+    const b = prog(t, 5.95, 6.6);
+    $('band5').style.opacity = eo(b); $('band5').style.transform = `translateY(${lerp(30, 0, eo(b))}px)`;
+    const up = eo(prog(t, 5.85, 6.5));
+    const away = eio(prog(t, 7.05, 7.45));
+    $('lp1').style.top = `${lerp(1000, 300, up) + away * 900}px`;
+    const c = prog(t, 7.1, 8.1);
+    $('collage5').style.opacity = eo(prog(t, 7.1, 7.4));
+    plane3d($('collage5'), 48, -28, lerp(300, -260, c), lerp(260, -80, c), 1.0);
+  }
+  // S6 Noor: teal panel wipes in, tilted collage drifts
+  if (t >= 7.95 && t < 10.75) {
+    show('s6', 1);
+    const wipe = eio(prog(t, 7.95, 8.35));
+    $('s6').style.clipPath = `inset(0 0 0 ${100 - wipe * 100}%)`;
+    const c = prog(t, 8.1, 10.7);
+    plane3d($('collage6'), 38, 24, lerp(-260, 300, c), lerp(-220, 160, c), 1.05);
+    const nw = prog(t, 8.15, 9.35);
+    $('noorWin').style.left = '220px'; $('noorWin').style.top = '170px';
+    $('noorWin').style.transform = `translateY(${lerp(80, 0, eo(nw))}px)`;
+    $('noorWin').style.opacity = eo(prog(t, 8.15, 8.6)) * (1 - prog(t, 9.3, 9.7));
+    $('noorWin').querySelector('img').style.transform = `translateY(${-lerp(0, 700, eio(prog(t, 8.5, 9.4)))}px)`;
+    show('s6', 1 - prog(t, 10.55, 10.75));
+  } else { $('s6').style.clipPath = 'none'; }
+  // S7 posters slideshow
+  if (t >= 10.55 && t < 12.45) {
+    show('s7', prog(t, 10.55, 10.75) * (1 - prog(t, 12.25, 12.45)));
+    [...$('slides').children].forEach((im, k) => {
+      const a = 10.6 + k * 0.55;
+      im.style.opacity = k === 0 ? 1 : eio(prog(t, a, a + .35));
+      im.style.transform = `scale(${lerp(1.12, 1.0, prog(t, a, a + 1.4))})`;
+    });
+  }
+  // S8 blue collage
+  if (t >= 12.25 && t < 12.95) {
+    show('s8', prog(t, 12.25, 12.45));
+    plane3d($('collage8'), 40, -22, lerp(-120, 160, prog(t, 12.25, 12.95)), lerp(80, -60, prog(t, 12.25, 12.95)), 1.1);
+  }
+  // S9 Ariana red with whip
+  if (t >= 12.8 && t < 14.8) {
+    show('s9', prog(t, 12.8, 12.95) * (1 - prog(t, 14.6, 14.8)));
+    const whip = prog(t, 13.05, 13.35);
+    const blur = Math.sin(whip * Math.PI) * 28;
+    $('arWin').style.filter = blur > .5 ? `blur(${blur}px)` : 'none';
+    $('arWin').style.transform = `translateX(${Math.sin(whip * Math.PI) * -260}px)`;
+    $('arImg').src = whip > .5 ? 'a/ariana_2.jpg' : 'a/ariana_0.jpg';
+    $('arImg').style.transform = `translateY(${-lerp(0, 820, eio(prog(t, 13.45, 14.5)))}px)`;
+    const ph = eo(prog(t, 13.5, 14.0));
+    $('arPhone').style.left = '1150px'; $('arPhone').style.top = `${lerp(1100, 380, ph)}px`;
+  }
+  // S10 teal posters
+  if (t >= 14.6 && t < 15.6) {
+    show('s10', prog(t, 14.6, 14.8) * (1 - prog(t, 15.4, 15.6)));
+    plane3d($('collage10'), 42, 26, lerp(-200, 220, prog(t, 14.6, 15.6)), lerp(-60, 60, prog(t, 14.6, 15.6)), 1.05);
+  }
+  // S11 blue collage again, then the loop back to the logo
+  if (t >= 15.4 && t < 16.8) {
+    show('s8', prog(t, 15.4, 15.6) * (t >= 16.35 ? 1 - eio(loopBack) : 1));
+    const c = prog(t, 15.4, 16.8);
+    plane3d($('collage8'), 36, -26, lerp(260, -120, c), lerp(-120, 60, c), lerp(1.05, 1.2, c));
+  }
+  if (t >= 16.35) {
+    show('s0', eio(loopBack));
+    $('s0').style.zIndex = 5;
+  } else $('s0').style.zIndex = '';
+};
+window.ready = Promise.all([...document.images].map(i => i.decode().catch(() => {}))).then(() => { render(0); return true; });
+</script>
+</body>
+</html>
