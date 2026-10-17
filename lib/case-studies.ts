@@ -1,5 +1,6 @@
 import type { ServiceKey } from "@/lib/services";
 import { mashalCaseStudy } from "@/lib/mashal-case-study";
+import portfolioData from "@/lib/portfolio-data.json";
 
 /**
  * Case studies for systems Novatech has actually built and delivered. The
@@ -15,6 +16,8 @@ import { mashalCaseStudy } from "@/lib/mashal-case-study";
  */
 
 export type CaseStudy = {
+  /** Public project address; shown only as a separate visit-site action. */
+  websiteUrl?: string;
   slug: string;
   /** Card title, breadcrumb label and default H1. Customer names require explicit approval. */
   title: string;
@@ -455,6 +458,46 @@ export const caseStudies: CaseStudy[] = [
     services: ["software-solutions", "business-systems", "accounting-software"],
   },
 ];
+
+// Website entries use the existing, published project descriptions and local
+// screenshots. They deliberately add no claims about results, dates or clients.
+const websiteDescriptions: Record<string, { purpose: string; capabilities: string[] }> = {
+  "le-petit-isenburg": {
+    purpose: "معرفی و فروش لباس کودک در یک وب‌سایت فروشگاهی با دسته‌بندی و صفحه محصول.",
+    capabilities: ["دسته‌بندی لباس کودک", "صفحه معرفی محصول", "نمایش فروشگاه در موبایل و دسکتاپ"],
+  },
+  "ariana-motor": {
+    purpose: "معرفی مدل‌های موتورسیکلت، نمایندگی‌ها و راه‌های تماس در یک وب‌سایت شرکتی.",
+    capabilities: ["کاتالوگ مدل‌های موتورسیکلت", "معرفی نمایندگی‌ها", "راه‌های ارتباط با شرکت"],
+  },
+  "noor-al-madinah-hospital": {
+    purpose: "ارائه اطلاعات بخش‌ها، داکتران و خدمات شفاخانه به مراجعین در یک وب‌سایت خدماتی.",
+    capabilities: ["معرفی بخش‌های شفاخانه", "معرفی داکتران", "اطلاعات خدمات برای مراجعین"],
+  },
+};
+
+for (const item of portfolioData.filter((project) => project.kind === "website")) {
+  const slug = item.caseStudySlug;
+  const description = slug ? websiteDescriptions[slug] : undefined;
+  if (!slug || !description) throw new Error(`Website case study is missing: ${item.title}`);
+  caseStudies.push({
+    slug,
+    title: item.title,
+    industry: item.category,
+    location: item.location,
+    summary: item.summary,
+    problem: [description.purpose],
+    solution: [item.summary],
+    capabilities: description.capabilities,
+    outcome: ["نسخه دسکتاپ و موبایل این پروژه در تصاویر همین صفحه قابل مشاهده است. برای دیدن وب‌سایت، از دکمه بازدید استفاده کنید."],
+    desktopImage: item.desktopImg ?? item.img,
+    desktopImageAlt: item.imageAlt,
+    mobileImage: item.mobileImg,
+    mobileImageAlt: `نمایش موبایل ${item.title}`,
+    websiteUrl: item.link,
+    services: ["web-design"],
+  });
+}
 
 export const caseStudyBySlug = Object.fromEntries(
   caseStudies.map((study) => [study.slug, study]),

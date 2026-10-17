@@ -132,6 +132,7 @@
   {
     "kind": "website",
     "title": "Le Petit Isenburg",
+    "caseStudySlug": "le-petit-isenburg",
     "img": "/images/portfolio/lepetit-desktop.jpg",
     "desktopImg": "/images/portfolio/lepetit-desktop.jpg",
     "mobileImg": "/images/portfolio/lepetit-mobile.jpg",
@@ -145,6 +146,7 @@
   {
     "kind": "website",
     "title": "Ariana Motor",
+    "caseStudySlug": "ariana-motor",
     "img": "/images/portfolio/ariana-desktop.jpg",
     "desktopImg": "/images/portfolio/ariana-desktop.jpg",
     "mobileImg": "/images/portfolio/ariana-mobile.jpg",
@@ -158,6 +160,7 @@
   {
     "kind": "website",
     "title": "Noor Al Madinah Hospital",
+    "caseStudySlug": "noor-al-madinah-hospital",
     "img": "/images/portfolio/noor-desktop.jpg",
     "desktopImg": "/images/portfolio/noor-desktop.jpg",
     "mobileImg": "/images/portfolio/noor-mobile.jpg",

@@ -302,7 +302,7 @@
 }
 .menuWrap {
   position: sticky;
-  top: calc(var(--u) * 1);
+  top: calc(var(--site-header-height, 90px) + var(--u));
   z-index: 10;
   margin-top: calc(var(--u) * 6);
   user-select: none;
@@ -688,6 +688,9 @@
   position: relative;
   overflow: hidden;
   border-radius: calc(var(--u) * 1.4);
+}
+.mobileCardCaption {
+  display: none;
 }
 .cardMedia::before,
 .cardPhone::before {
@@ -1091,42 +1094,102 @@
     text-align: center;
   }
   .cards {
-    gap: 32px 12px;
-    margin-top: 36px;
+    gap: 91px 0;
+    margin-top: 56px;
   }
   .card {
-    --u: clamp(3px, 0.9vw, 5px);
-    width: calc((100% - 12px) / 2);
+    width: 50%;
     min-width: 0;
     margin: 0;
+    padding: 7px;
   }
   .cardLink {
-    gap: 6px;
-    padding: 9px;
-    grid-template-columns: minmax(0, 1fr) 34%;
-    border-radius: 15px;
+    display: block;
+    padding: 14.6875px;
+    border-radius: 0;
+    clip-path: url(#portfolio-regular-curve);
+  }
+  .cardMedia {
+    aspect-ratio: 1 / 2;
+    border-radius: 9.8px;
+  }
+  .cardMediaImg {
+    object-position: top;
+  }
+  .cardLink:not(.isSite) .cardMediaImg {
+    object-fit: contain;
   }
   .cardSide {
-    min-width: 0;
-  }
-  .cardInfoCat {
-    font-size: 9px;
-  }
-  .cardInfo p {
     display: none;
+  }
+  .special,
+  .services {
+    left: 50%;
+  }
+  .special {
+    bottom: calc(100% - 7px);
+    gap: 7px;
+  }
+  .specialTab {
+    min-width: 59px;
+    height: 12px;
+    padding: 3px 12px 0;
+    font-size: 8.4px;
+  }
+  .specialStar {
+    width: 10.5px;
+    height: 10.5px;
+  }
+  .services {
+    left: auto;
+    margin: 0 auto;
+    width: 119px;
+    transform: none;
+  }
+  .mobileCardCaption {
+    position: absolute;
+    right: 4px;
+    bottom: 21px;
+    left: 4px;
+    z-index: 3;
+    display: block;
+    font-family: IranYekanBold, sans-serif;
+    font-size: 12px;
+    line-height: 1.8;
+    text-align: center;
+  }
+  .servicesTab {
+    width: 119px;
+    height: 17.5px;
+    gap: 10.5px;
+  }
+  .servicesTab span svg {
+    width: 8.4px;
+    height: 8.4px;
   }
   .servicesHelp {
     display: none;
   }
   .cardTitle {
-    right: 6px;
-    display: block;
-    width: calc(100% - 12px);
-    min-width: 0;
-    max-width: none;
-    padding: 4px 13px 2px;
-    font-size: 10px;
-    line-height: 1.6;
+    display: none;
+  }
+  .fav {
+    top: 28px;
+    right: 28px;
+    width: 26.6px;
+    height: 26.6px;
+    padding: 0;
+    justify-content: center;
+    transform: none;
+    border-radius: 5.6px;
+    background: #ffffffe8;
+  }
+  .favBg {
+    display: none;
+  }
+  .heart {
+    width: 10.5px;
+    height: 10.5px;
   }
   .fav::after {
     content: "";
