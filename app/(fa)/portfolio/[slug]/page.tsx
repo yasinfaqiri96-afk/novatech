@@ -5,7 +5,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Check, Image as ImageIcon } from "lucide-react";
 
-import Breadcrumbs from "@/components/Breadcrumbs";
+import HeroWave from "@/components/HeroWave";
+import DetailShowcase from "@/components/portfolio/DetailShowcase";
+import MoreProjects, { type MoreProject } from "@/components/portfolio/MoreProjects";
+import { BreadcrumbBar } from "@/components/portfolio/PortfolioIntro";
+import styles from "@/components/portfolio/Detail.module.css";
+import portfolioData from "@/lib/portfolio-data.json";
 import JsonLd from "@/components/JsonLd";
 import { buildMetadata } from "@/lib/metadata";
 import { caseStudies, getCaseStudy } from "@/lib/case-studies";
@@ -60,6 +65,20 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   ];
 
   const relatedServices = study.services.map((key) => serviceByKey[key]);
+  const cardColor =
+    portfolioData.find((item) => item.caseStudySlug === study.slug)?.cardColor ?? "#1d4f91";
+  const portrait = study.imageOrientation === "portrait";
+  const shots = study.screenshots ?? [];
+  const moreProjects: MoreProject[] = portfolioData
+    .filter((item) => item.caseStudySlug !== study.slug)
+    .map((item) => ({
+      href: item.caseStudySlug ? `/portfolio/${item.caseStudySlug}` : item.link.startsWith("http") ? "/portfolio" : item.link,
+      title: item.title,
+      category: item.category,
+      image: item.kind === "website" ? item.mobileImg ?? item.img : item.img,
+      color: item.cardColor,
+      website: item.kind === "website",
+    }));
   const isMashalCaseStudy = study.slug === "oil-and-gas-management-system";
 
   /**
@@ -108,382 +127,279 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         )}
       />
 
-      <article className={isMashalCaseStudy ? "mashal-case overflow-hidden" : "overflow-hidden"}>
-        <section className="mx-auto w-full max-w-5xl px-5 pt-32 md:pt-36">
-          <Breadcrumbs items={breadcrumbs} />
+      <article className={styles.page} style={{ "--c": cardColor } as React.CSSProperties}>
+        <svg width="0" height="0" aria-hidden="true" focusable="false" style={{ position: "absolute" }}>
+          <defs>
+            <linearGradient id="detail-side-tab" x1="1" y1="0" x2="0" y2="0">
+              <stop offset="0" stopColor="#ffffff" />
+              <stop offset="1" stopColor="#dddce5" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <BreadcrumbBar items={breadcrumbs} />
 
-          <div className="mt-8 flex flex-col gap-4">
-            <p className="bold text-primary">{study.industry}</p>
-            <h1 className="fat text-2xl font-black leading-normal text-gray-900 lg:text-3xl">
-              {study.pageHeading ?? study.title}
-            </h1>
-            <p className="leading-8 text-gray-700">{study.summary}</p>
-
-            {isMashalCaseStudy && (
-              <Link
-                href="/oil-and-gas-software"
-                className="medium flex min-h-11 w-fit items-center gap-1 text-sm text-primary underline decoration-primary/30 underline-offset-4 transition-colors duration-200 hover:text-primary-hover"
-              >
-                مشاهده صفحه محصول و امکانات ERP نفت و گاز مشعل
-                <ArrowLeft size={14} aria-hidden="true" />
-              </Link>
-            )}
-
-            <dl className="mt-2 flex flex-wrap gap-x-10 gap-y-3 text-sm text-gray-600">
-              <div className="flex gap-2">
-                <dt className="medium text-gray-900">حوزه کاری:</dt>
-                <dd>{study.industry}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="medium text-gray-900">لوکیشن مشتری:</dt>
-                <dd>{study.location}</dd>
-              </div>
-            </dl>
-          </div>
-
-          {study.desktopImage ? (
-            /*
-             * Screenshots are wide and fill the frame. The product posters are
-             * portrait, so they get a narrower frame and keep their own aspect
-             * ratio instead of being cropped to a 16:9 strip of their header.
-             */
-            <div
-              className={`mt-10 overflow-hidden rounded-3xl border border-gray-100 shadow-sm ${
-                study.imageOrientation === "portrait"
-                  ? "mx-auto w-full max-w-md"
-                  : ""
-              }`}
-            >
-              <Image
-                src={study.desktopImage}
-                alt={study.desktopImageAlt ?? study.title}
-                width={study.desktopImageWidth ?? (study.imageOrientation === "portrait" ? 1122 : 1600)}
-                height={study.desktopImageHeight ?? (study.imageOrientation === "portrait" ? 1402 : 900)}
-                sizes={
-                  study.imageOrientation === "portrait"
-                    ? "(min-width: 1024px) 448px, 92vw"
-                    : "(min-width: 1024px) 900px, 92vw"
-                }
-                priority
-                className={
-                  study.imageOrientation === "portrait"
-                    ? "h-auto w-full"
-                    : "h-full w-full object-cover object-top"
-                }
-              />
+        <div className={`${styles.container} ${styles.introBlock}`}>
+          <header className={styles.intro}>
+            <div className={styles.introLogo}>
+              <Image src="/images/brand/novatech-wordmark-navy.webp" alt={companyInfo.brandName} width={640} height={241} sizes="190px" />
             </div>
-          ) : null}
-        </section>
-
-        {isMashalCaseStudy && <nav className="mashal-case-index" aria-label="بخش‌های نمونهٔ پیاده‌سازی"><strong>در این صفحه</strong><a href="#case-problem">مسئله</a><a href="#case-solution">راهکار</a><a href="#case-capabilities">قابلیت‌ها</a><Link href="/oil-and-gas-software#mashal-demo">درخواست دمو</Link></nav>}
-        {isMashalCaseStudy && <div className="mashal-flow-shell"><MashalFlow /></div>}
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-14 px-5 py-16 lg:py-20">
-          <section id="case-problem" className="flex flex-col gap-4">
-            <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-              مشکلی که وجود داشت
-            </h2>
-            <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">{study.problem.map((paragraph) => (
-              <p key={paragraph} className="leading-8 text-gray-700">
-                {paragraph}
-              </p>
-            ))}</MashalDetails>
-          </section>
-
-          <section id="case-solution" className="flex flex-col gap-4">
-            <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-              راهکاری که ساخته شد
-            </h2>
-            <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">{study.solution.map((paragraph) => (
-              <p key={paragraph} className="leading-8 text-gray-700">
-                {paragraph}
-              </p>
-            ))}</MashalDetails>
-          </section>
-
-          <section id="case-capabilities" className="flex flex-col gap-4">
-            <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-              امکاناتی که پیاده شد
-            </h2>
-            <ul className="grid grid-cols-1 gap-3 md:grid-cols-2">
-              {study.capabilities.map((capability) => (
-                <li
-                  key={capability}
-                  className="flex items-start gap-2 rounded-2xl bg-bg-light p-4 text-sm leading-7 text-gray-700"
-                >
-                  <Check
-                    className="mt-1 size-4 shrink-0 text-primary"
-                    aria-hidden="true"
-                  />
-                  <span>{capability}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {study.workflow && study.workflow.length > 0 && (
-            <section className="flex flex-col gap-4">
-              <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-                مسیر کار در سیستم
-              </h2>
-              <p className="leading-8 text-gray-700">
-                هر مرحله به همان محموله وصل است، بنابراین زنجیره از ابتدا تا
-                گزارش نهایی قابل دنبال کردن می ماند.
-              </p>
-              <ol className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
-                {study.workflow.map((stage, index) => (
-                  <li
-                    key={stage.step}
-                    className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-5"
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="bold flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm text-primary"
-                    >
-                      {index + 1}
-                    </span>
-                    <span className="flex flex-col gap-1">
-                      <span className="bold text-base text-gray-900">
-                        {stage.step}
-                      </span>
-                      <span className="text-sm leading-7 text-gray-600">
-                        {stage.text}
-                      </span>
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </section>
-          )}
-
-          {study.screenshots && study.screenshots.length > 0 && (
-            <section className="flex flex-col gap-4">
-              <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-                تصاویر واقعی محیط سیستم
-              </h2>
-              <p className="leading-8 text-gray-700">
-                این تصاویر از محیط واقعی مشعل گرفته شده‌اند؛ نام اشخاص و شرکت‌ها،
-                نمبر وسایط و شماره‌های اسناد حمل پیش از انتشار پوشانده شده‌اند.
-              </p>
-              <div className="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2">
-                {study.screenshots.map((screen) => (
-                  <figure
-                    key={screen.src}
-                    className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
-                  >
-                    <Image
-                      src={screen.src}
-                      alt={screen.alt}
-                      width={screen.width}
-                      height={screen.height}
-                      sizes="(min-width: 768px) 45vw, 92vw"
-                      loading="lazy"
-                      className="h-auto w-full"
-                    />
-                    <figcaption className="p-4 text-sm leading-7 text-gray-600">
-                      {screen.caption}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {study.approach && (
-            <section className="flex flex-col gap-4">
-              <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-                {study.approach.heading}
-              </h2>
-              {study.approach.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="leading-8 text-gray-700">
-                  {paragraph}
-                </p>
-              ))}
-              {study.approach.bullets && study.approach.bullets.length > 0 && (
-                <ul className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
-                  {study.approach.bullets.map((bullet) => (
-                    <li
-                      key={bullet}
-                      className="flex items-start gap-2 rounded-2xl bg-bg-light p-4 text-sm leading-7 text-gray-700"
-                    >
-                      <Check
-                        className="mt-1 size-4 shrink-0 text-primary"
-                        aria-hidden="true"
-                      />
-                      <span>{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {study.approach.link && (
-                <Link
-                  href={study.approach.link.href}
-                  className="mt-2 flex w-fit items-center gap-1 text-sm text-primary"
-                >
-                  {study.approach.link.label}
+            <h1 className={styles.introTitle}>{study.pageHeading ?? study.title}</h1>
+            <div className={styles.introEditor}>
+              <p className={styles.introLead}>{study.summary}</p>
+              <dl className={styles.introMeta}>
+                <div>
+                  <dt>حوزه کاری:</dt>
+                  <dd>{study.industry}</dd>
+                </div>
+                <div>
+                  <dt>لوکیشن مشتری:</dt>
+                  <dd>{study.location}</dd>
+                </div>
+              </dl>
+              {isMashalCaseStudy && (
+                <Link href="/oil-and-gas-software" className={styles.introLink}>
+                  مشاهده صفحه محصول و امکانات ERP نفت و گاز مشعل
                   <ArrowLeft size={14} aria-hidden="true" />
                 </Link>
               )}
-            </section>
-          )}
+            </div>
+          </header>
 
-          {study.implementation && (
-            <section className="flex flex-col gap-4">
-              <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-                {study.implementation.heading}
-              </h2>
-              {study.implementation.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="leading-8 text-gray-700">
-                  {paragraph}
+          {study.desktopImage && (
+            <DetailShowcase
+              src={study.desktopImage}
+              alt={study.desktopImageAlt ?? study.title}
+              width={study.desktopImageWidth ?? (portrait ? 1122 : 1600)}
+              height={study.desktopImageHeight ?? (portrait ? 1402 : 900)}
+              portrait={portrait}
+              title={study.title}
+            />
+          )}
+        </div>
+
+        {isMashalCaseStudy && <nav className="mashal-case-index" aria-label="بخش‌های نمونهٔ پیاده‌سازی"><strong>در این صفحه</strong><a href="#case-problem">مسئله</a><a href="#case-solution">راهکار</a><a href="#case-capabilities">قابلیت‌ها</a><Link href="/oil-and-gas-software#mashal-demo">درخواست دمو</Link></nav>}
+        {isMashalCaseStudy && <div className="mashal-flow-shell"><MashalFlow /></div>}
+
+        <div className={styles.contentz}>
+          <div className={styles.container}>
+            <section id="case-problem" className={styles.row}>
+              {(shots[0] || study.mobileImage) && (
+                <div className={styles.rowMedia}>
+                  <Image
+                    src={shots[0]?.src ?? study.mobileImage!}
+                    alt={shots[0]?.alt ?? study.mobileImageAlt ?? study.title}
+                    width={shots[0]?.width ?? 430}
+                    height={shots[0]?.height ?? 932}
+                    sizes="(min-width: 800px) 46vw, 92vw"
+                    className={shots[0] ? undefined : styles.rowPhone}
+                  />
+                </div>
+              )}
+              <div className={styles.rowText}>
+                <h2 className={styles.rowTitle}>مشکلی که وجود داشت</h2>
+                <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">
+                  {study.problem.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </MashalDetails>
+              </div>
+            </section>
+
+            <section id="case-solution" className={`${styles.row} ${styles.rowLeft}`}>
+              {shots[1] && (
+                <div className={styles.rowMedia}>
+                  <Image src={shots[1].src} alt={shots[1].alt} width={shots[1].width} height={shots[1].height} sizes="(min-width: 800px) 46vw, 92vw" />
+                </div>
+              )}
+              <div className={styles.rowText}>
+                <h2 className={styles.rowTitle}>راهکاری که ساخته شد</h2>
+                <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">
+                  {study.solution.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </MashalDetails>
+              </div>
+            </section>
+
+            <section id="case-capabilities" className={styles.row}>
+              {shots[2] && (
+                <div className={styles.rowMedia}>
+                  <Image src={shots[2].src} alt={shots[2].alt} width={shots[2].width} height={shots[2].height} sizes="(min-width: 800px) 46vw, 92vw" />
+                </div>
+              )}
+              <div className={styles.rowText}>
+                <h2 className={styles.rowTitle}>امکاناتی که پیاده شد</h2>
+                <ul className={styles.checks}>
+                  {study.capabilities.map((capability) => (
+                    <li key={capability}>
+                      <Check aria-hidden="true" />
+                      <span>{capability}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </section>
+
+            {study.workflow && study.workflow.length > 0 && (
+              <section className={`${styles.row} ${styles.rowLeft}`}>
+                <div className={styles.rowText}>
+                  <h2 className={styles.rowTitle}>مسیر کار در سیستم</h2>
+                  <p>
+                    هر مرحله به همان محموله وصل است، بنابراین زنجیره از ابتدا تا
+                    گزارش نهایی قابل دنبال کردن می ماند.
+                  </p>
+                  <ol className={styles.steps}>
+                    {study.workflow.map((stage, index) => (
+                      <li key={stage.step}>
+                        <span aria-hidden="true">{index + 1}</span>
+                        <div>
+                          <b>{stage.step}</b>
+                          <p>{stage.text}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </section>
+            )}
+
+            {shots.length > 3 && (
+              <section className={styles.gallery}>
+                <h2 className={styles.rowTitle}>تصاویر واقعی محیط سیستم</h2>
+                <p>
+                  این تصاویر از محیط واقعی مشعل گرفته شده‌اند؛ نام اشخاص و شرکت‌ها،
+                  نمبر وسایط و شماره‌های اسناد حمل پیش از انتشار پوشانده شده‌اند.
                 </p>
-              ))}
-              <ul className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
-                {study.implementation.bullets.map((bullet) => (
-                  <li
-                    key={bullet}
-                    className="flex items-start gap-2 rounded-2xl bg-bg-light p-4 text-sm leading-7 text-gray-700"
-                  >
-                    <Check className="mt-1 size-4 shrink-0 text-primary" aria-hidden="true" />
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+                <div className={styles.galleryGrid}>
+                  {shots.slice(3).map((screen) => (
+                    <figure key={screen.src}>
+                      <Image src={screen.src} alt={screen.alt} width={screen.width} height={screen.height} sizes="(min-width: 800px) 45vw, 92vw" loading="lazy" />
+                      <figcaption>{screen.caption}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </section>
+            )}
 
-          {/* Screenshot slots for a delivered system whose images are not yet
-              cleared for publication. Replace this block by adding
-              `desktopImage` / `mobileImage` to the entry in lib/case-studies.ts;
-              the placeholders disappear on their own once `pendingScreenshots`
-              is removed. Never fill these with another system's screenshot. */}
-          {!study.desktopImage &&
-            study.pendingScreenshots &&
-            study.pendingScreenshots.length > 0 && (
-              <section className="flex flex-col gap-4">
-                <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-                  تصاویر سیستم
-                </h2>
-                <p className="leading-8 text-gray-700">
+            {study.approach && (
+              <section className={styles.row}>
+                <div className={styles.rowText}>
+                  <h2 className={styles.rowTitle}>{study.approach.heading}</h2>
+                  {study.approach.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                  {study.approach.bullets && study.approach.bullets.length > 0 && (
+                    <ul className={styles.checks}>
+                      {study.approach.bullets.map((bullet) => (
+                        <li key={bullet}>
+                          <Check aria-hidden="true" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {study.approach.link && (
+                    <Link href={study.approach.link.href} className={styles.textLink}>
+                      {study.approach.link.label}
+                      <ArrowLeft size={14} aria-hidden="true" />
+                    </Link>
+                  )}
+                </div>
+              </section>
+            )}
+
+            {study.implementation && (
+              <section className={`${styles.row} ${styles.rowLeft}`}>
+                <div className={styles.rowText}>
+                  <h2 className={styles.rowTitle}>{study.implementation.heading}</h2>
+                  {study.implementation.paragraphs.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                  <ul className={styles.checks}>
+                    {study.implementation.bullets.map((bullet) => (
+                      <li key={bullet}>
+                        <Check aria-hidden="true" />
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </section>
+            )}
+
+            {/* Screenshot slots for a delivered system whose images are not yet
+                cleared for publication. Replace this block by adding
+                `desktopImage` / `mobileImage` to the entry in lib/case-studies.ts;
+                the placeholders disappear on their own once `pendingScreenshots`
+                is removed. Never fill these with another system's screenshot. */}
+            {!study.desktopImage && study.pendingScreenshots && study.pendingScreenshots.length > 0 && (
+              <section className={styles.gallery}>
+                <h2 className={styles.rowTitle}>تصاویر سیستم</h2>
+                <p>
                   تصاویر این سیستم به دلیل محرمانه بودن اطلاعات عملیاتی مشتری
                   هنوز منتشر نشده است. صفحه های زیر بخش های اصلی سیستم را نشان
                   می دهند و به محض دریافت اجازه انتشار، تصویر واقعی همان صفحه
                   اینجا قرار می گیرد.
                 </p>
-                <ul className="mt-2 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <ul className={styles.pending}>
                   {study.pendingScreenshots.map((caption) => (
-                    <li
-                      key={caption}
-                      className="flex aspect-[16/10] flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-gray-300 bg-bg-light p-6 text-center"
-                    >
-                      <ImageIcon
-                        className="size-7 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <span className="text-sm leading-7 text-gray-600">
-                        {caption}
-                      </span>
+                    <li key={caption}>
+                      <ImageIcon aria-hidden="true" />
+                      <span>{caption}</span>
                     </li>
                   ))}
                 </ul>
               </section>
             )}
 
-          {study.mobileImage && (
-            <section className="flex flex-col gap-4">
-              <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-                نمای موبایل
-              </h2>
-              <p className="leading-8 text-gray-700">
-                همان سیستم روی صفحه گوشی؛ برای کاربرانی که در حرکت یا خارج از
-                دفتر به اطلاعات نیاز دارند.
-              </p>
-              <div className="mx-auto w-full max-w-xs overflow-hidden rounded-3xl border border-gray-100 shadow-sm">
-                <Image
-                  src={study.mobileImage}
-                  alt={study.mobileImageAlt ?? study.desktopImageAlt ?? study.title}
-                  width={430}
-                  height={932}
-                  sizes="320px"
-                  loading="lazy"
-                  className="h-full w-full object-cover object-top"
-                />
+            <section className={styles.row}>
+              <div className={styles.rowText}>
+                <h2 className={styles.rowTitle}>نتیجه در کار روزمره</h2>
+                {study.outcome.map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+                <p className={styles.note}>
+                  اطلاعات مشتری، ارقام قرارداد و آمار داخلی این پروژه منتشر نمی شود.
+                </p>
               </div>
             </section>
-          )}
 
-          <section className="flex flex-col gap-4">
-            <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-              نتیجه در کار روزمره
-            </h2>
-            {study.outcome.map((paragraph) => (
-              <p key={paragraph} className="leading-8 text-gray-700">
-                {paragraph}
-              </p>
-            ))}
-            <p className="text-sm leading-7 text-gray-500">
-              اطلاعات مشتری، ارقام قرارداد و آمار داخلی این پروژه منتشر نمی شود.
-            </p>
-          </section>
-
-          <section className="flex flex-col gap-4">
-            <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-              خدمات مرتبط
-            </h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              {relatedServices.map((service) => (
-                <Link
-                  key={service.key}
-                  href={service.path}
-                  className="group flex h-full flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg"
-                >
-                  <span className="bold text-base text-gray-900 transition-colors duration-300 group-hover:text-primary">
-                    {service.navLabel}
-                  </span>
-                  <span className="text-sm leading-7 text-gray-600">
-                    {service.teaser}
-                  </span>
-                  <span className="mt-auto flex items-center gap-1 pt-3 text-xs text-primary">
-                    مشاهده صفحه
-                    <ArrowLeft size={14} aria-hidden="true" />
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          <section className="flex flex-col gap-4">
-            <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-              نمونه های دیگر
-            </h2>
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              {caseStudies
-                .filter((item) => item.slug !== study.slug)
-                .slice(0, 4)
-                .map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/portfolio/${item.slug}`}
-                    className="group flex flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg"
-                  >
-                    <span className="text-xs text-primary">{item.industry}</span>
-                    <span className="bold text-base text-gray-900 transition-colors duration-300 group-hover:text-primary">
-                      {item.title}
-                    </span>
-                    <span className="text-sm leading-7 text-gray-600">
-                      {item.summary}
-                    </span>
+            <section className={styles.services}>
+              <h2 className={styles.rowTitle}>خدمات مرتبط</h2>
+              <div className={styles.serviceGrid}>
+                {relatedServices.map((service) => (
+                  <Link key={service.key} href={service.path} className={styles.serviceCard}>
+                    <b>{service.navLabel}</b>
+                    <span>{service.teaser}</span>
+                    <i>
+                      مشاهده صفحه
+                      <ArrowLeft size={14} aria-hidden="true" />
+                    </i>
                   </Link>
                 ))}
-            </div>
-            <Link
-              href="/portfolio"
-              className="mt-2 flex w-fit items-center gap-1 text-sm text-primary"
-            >
-              همه نمونه کارها
-              <ArrowLeft size={14} aria-hidden="true" />
-            </Link>
-          </section>
+              </div>
+            </section>
+          </div>
+          <HeroWave className={styles.waveDown} background="#050033" />
         </div>
 
+        <section className={styles.more} aria-labelledby="more-projects">
+          <div className={styles.container}>
+            <div className={styles.moreHead}>
+              <h2 id="more-projects">نمونه‌کارهای بیشتر</h2>
+              <p>
+                سامانه‌ها و وب‌سایت‌های دیگری که نواتیک طراحی و تحویل داده است؛
+                برای دیدن جزئیات هر پروژه روی کارت آن بزنید.
+              </p>
+              <Link href="/portfolio" className={styles.btnOutlineWhite}>همه نمونه‌کارها</Link>
+            </div>
+            <MoreProjects items={moreProjects} />
+          </div>
+          <span className={styles.moreLogo} aria-hidden="true">
+            <Image src="/images/brand/novatech-mark-navy.webp" alt="" width={256} height={256} sizes="40px" />
+          </span>
+          <HeroWave className={styles.waveUp} background="#ffffff" />
+        </section>
       </article>
     </>
   );
