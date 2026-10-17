@@ -114,7 +114,8 @@ export default function SiteDocument({
         <a href="#main-content" className="skip-to-content">
           {language === "en-AF" ? "Skip to main content" : language === "ps-AF" ? "اصلي منځپانګې ته لاړ شئ" : "رفتن به محتوای اصلی"}
         </a>
-        <div lang="fa-AF" dir="rtl"><Header /></div>
+        {/* Header sets its own lang/dir so the sticky header is not trapped in a wrapper. */}
+        <Header />
         <main id="main-content" className="flex-grow">
           <MashalContext>{children}</MashalContext>
         </main>
