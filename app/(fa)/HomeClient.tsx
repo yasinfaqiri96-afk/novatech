@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Check, ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { Check, Play } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 
@@ -14,38 +13,9 @@ import MotionShowcase from "@/components/motion-showcase/MotionShowcase";
 import HomeTeamScroll from "@/components/HomeTeamScroll";
 import ClientLogosSlider from "@/components/ClientLogosSlider";
 import HomeProducts from "@/components/HomeProducts";
+import HomePortfolioShowcase from "@/components/HomePortfolioShowcase";
 import BannerScroll from "@/components/BannerScroll";
-import portfolioSource from "@/lib/portfolio-data.json";
-import PortfolioPreviewModal from "@/components/PortfolioPreviewModal";
 import { companyInfo } from "@/lib/site-content";
-
-// Portfolio data. Single source of truth is lib/portfolio-data.json so the
-// home slider and the portfolio page can never drift apart.
-type PortfolioItem = {
-  kind: "software" | "website";
-  title: string;
-  img: string;
-  imagePresentation?: "screenshot";
-  desktopImg?: string;
-  mobileImg?: string;
-  category: string;
-  location: string;
-  link: string;
-  previewLabel?: string;
-  linkLabel?: string;
-  imageAlt?: string;
-  summary?: string;
-  productHref?: string;
-  /** Mashal has its own product section above, so the slider skips it. */
-  hideOnHome?: boolean;
-};
-
-const allPortfolioItems = portfolioSource as PortfolioItem[];
-
-const portfolioTabs = [
-  { key: "software" as const, label: "نرم افزار", width: "w-20" },
-  { key: "website" as const, label: "سایت", width: "w-10" },
-];
 
 const whyUsItems = [
   {
@@ -71,23 +41,6 @@ const whyUsItems = [
 ];
 
 export default function HomeClient() {
-  const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
-  const [viewMode, setViewMode] = useState<"desktop" | "mobile" | null>(null);
-  const [activeTab, setActiveTab] = useState<"software" | "website">("software");
-  const portfolioData = allPortfolioItems.filter(
-    (item) => item.kind === activeTab && !item.hideOnHome,
-  );
-
-  const openModal = (item: PortfolioItem) => {
-    setSelectedItem(item);
-    setViewMode(null);
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
-    setViewMode(null);
-  };
-
   return (
     <>
       <div className="w-full overflow-x-clip">
@@ -232,161 +185,7 @@ export default function HomeClient() {
           </div>
         </div>
       </div>
-      <div className="home-portfolio-section w-full py-12 lg:py-16">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          {/* Header Section */}
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-6 mb-10">
-            <div className="flex flex-col gap-3 items-center lg:items-start">
-              <h2 className="flex md:text-3xl text-[26px]">
-                <span className="heavy">نمونه کارهای</span>{" "}
-                <span className="light">ما</span>
-              </h2>
-              <img
-                alt=""
-                aria-hidden="true"
-                loading="lazy"
-                width="129"
-                height="19"
-                decoding="async"
-                data-nimg="1"
-                className="flex select-none"
-                src="/images/signature.jpg"
-              />
-            </div>
-            <div className="flex leading-9">
-              <ul className="flex text-lg h-12 gap-4 items-center mx-auto lg:mx-0">
-                {portfolioTabs.map((tab) => (
-                  <li key={tab.key} className="h-[99%]">
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab(tab.key)}
-                      aria-pressed={activeTab === tab.key}
-                      className={`h-full ${tab.width} text-center hover:border-primary hover:border-b-2 cursor-pointer duration-100 hover:font-bold ${
-                        activeTab === tab.key ? "border-b-2 border-primary font-bold" : ""
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Slider Section with Navigation */}
-          <div className="relative px-12 lg:px-16">
-            {/* Navigation Buttons */}
-            <button
-              type="button"
-              id="home-portfolio-prev"
-              aria-label="نمونه قبلی"
-              className="home-portfolio-nav-button absolute right-0 top-1/2 -translate-y-1/2 z-10"
-            >
-              <ChevronRight size={18} strokeWidth={2.4} />
-            </button>
-            <button
-              type="button"
-              id="home-portfolio-next"
-              aria-label="نمونه بعدی"
-              className="home-portfolio-nav-button absolute left-0 top-1/2 -translate-y-1/2 z-10"
-            >
-              <ChevronLeft size={18} strokeWidth={2.4} />
-            </button>
-
-            {/* Swiper Container */}
-            <div className="swiper swiper-main-wrap overflow-visible" id="portfolios-slider">
-              <div className="swiper-wrapper">
-                {portfolioData.map((item, i) => (
-                  <div key={i} className="swiper-slide px-2">
-                    <div className="home-portfolio-card border lg:hover:shadow-xl group duration-300 rounded-2xl p-3 h-full flex flex-col bg-white">
-                      {/*
-                        Software entries are portrait product posters, websites
-                        are wide screenshots. One shared height cropped the
-                        posters down to their header strip, so each kind keeps
-                        its own frame ratio.
-                      */}
-                      <div
-                        data-media={item.kind === "software" ? "poster" : "screenshot"}
-                        className="rounded-xl cursor-pointer mb-3 overflow-hidden bg-gray-50"
-                      >
-                        <img
-                          alt={item.imageAlt ?? item.title}
-                          loading="lazy"
-                          width="360"
-                          height="450"
-                          decoding="async"
-                          data-nimg="1"
-                          className={`w-full h-full rounded-xl object-top ${item.imagePresentation === "screenshot" ? "object-contain" : "object-cover"}`}
-                          src={item.img}
-                        />
-                      </div>
-                      <span className="bold cursor-pointer text-[#242A32] mb-3 block text-sm">
-                        {item.title}
-                      </span>
-                      <div className="flex mb-3 w-full flex-col gap-2">
-                        <div className="flex w-full justify-between text-[#242A32] text-xs">
-                          <div className="flex items-center gap-1.5">
-                            <img
-                              alt=""
-                aria-hidden="true"
-                              loading="lazy"
-                              width="15"
-                              height="15"
-                              decoding="async"
-                              data-nimg="1"
-                              src="/images/monitor.png"
-                            />
-                            <span className="medium">حوزه کاری:</span>
-                          </div>
-                          <span className="text-xs">{item.category}</span>
-                        </div>
-                        <div className="flex w-full justify-between text-[#242A32] text-xs">
-                          <div className="flex items-center gap-1.5">
-                            <img
-                              alt=""
-                aria-hidden="true"
-                              loading="lazy"
-                              width="15"
-                              height="15"
-                              decoding="async"
-                              data-nimg="1"
-                              src="/images/location.png"
-                            />
-                            <span className="medium">لوکیشن مشتری:</span>
-                          </div>
-                          <span className="text-xs">{item.location}</span>
-                        </div>
-                      </div>
-                      {item.productHref && <p className="text-xs leading-6 my-3">{item.summary}</p>}
-                      <div className="flex flex-col mt-auto">
-                        {item.productHref ? (
-                          <Link href={item.productHref} className="rounded-full text-xs border hover:text-primary border-primary medium bg-primary hover:bg-white text-white duration-300 cursor-pointer flex w-full justify-center items-center h-[38px]">
-                            امکانات و دموی مشعل
-                          </Link>
-                        ) : (
-                          <button type="button" onClick={() => openModal(item)} className="rounded-full text-xs border hover:text-primary border-primary medium bg-primary hover:bg-white text-white duration-300 cursor-pointer flex w-full justify-center items-center h-[38px]">
-                            {item.previewLabel ?? "مشاهده سایت"}
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* View All Button */}
-          <div className="flex justify-center mt-10 lg:mt-12">
-            <Link
-              href="/portfolio"
-              className="py-2 text-center medium text-xs px-7 hover:bg-primary duration-300 hover:text-white text-primary rounded-3xl border border-primary"
-            >
-              همه نمونه کارها
-            </Link>
-          </div>
-        </div>
-      </div>
+      <HomePortfolioShowcase />
       <BannerScroll />
       <section className="w-full px-6 md:px-12 lg:px-32 mt-20 lg:mt-28 mb-12 lg:mb-16 flex flex-col gap-6 lg:gap-10">
         <div className="w-full bg-transparent shadow-none rounded-2xl lg:rounded-3xl p-6 lg:p-12 flex flex-col gap-4 md:gap-6 items-center relative z-10">
@@ -430,14 +229,6 @@ export default function HomeClient() {
         <HomeTeamScroll />
       </div>
 
-      {selectedItem && (
-        <PortfolioPreviewModal
-          item={selectedItem}
-          viewMode={viewMode}
-          onViewModeChange={setViewMode}
-          onClose={closeModal}
-        />
-      )}
     </>
   );
 }

@@ -22,6 +22,9 @@ const CSP = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // The sandbox preview is served through this forwarded origin, so the
+  // client-side dev runtime can hydrate and receive HMR updates on iPad.
+  allowedDevOrigins: ["3000-i2lo5jnrkrxjuzz9x8n3m-ca40af10.us4.manus.computer"],
   turbopack: {
     root: process.cwd(),
   },
