@@ -1,6 +1,13 @@
 .section {
   position: relative;
   --home-bg: #fff;
+  --c-primary: #050033;
+  --c-primary-300: #938ec4;
+  --c-primary-350: #6d6991;
+  --c-primary-400: #1900ff;
+  --c-primary-500: #0f0099;
+  --c-primary-700: #07004c;
+  --c-secondary: #cd6c58;
   width: 100%;
   padding: 0;
   background: var(--home-bg);
@@ -17,7 +24,7 @@
 
 .waveTop path[data-band],
 .waveBottom path[data-band] {
-  fill: url(#hero-wave-mobile);
+  fill: var(--legacy-wave-mobile, url(#hero-wave-mobile));
 }
 
 .surface {

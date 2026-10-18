@@ -2,13 +2,13 @@
    phones, 0.57vw (max 10px) from 800px up. */
 .page {
   --u: min(2.1vw, 7px);
-  --c-primary: #050033;
-  --c-primary-300: #938ec4;
-  --c-primary-350: #6d6991;
-  --c-primary-400: #1900ff;
-  --c-primary-500: #0f0099;
-  --c-primary-700: #07004c;
-  --c-secondary: #cd6c58;
+  --c-primary: var(--brand-ink);
+  --c-primary-300: var(--brand-muted);
+  --c-primary-350: var(--brand-muted);
+  --c-primary-400: var(--brand-link);
+  --c-primary-500: var(--brand-link);
+  --c-primary-700: var(--brand-deep);
+  --c-secondary: var(--brand-link);
   --c-neutral-700: #171719;
   --ease2: cubic-bezier(0.5, 1, 0.89, 1);
   --ease3: cubic-bezier(0.62, 0.05, 0.01, 0.99);
@@ -64,6 +64,23 @@
   height: auto;
   user-select: none;
 }
+.introLogoDark { width: fit-content; padding: calc(var(--u) * 2.2) calc(var(--u) * 3); border-radius: calc(var(--u) * 2); background: #172521; }
+.introLogo img { max-height: calc(var(--u) * 12); object-fit: contain; }
+.brandWordmark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(var(--u) * 19);
+  min-height: calc(var(--u) * 7);
+  padding: calc(var(--u) * 1.2) calc(var(--u) * 2.4);
+  border: 0;
+  color: var(--c-primary);
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: calc(var(--u) * 2.6);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
 .introTitle {
   margin: 0;
   font-family: IranYekanBold, sans-serif;
@@ -110,7 +127,7 @@
   color: var(--c-primary-500);
   font-size: var(--fs-16);
   text-decoration: underline;
-  text-decoration-color: #0f009940;
+  text-decoration-color: #0c766840;
   text-underline-offset: 0.35em;
 }
 .introLink:hover,
@@ -135,19 +152,21 @@
   gap: calc(var(--u) * 0.8);
   width: calc(var(--u) * 24);
   height: calc(var(--u) * 4.4);
-  padding-top: calc(var(--u) * 0.2);
+  padding: calc(var(--u) * 0.5) calc(var(--u) * 2.8) 0;
   border: 0;
-  background: none;
+  border-radius: 0;
+  background: linear-gradient(to bottom, #fff, var(--brand-line));
   color: var(--c-primary);
   font: inherit;
   cursor: pointer;
-  isolation: isolate;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 44'%3E%3Cpath d='M0 0H240C218 0 225 44 199 44H41C15 44 22 0 0 0Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
 }
 .uiFav svg {
   width: calc(var(--u) * 1.6);
   height: calc(var(--u) * 1.6);
+  flex: none;
   fill: transparent;
-  stroke: var(--c-primary);
+  stroke: currentColor;
   stroke-width: 1.6;
   transition: fill var(--t-ease) var(--ease2), stroke var(--t-ease) var(--ease2);
 }
@@ -155,11 +174,11 @@
   font-family: IranYekanRegular, sans-serif;
   font-weight: normal;
   font-size: calc(var(--u) * 1.2);
+  white-space: nowrap;
 }
-.saved svg {
-  fill: #970c27;
-  stroke: #970c27;
-}
+.uiFav:hover { color: #970c27; }
+.saved svg { fill: #970c27; stroke: #970c27; }
+.uiFav:focus-visible { mask: none; border-radius: 0 0 18px 18px; }
 .ui {
   cursor: default;
 }
@@ -191,6 +210,18 @@
   height: 100%;
   border-radius: calc(var(--u) * 1.6);
   box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 5) rgb(0 0 0 / 35%);
+}
+.uiWebsite {
+  aspect-ratio: 1860 / 974;
+  padding: calc(var(--u) * 1.1);
+
+}
+.uiWebsite .uiPicture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+
 }
 .uiBackdrop {
   object-fit: cover;
@@ -228,35 +259,38 @@
 }
 .uiZoom {
   position: absolute;
+  z-index: 2;
   bottom: -1px;
   left: 50%;
-  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
   width: calc(var(--u) * 15.6);
   height: calc(var(--u) * 5);
-  padding-top: calc(var(--u) * 0.6);
+  padding: calc(var(--u) * 1.5) 0 0;
   border: 0;
-  background: none;
+  border-radius: 0;
+  background: linear-gradient(to top, #fff, var(--brand-line));
+  color: var(--c-primary);
   cursor: zoom-in;
   transform: translateX(-50%);
-  transform-origin: left;
+  transform-origin: left bottom;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 156 50'%3E%3Cpath d='M0 50C31 50 19 0 53 0H103C137 0 125 50 156 50Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
   transition: transform 0.5s var(--ease3);
-  isolation: isolate;
 }
 .uiZoom svg {
   width: calc(var(--u) * 2.4);
   height: calc(var(--u) * 2.4);
   fill: none;
-  stroke: var(--c-primary);
+  stroke: currentColor;
   stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   opacity: 0.7;
   overflow: visible;
 }
-.uiImg:hover .uiZoom {
-  transform: scale(1.15) translateX(-50%);
-}
+.uiZoom:hover { transform: scale(1.1) translateX(-50%); }
+.uiZoom:focus-visible { mask: none; border-radius: 22px 22px 0 0; }
 .uiButton {
   display: flex;
   justify-content: center;
@@ -302,12 +336,20 @@
   position: fixed;
   inset: 0;
   z-index: 999;
-  display: flex;
-  justify-content: center;
-  padding-top: calc(var(--u) * 10);
+  width: 100vw;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: calc(var(--u) * 10) 0 0;
+  border: 0;
+  color: #fff;
+  overflow: hidden;
   background: var(--c-primary);
   animation: modalIn 0.4s var(--ease2);
 }
+.modal[open] { display: flex; justify-content: center; }
+.modal::backdrop { background: var(--c-primary); }
 @keyframes modalIn {
   from { opacity: 0; }
 }
@@ -376,7 +418,58 @@
 .rowMedia {
   width: 100%;
 }
-.rowMedia img {
+.inlineCard {
+  margin: 0;
+  padding: calc(var(--u) * 1.4);
+  border-radius: calc(var(--u) * 3.6);
+  background: var(--brand-surface);
+  box-shadow: 0 calc(var(--u) * 1.6) calc(var(--u) * 4) rgb(22 51 46 / 10%);
+}
+.inlineCardFrame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 6.4;
+  min-height: min(112vw, 560px);
+  border-radius: calc(var(--u) * 2.4);
+  background: var(--brand-line);
+}
+.inlineCardImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.7s var(--ease2), object-position 7s linear;
+}
+.inlineCardFrame:hover .inlineCardImage {
+  object-position: bottom;
+  transform: scale(1.015);
+}
+.inlineCardButton {
+  position: absolute;
+  right: calc(var(--u) * 1.4);
+  bottom: calc(var(--u) * 1.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(var(--u) * 4.4);
+  padding: 0 calc(var(--u) * 1.8);
+  border: 1px solid rgb(255 255 255 / 75%);
+  border-radius: calc(var(--u) * 2.4);
+  background: rgb(22 51 46 / 82%);
+  color: #fff;
+  font: inherit;
+  font-size: calc(var(--u) * 1.35);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.inlineCardButton svg { width: 15px; height: 15px; margin-left: 8px; fill: none; stroke: currentColor; stroke-width: 2; }
+.inlineCardButton:hover {
+  background: var(--c-primary-500);
+  transform: translateY(-2px);
+}
+.rowMedia img:not(.inlineCardImage) {
   display: block;
   width: 100%;
   height: auto;
@@ -386,7 +479,7 @@
   width: auto;
   max-height: calc(var(--u) * 62);
   margin: 0 auto;
-  box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 4) rgb(5 0 51 / 12%);
+  box-shadow: 0 calc(var(--u) * 2) calc(var(--u) * 4) rgb(22 51 46 / 12%);
 }
 .rowText {
   flex: 1;
@@ -424,7 +517,7 @@
   gap: calc(var(--u) * 1);
   padding: calc(var(--u) * 1.2) calc(var(--u) * 1.6);
   border-radius: calc(var(--u) * 1.6);
-  background: #f6f5fa;
+  background: var(--brand-surface);
   font-size: var(--fs-16);
   line-height: 1.9;
 }
@@ -446,7 +539,7 @@
   display: flex;
   gap: calc(var(--u) * 1.6);
   padding: calc(var(--u) * 1.6);
-  border: 1px solid #e7e6f0;
+  border: 1px solid var(--brand-line);
   border-radius: calc(var(--u) * 2);
 }
 .steps li > span {
@@ -490,7 +583,7 @@
   margin: 0;
   overflow: hidden;
   border-radius: var(--br-30);
-  background: #f6f5fa;
+  background: var(--brand-surface);
 }
 .galleryGrid img {
   display: block;
@@ -519,7 +612,7 @@
   aspect-ratio: 16 / 10;
   border: 1px dashed #c9c8d6;
   border-radius: var(--br-30);
-  background: #f6f5fa;
+  background: var(--brand-surface);
   font-size: calc(var(--u) * 1.5);
   text-align: center;
 }
@@ -538,7 +631,7 @@
   flex-direction: column;
   gap: calc(var(--u) * 0.8);
   padding: calc(var(--u) * 2.4);
-  border: 1px solid #e7e6f0;
+  border: 1px solid var(--brand-line);
   border-radius: calc(var(--u) * 2.4);
   color: var(--c-primary);
   text-decoration: none;
@@ -546,7 +639,7 @@
 }
 .serviceCard:hover {
   border-color: var(--c-primary-500);
-  box-shadow: 0 calc(var(--u) * 1.2) calc(var(--u) * 3) rgb(5 0 51 / 10%);
+  box-shadow: 0 calc(var(--u) * 1.2) calc(var(--u) * 3) rgb(22 51 46 / 10%);
   transform: translateY(calc(var(--u) * -0.4));
 }
 .serviceCard b {
@@ -592,13 +685,13 @@
   transform: scaleX(-1);
 }
 
-/* ---------- More projects (navy) ---------- */
+/* ---------- More projects ---------- */
 
 .more {
   position: relative;
   padding-bottom: min(calc(var(--u) * 30), 26vw);
-  background: var(--c-primary);
-  color: #fff;
+  background: #54dcc6;
+  color: #16332e;
 }
 .moreHead {
   display: flex;
@@ -621,6 +714,7 @@
   opacity: 0.88;
 }
 .moreHead .btnOutlineWhite {
+  --btc: #16332e;
   margin-top: calc(var(--u) * 4);
 }
 .moreLogo {
@@ -823,6 +917,42 @@
   outline-color: #fff;
 }
 
+/* Portfolio closing: consultation, a flowing pink ribbon, and service banners. */
+.closing { padding: calc(var(--u) * 8) 0 calc(var(--u) * 9); overflow: hidden; }
+.closingIntro { display: grid; gap: calc(var(--u) * 6); align-items: center; padding: 0 calc(var(--u) * 2); }
+.closingPortrait { width: min(100%, 380px); margin: auto; overflow: hidden; border-radius: calc(var(--u) * 5); background: var(--brand-deep); }
+.closingPortrait img { display: block; width: 100%; height: auto; }
+.closingCopy { text-align: right; }
+.closingCopy > span { font-size: var(--fs-16); color: var(--c-primary-350); }
+.closingCopy h2 { margin: calc(var(--u) * 1) 0 calc(var(--u) * 2); font-family: IranYekanBold, sans-serif; font-size: var(--fs-24); line-height: 1.8; }
+.closingCopy p { margin: 0 0 calc(var(--u) * 3); font-size: var(--fs-16); line-height: 2.2; }
+.closingCopy .btnOutline { gap: 10px; }
+.closingPhone { display: block; width: fit-content; margin-top: calc(var(--u) * 2); font-family: IranYekanBold, sans-serif; font-size: var(--fs-24); color: var(--c-primary-500); text-decoration: none; }
+.pinkRibbon { display: block; width: 100%; height: clamp(150px, 22vw, 330px); margin: calc(var(--u) * 3) 0 calc(var(--u) * 7); overflow: visible; pointer-events: none; }
+.ribbonFront, .ribbonMiddle, .ribbonBack { transform-origin: center; animation: ribbonFlow 8s ease-in-out infinite alternate; }
+.ribbonMiddle { animation-delay: -3s; animation-duration: 10s; }
+.ribbonBack { animation-delay: -5s; animation-duration: 12s; }
+@keyframes ribbonFlow {
+  from { transform: translateY(7px) scaleY(.88) skewY(-1deg); }
+  to { transform: translateY(-13px) scaleY(1.08) skewY(1.5deg); }
+}
+.bannerGrid { display: grid; gap: calc(var(--u) * 3); padding: 0 calc(var(--u) * 2); }
+.designBanner { position: relative; display: flex; align-items: center; min-height: calc(var(--u) * 29); margin-top: calc(var(--u) * 5); padding: calc(var(--u) * 3); border-radius: calc(var(--u) * 4); background: #54dcc6; color: #16332e; text-decoration: none; isolation: isolate; }
+.bannerCopy { position: relative; z-index: 2; width: 60%; }
+.bannerCopy h3 { font-family: IranYekanBold, sans-serif; font-size: calc(var(--u) * 2.6); margin: 0 0 calc(var(--u) * .8); line-height: 1.8; }
+.bannerCopy > span { display: block; width: fit-content; font-family: sans-serif; font-size: calc(var(--u) * 1.1); color: #16332e; letter-spacing: .04em; }
+.bannerCopy p { font-size: calc(var(--u) * 1.3); margin: calc(var(--u) * .6) 0 calc(var(--u) * 2); }
+.bannerCopy i { display: grid; place-items: center; width: calc(var(--u) * 4); height: calc(var(--u) * 4); border-radius: 50%; background: #fff; color: var(--brand-deep); transition: transform .3s ease; }
+.designBanner:hover .bannerCopy i { transform: translateX(-5px); }
+.bannerDesktop { position: absolute; z-index: 1; left: 5%; bottom: 0; width: 34%; height: 112%; border: calc(var(--u) * .7) solid #666; border-bottom: calc(var(--u) * 2.5) solid #eee; border-radius: calc(var(--u) * 1.1) calc(var(--u) * 1.1) 0 0; background: #fff; overflow: hidden; transform: rotate(-4deg); transform-origin: bottom; box-shadow: 6px 3px 10px #0004; transition: transform .5s var(--ease2); }
+.bannerDesktop img, .bannerPhone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.bannerPhone { position: absolute; left: 9%; bottom: calc(var(--u) * -1); width: 27%; height: 125%; overflow: hidden; border: calc(var(--u) * .7) solid var(--brand-primary); border-radius: calc(var(--u) * 3); background: #fff; transform: rotate(-13deg); box-shadow: 12px 10px 16px #0004; transition: transform .5s var(--ease2); }
+.designBanner:hover .bannerDesktop { transform: rotate(-1deg) translateY(-3px); }
+.designBanner:hover .bannerPhone { transform: rotate(-9deg) translateY(-3px); }
+.closingCta { padding-top: calc(var(--u) * 10); text-align: center; }
+.closingCta p { margin: 0 0 calc(var(--u) * 3); font-family: IranYekanBold, sans-serif; font-size: clamp(24px, 3.5vw, 48px); }
+.closingCta .btnOutline { gap: 10px; }
+
 @media (min-width: 576px) {
   .slide {
     flex-basis: calc((100% - 48px) / 3);
@@ -849,6 +979,9 @@
   .introEditor {
     max-width: 72%;
   }
+  .closingIntro { grid-template-columns: .85fr 1.15fr; gap: calc(var(--u) * 16); padding: 0 calc(var(--u) * 12); }
+  .bannerGrid { grid-template-columns: 1fr 1fr; }
+  .uiWrap { width: 81%; margin-right: auto; margin-left: auto; }
   .uiFav {
     right: calc(var(--u) * 3);
   }
@@ -860,6 +993,11 @@
   .rowMedia {
     flex: none;
     width: 50%;
+  }
+  .inlineCardFrame {
+    aspect-ratio: 4 / 6.4;
+    min-height: 0;
+    max-height: 820px;
   }
   .row:not(:has(.rowMedia)) .rowText {
     flex: 0 0 50%;
@@ -896,7 +1034,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tallImg img {
-    transition: none;
+  .page *, .page *::before, .page *::after {
+    animation: none !important;
+    transition: none !important;
   }
 }
+
+.more .sliderBtn { color:#16332e; }
+.more :is(a,button):focus-visible { outline-color:#16332e; }
+.moreHead .btnOutlineWhite:hover { background:#fff; color:#16332e; }

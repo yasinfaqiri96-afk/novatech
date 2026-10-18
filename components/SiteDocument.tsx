@@ -4,6 +4,7 @@ import "@/app/legacy-base.css";
 import "@/app/globals.css";
 import MashalContext from "@/components/MashalContext";
 import Header from "@/components/Header";
+import SiteBreadcrumbBar from "@/components/SiteBreadcrumbBar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { graph, organizationSchema, websiteSchema } from "@/lib/seo";
@@ -116,6 +117,7 @@ export default function SiteDocument({
         </a>
         {/* Header sets its own lang/dir so the sticky header is not trapped in a wrapper. */}
         <Header />
+        <SiteBreadcrumbBar language={language} />
         <main id="main-content" className="flex-grow">
           <MashalContext>{children}</MashalContext>
         </main>

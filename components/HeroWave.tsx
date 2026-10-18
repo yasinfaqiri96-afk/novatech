@@ -1,3 +1,5 @@
+import { useId, type CSSProperties } from "react";
+
 /*
  * Layered wave that closes off the bottom of the home hero. Six translucent
  * gradient waves sit under an opaque one in the page colour, so only their
@@ -83,15 +85,18 @@ const wavePaths = waveOffset.map((offset, wave) => {
  */
 const ellipse = (k: number) => `scale(${r(100 * Math.sqrt(1 + 1 / (k * k)))} ${r(100 * Math.sqrt(k * k + 1))})`;
 
-export default function HeroWave({ className, background = "#ffffff" }: { className?: string; background?: string }) {
+export default function HeroWave({ className, background = "#ffffff", palette = "mint" }: { className?: string; background?: string; palette?: "mint" | "legacy" }) {
+  const instanceId = useId().replace(/:/g, "");
+  const legacyGradient = `legacy-wave-${instanceId}`;
   return (
-    <svg className={className} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <svg className={className} style={palette === "legacy" ? { "--legacy-wave-mobile": `url(#${legacyGradient}-mobile)`, "--legacy-wave-desktop": `url(#${legacyGradient}-desktop)` } as CSSProperties : undefined} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <defs>
+        {palette === "legacy" && ([["mobile", 2.35], ["desktop", 2.7]] as const).map(([size, ratio]) => <radialGradient key={size} id={`${legacyGradient}-${size}`} gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform={ellipse(ratio)}><stop offset="0" stopColor="#1900ff" stopOpacity="0.15" /><stop offset="0.5" stopColor="#cd6c58" stopOpacity="0.3" /><stop offset="0.8" stopColor="#1900ff" stopOpacity="0.1" /><stop offset="1" stopColor="#ffffff" stopOpacity="0" /></radialGradient>)}
         {[["hero-wave-desktop", 2.7], ["hero-wave-mobile", 2.35]].map(([id, k]) => (
           <radialGradient key={id} id={id as string} gradientUnits="userSpaceOnUse" cx="0" cy="0" r="1" gradientTransform={ellipse(k as number)}>
-            <stop offset="0" stopColor="#1900ff" stopOpacity="0.15" />
-            <stop offset="0.5" stopColor="#cd6c58" stopOpacity="0.3" />
-            <stop offset="0.8" stopColor="#1900ff" stopOpacity="0.1" />
+            <stop offset="0" stopColor="#0c7668" stopOpacity="0.15" />
+            <stop offset="0.5" stopColor="#54dcc6" stopOpacity="0.3" />
+            <stop offset="0.8" stopColor="#0c7668" stopOpacity="0.1" />
             <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
           </radialGradient>
         ))}

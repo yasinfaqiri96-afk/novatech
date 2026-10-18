@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import MotionCard from "./MotionCard";
+import HeroWave from "../HeroWave";
 import { MOTION, TRACK_COPIES } from "./config";
 import { posterIndexLabels, posters } from "./data";
 import styles from "./motion-showcase.module.css";
@@ -345,6 +346,7 @@ export default function MotionShowcase() {
       started = true;
       measure();
       render();
+      viewport.dataset.motionReady = "true";
       setRevealed(true);
       if (inView) play();
     };
@@ -453,6 +455,7 @@ export default function MotionShowcase() {
 
     return () => {
       disposed = true;
+      delete viewport.dataset.motionReady;
       viewport.removeEventListener("focusin", onFocusIn);
       viewport.removeEventListener("focusout", onFocusOut);
       pause();
@@ -476,6 +479,8 @@ export default function MotionShowcase() {
       className={styles.section}
       aria-labelledby="motion-showcase-title"
     >
+      <HeroWave palette="legacy" className={styles.waveTop} background="#050033" />
+      <div className={styles.surface}>
       <div className={`${styles.inner} ${revealed ? styles.revealed : ""}`}>
         <header className={styles.heading}>
           <p className={styles.eyebrow}>
@@ -484,7 +489,7 @@ export default function MotionShowcase() {
           </p>
           <h2 id="motion-showcase-title" className={styles.title}>
             <span className="heavy">آنچه</span>{" "}
-            <span className="light">می سازیم</span>
+            <span className="light">ساخته‌ایم</span>
           </h2>
         </header>
 
@@ -497,7 +502,10 @@ export default function MotionShowcase() {
             aria-hidden="true"
           />
 
-          <div className={styles.track}>
+          <div
+            className={styles.track}
+            style={{ animationDuration: `${MOTION.secondsPerCard * posters.length}s` }}
+          >
             {cards.map((card, index) => (
               <MotionCard
                 key={card.key}
@@ -516,6 +524,8 @@ export default function MotionShowcase() {
           هشت نرم افزار نواتیک، از کارگو و گدام و سوپرمارکت تا رستورانت،
           پمپ استیشن و حضور و غیاب.
         </p>
+      </div>
+      <HeroWave palette="legacy" className={styles.waveBottom} background="#ffffff" />
       </div>
     </section>
   );

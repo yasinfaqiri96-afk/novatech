@@ -132,6 +132,8 @@
   {
     "kind": "website",
     "title": "Le Petit Isenburg",
+    "brandLogo": "/images/portfolio/lepetit-logo.png",
+    "brandLogoOnDark": true,
     "caseStudySlug": "le-petit-isenburg",
     "img": "/images/portfolio/lepetit-desktop.jpg",
     "desktopImg": "/images/portfolio/lepetit-desktop.jpg",
@@ -160,6 +162,7 @@
   {
     "kind": "website",
     "title": "Noor Al Madinah Hospital",
+    "brandLogo": "/images/portfolio/noor-logo.png",
     "caseStudySlug": "noor-al-madinah-hospital",
     "img": "/images/portfolio/noor-desktop.jpg",
     "desktopImg": "/images/portfolio/noor-desktop.jpg",
@@ -170,5 +173,23 @@
     "imageAlt": "صفحه اصلی وب سایت شفاخانه نورالمدینه با معرفی بخش ها و خدمات",
     "summary": "وب سایت خدماتی برای معرفی بخش ها، داکتران و خدمات شفاخانه به مراجعین.",
     "cardColor": "#1a7f8e"
+  },
+  {
+    "kind": "website",
+    "title": "Telionix",
+    "brandLogo": "/images/portfolio/telionix-logo.png",
+    "caseStudySlug": "telionix",
+    "img": "/images/portfolio/telionix-desktop-card.webp",
+    "desktopImg": "/images/portfolio/telionix-desktop-detail.webp",
+    "mobileImg": "/images/portfolio/telionix-mobile-detail.webp",
+    "cardMobileImg": "/images/portfolio/telionix-mobile-card.webp",
+    "desktopImageWidth": 1440,
+    "desktopImageHeight": 5311,
+    "category": "فروشگاه آنلاین",
+    "location": "بین‌المللی",
+    "link": "https://telionix.com/",
+    "imageAlt": "صفحهٔ اصلی وب‌سایت فروشگاهی Telionix در نمای دسکتاپ و موبایل",
+    "summary": "طراحی وب‌سایت فروشگاهی Telionix با تجربهٔ کاربری واکنش‌گرا برای نمایش محصولات در دسکتاپ و موبایل.",
+    "cardColor": "#263238"
   }
 ]

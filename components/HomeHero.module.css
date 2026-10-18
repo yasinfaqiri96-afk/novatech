@@ -1,9 +1,9 @@
 /* Same sizing unit as the header (see Header.module.css). */
 .hero {
   --u: min(2.1vw, 7px);
-  --c-primary: #050033;
-  --c-primary-500: #0f0099;
-  --c-secondary: #cd6c58;
+  --c-primary: var(--brand-ink);
+  --c-primary-500: var(--brand-link);
+  --c-secondary: var(--brand-link);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@
 .shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, #050033b3 0%, #05003366 45%, #05003300 75%);
+  background: linear-gradient(to top, #16332eb3 0%, #16332e66 45%, #16332e00 75%);
 }
 
 .copy {
@@ -64,7 +64,7 @@
   font-family: IranYekanHeavy, sans-serif;
   font-size: calc(var(--u) * 3.6);
   line-height: 1.45;
-  text-shadow: 0 2px 18px #05003380;
+  text-shadow: 0 2px 18px #16332e80;
 }
 .title span {
   display: block;
@@ -108,7 +108,7 @@
 .intro a {
   color: var(--c-primary-500);
   text-decoration: underline;
-  text-decoration-color: #cd6c5880;
+  text-decoration-color: #0c766880;
   text-underline-offset: 0.3em;
   transition: color 0.3s ease;
 }
@@ -142,7 +142,7 @@
     border-radius: calc(var(--u) * 7) calc(var(--u) * 7) 0 0 / calc(var(--u) * 8) calc(var(--u) * 8) 0 0;
   }
   .shade {
-    background: radial-gradient(ellipse 55% 75% at 22% 80%, #050033b3 0%, #05003366 50%, #05003300 100%);
+    background: radial-gradient(ellipse 55% 75% at 22% 80%, #16332eb3 0%, #16332e66 50%, #16332e00 100%);
   }
   .title {
     font-size: calc(var(--u) * 5);

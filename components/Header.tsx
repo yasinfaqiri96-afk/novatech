@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { companyInfo } from "@/lib/site-content";
+import logoEmblem from "../Mint Ribbon N Logo Emblem.jpg";
 
 import styles from "./Header.module.css";
 
@@ -53,7 +54,7 @@ export function NavBadge({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 22 20" aria-hidden="true" focusable="false">
       <path fill="#f1f1f1" d="M11 .5c.9 0 1.6.5 2.3 1.2l7 5.9c.9.8.9 2 .1 2.8l-7.8 8.2a2.2 2.2 0 0 1-3.2 0L1.6 10.4c-.8-.8-.8-2 .1-2.8l7-5.9C9.4 1 10.1.5 11 .5"/>
       <path fill="#47445f" stroke="#47445f" strokeWidth=".8" strokeLinejoin="round" d="M11 3.1 14 6.3 11 9.5 8 6.3z"/>
-      <path fill="none" stroke="#cd6c58" strokeWidth="2.6" d="m4.8 9.3 6.2 6.2 6.2-6.2"/>
+      <path fill="none" stroke="#54dcc6" strokeWidth="2.6" d="m4.8 9.3 6.2 6.2 6.2-6.2"/>
     </svg>
   );
 }
@@ -110,8 +111,8 @@ export default function Header() {
             <div className={styles.grid}>
               <div className={`${styles.side} ${styles.right}`}>
                 <button type="button" className={styles.mobileMenu} onClick={e => openMenu(e.currentTarget)} aria-label="باز کردن منو" aria-expanded={menuOpen} aria-controls="site-offcanvas">
-                  <span className={styles.burger} aria-hidden="true"><i /><i /><i /></span>
-                  منو
+                  <span className={`${styles.icon} ${styles.iconServices}`}><ServicesIcon /></span>
+                  خدمات نواتیک
                 </button>
                 <nav className={styles.navContainer} aria-label="منوی اصلی">
                   <ul className={styles.nav}>
@@ -146,7 +147,7 @@ export default function Header() {
                   <span className={styles.circle}>
                     <span className={styles.circleInside} />
                     <span className={styles.circleMark}>
-                      <Image src="/images/brand/icon-512.png" alt="" width={256} height={256} priority sizes="48px" />
+                      <Image src={logoEmblem} alt="" priority sizes="56px" />
                     </span>
                   </span>
                   <span className={styles.logotype}>

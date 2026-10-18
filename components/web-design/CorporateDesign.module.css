@@ -1,6 +1,6 @@
 .page {
-  --navy:#050033;
-  --coral:#cd6c58;
+  --navy:var(--brand-ink);
+  --coral:var(--brand-link);
   color:var(--navy);
   background:#fff;
   overflow:clip;
@@ -8,23 +8,6 @@
 }
 .page a {
   text-decoration:none
-}
-.crumb {
-  width:calc(100% - 60px);
-  max-width:1380px;
-  margin:12px auto 0;
-  min-height:45px;
-  border-radius:30px;
-  background:var(--navy);
-  color:#c9c7dc;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:10px;
-  padding:0 28px
-}
-.crumb a {
-  color:#fff
 }
 .hero {
   max-width:1310px;
@@ -44,7 +27,7 @@
   font-size:36px;
   font-weight:300;
   line-height:1.5;
-  color:#393462;
+  color:var(--brand-muted);
   text-align:right;
   margin:0 0 5px
 }
@@ -58,7 +41,7 @@
 .calligraphy span {
   color:var(--coral)
 }
-.hero h1 {
+.hero :is(h1, h2) {
   font-size:23px;
   font-weight:500;
   margin:10px 0 22px
@@ -71,13 +54,25 @@
   margin:0 0 16px
 }
 .heroCopy a:not(.button):not(.phone),.redesign a {
-  color:#50419d;
+  color:var(--brand-link);
   font-weight:700
 }
+.heroArt {
+  overflow:hidden;
+  border-radius:0;
+  background:#090d15;
+  box-shadow:none;
+}
+
+.heroArt video,
 .heroArt img {
   display:block;
   width:100%;
-  height:auto
+  height:100%;
+  object-fit:cover;
+  background:#090d15;
+  border-radius:0;
+  margin:0;
 }
 .promises {
   display:flex;
@@ -116,11 +111,11 @@
   justify-content:center;
   gap:20px;
   cursor:pointer;
-  box-shadow:0 3px 6px #05003326;
+  box-shadow:0 3px 6px #16332e26;
   transition:background .2s,transform .2s
 }
 .button:hover {
-  background:#34266b;
+  background:var(--brand-deep);
   transform:translateY(-2px)
 }
 .button:focus-visible,.page button:focus-visible,.page summary:focus-visible,.page a:focus-visible {
@@ -159,13 +154,7 @@
 .script span {
   color:var(--coral)
 }
-.work {
-  position:relative;
-  background:var(--navy);
-  color:#fff;
-  padding:90px 30px 95px
-}
-.work::before,.features::before,.solutions::before {
+.features::before,.solutions::before {
   content:"";
   position:absolute;
   width:140px;
@@ -175,86 +164,6 @@
   background:#fff;
   clip-path:polygon(0 0,100% 0,83% 100%,17% 100%);
   border-radius:0 0 30px 30px
-}
-.projectSlider {
-  display:flex;
-  max-width:1260px;
-  gap:25px;
-  align-items:center;
-  margin:0 auto
-}
-.projectSlider>button {
-  color:#fff;
-  background:transparent;
-  border:0;
-  font-size:24px;
-  padding:10px;
-  cursor:pointer
-}
-.projects {
-  display:flex;
-  justify-content:center;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-  gap:24px;
-  width:100%;
-  padding:5px 0 20px;
-  scrollbar-width:none
-}
-.project {
-  flex:0 0 28%;
-  max-width:250px;
-  min-width:180px;
-  color:#fff;
-  border-radius:22px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:0 12px;
-  scroll-snap-align:center;
-  transition:transform .3s
-}
-.project:hover {
-  transform:translateY(-6px)
-}
-.project img {
-  width:100%;
-  height:315px;
-  object-fit:cover;
-  object-position:top;
-  border-radius:9px
-}
-.project strong {
-  font-size:13px;
-  line-height:1.7;
-  min-height:65px;
-  display:flex;
-  align-items:center;
-  text-align:center
-}
-.browserDots {
-  font-size:6px;
-  letter-spacing:5px;
-  line-height:20px;
-  opacity:.8
-}
-.allWork {
-  color:#fff;
-  display:flex;
-  gap:20px;
-  align-items:center;
-  justify-content:center;
-  width:max-content;
-  margin:45px auto 0;
-  font-size:12px
-}
-.allWork span {
-  border:1px solid #a5a1c3;
-  border-radius:50%;
-  width:28px;
-  height:28px;
-  display:grid;
-  place-items:center
 }
 .values {
   padding:90px 30px 110px;
@@ -366,7 +275,7 @@
 }
 .solutions {
   position:relative;
-  background:linear-gradient(#eeeef4,#fff);
+  background:linear-gradient(var(--brand-surface),#fff);
   padding:90px 50px 130px
 }
 .solutions::before {
@@ -388,7 +297,7 @@
   color:var(--navy);
   padding:65px 18px 55px;
   min-height:280px;
-  box-shadow:0 12px 10px -9px #05003350;
+  box-shadow:0 12px 10px -9px #16332e50;
   cursor:pointer;
   transition:transform .25s
 }
@@ -415,7 +324,7 @@
 }
 .solution>b {
   position:absolute;
-  background:#252144;
+  background:var(--brand-deep);
   color:#fff;
   bottom:-12px;
   left:calc(50% - 13px);
@@ -516,7 +425,7 @@
 }
 .consultation {
   scroll-margin-top:110px;
-  background:#f4f3f8;
+  background:var(--brand-surface);
   border-radius:20px;
   padding:0 25px 30px;
   text-align:center
@@ -579,7 +488,7 @@
   display:block;
   overflow:hidden;
   border-radius:17px;
-  background:#f4f3f9;
+  background:var(--brand-surface);
   color:var(--navy)
 }
 .banners img {
@@ -611,11 +520,11 @@
   border-radius:22px;
   padding:25px;
   color:var(--navy);
-  box-shadow:0 20px 80px #05003350;
+  box-shadow:0 20px 80px #16332e50;
   overflow:auto
 }
 .dialog::backdrop {
-  background:#050033b3;
+  background:#16332eb3;
   backdrop-filter:blur(5px)
 }
 .dialog>img {
@@ -698,13 +607,6 @@
   }
 }
 @media(max-width:767px) {
-  .crumb {
-    width:calc(100% - 24px);
-    margin-top:5px;
-    min-height:34px;
-    padding:0 18px;
-    font-size:9px
-  }
   .hero {
     display:flex;
     flex-direction:column-reverse;
@@ -714,12 +616,17 @@
   }
   .heroArt {
     width:100%;
-    max-width:410px
+    max-width:410px;
+    background:#0b1017;
+    border-radius:30px;
   }
+  .heroArt video,
   .heroArt img {
     width:100%;
     max-height:380px;
-    object-fit:contain
+    object-fit:cover;
+    background:#0b1017;
+    border-radius:30px;
   }
   .heroCopy {
     width:100%;
@@ -736,7 +643,7 @@
     text-align:center;
     margin-bottom:20px
   }
-  .hero h1 {
+  .hero :is(h1, h2) {
     font-size:20px;
     text-align:center;
     margin:10px 0 20px
@@ -770,9 +677,6 @@
   .phone {
     font-size:11px
   }
-  .work {
-    padding:60px 15px 65px
-  }
   .sectionTitle {
     margin-bottom:35px;
     padding-inline:10px
@@ -787,33 +691,6 @@
   .script {
     font-size:33px;
     letter-spacing:-1px
-  }
-  .projectSlider {
-    gap:0
-  }
-  .projectSlider>button {
-    padding:5px;
-    font-size:18px
-  }
-  .projects {
-    justify-content:flex-start;
-    gap:15px
-  }
-  .project {
-    min-width:160px;
-    flex-basis:160px;
-    border-radius:18px;
-    padding-inline:9px
-  }
-  .project img {
-    height:265px
-  }
-  .project strong {
-    font-size:11px;
-    min-height:55px
-  }
-  .allWork {
-    margin-top:25px
   }
   .values {
     padding:55px 24px 65px;
@@ -981,7 +858,7 @@
   display:block;
   margin:0 0 20px
 }
-.work::before,.features::before,.solutions::before {
+.features::before,.solutions::before {
   display:none
 }
 @media(max-width:767px) {
@@ -995,9 +872,6 @@
   }
   .hero {
     padding-bottom:20px
-  }
-  .work {
-    padding-top:25px
   }
   .values {
     padding-bottom:25px

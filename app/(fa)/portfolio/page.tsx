@@ -1,6 +1,6 @@
 import JsonLd from "@/components/JsonLd";
 import PortfolioBoard from "@/components/portfolio/PortfolioBoard";
-import PortfolioIntro, { BreadcrumbBar } from "@/components/portfolio/PortfolioIntro";
+import PortfolioIntro from "@/components/portfolio/PortfolioIntro";
 import styles from "@/components/portfolio/Portfolio.module.css";
 import portfolioData from "@/lib/portfolio-data.json";
 import { buildMetadata } from "@/lib/metadata";
@@ -17,7 +17,7 @@ export const metadata = buildMetadata({
   fullTitle: `نمونه کارها | سامانه ها و وب سایت های تحویل شده ${companyInfo.brandName}`,
   title: "نمونه کارها",
   description:
-    "سامانه های تحویل شده نواتیک: لجستیک و کارگو، نفت و گاز، فروش رستوران، سوپرمارکت، گدام، خیاطی، آژانس مسافرتی و حضور و غیاب، همراه با وب سایت های شرکتی.",
+    "نمونه‌کارهای نواتیک: سامانه‌های لجستیک، نفت و گاز، فروش و مدیریت کسب‌وکار، و وب‌سایت‌های شرکتی و فروشگاهی مانند Telionix.",
   path: "/portfolio",
 });
 
@@ -70,7 +70,6 @@ export default function PortfolioPage() {
       </svg>
 
       <div className={styles.page}>
-        <BreadcrumbBar items={breadcrumbs} />
         <PortfolioIntro stats={stats} />
         <PortfolioBoard />
       </div>

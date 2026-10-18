@@ -7,8 +7,9 @@ import { ArrowLeft, Check, Image as ImageIcon } from "lucide-react";
 
 import HeroWave from "@/components/HeroWave";
 import DetailShowcase from "@/components/portfolio/DetailShowcase";
+import PortfolioClosing from "@/components/portfolio/PortfolioClosing";
+import InlineImageCard from "@/components/portfolio/InlineImageCard";
 import MoreProjects, { type MoreProject } from "@/components/portfolio/MoreProjects";
-import { BreadcrumbBar } from "@/components/portfolio/PortfolioIntro";
 import styles from "@/components/portfolio/Detail.module.css";
 import portfolioData from "@/lib/portfolio-data.json";
 import JsonLd from "@/components/JsonLd";
@@ -65,8 +66,13 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   ];
 
   const relatedServices = study.services.map((key) => serviceByKey[key]);
-  const cardColor =
-    portfolioData.find((item) => item.caseStudySlug === study.slug)?.cardColor ?? "#1d4f91";
+  const sourceItem = portfolioData.find((item) => item.caseStudySlug === study.slug);
+  const cardColor = sourceItem?.cardColor ?? "#1d4f91";
+  const brandName = sourceItem && "brandName" in sourceItem && typeof sourceItem.brandName === "string"
+    ? sourceItem.brandName
+    : sourceItem?.title ?? study.title;
+  const brandLogo = sourceItem && "brandLogo" in sourceItem && typeof sourceItem.brandLogo === "string" ? sourceItem.brandLogo : undefined;
+  const brandLogoOnDark = Boolean(sourceItem && "brandLogoOnDark" in sourceItem && sourceItem.brandLogoOnDark);
   const portrait = study.imageOrientation === "portrait";
   const shots = study.screenshots ?? [];
   const moreProjects: MoreProject[] = portfolioData
@@ -75,7 +81,9 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
       href: item.caseStudySlug ? `/portfolio/${item.caseStudySlug}` : item.link.startsWith("http") ? "/portfolio" : item.link,
       title: item.title,
       category: item.category,
-      image: item.kind === "website" ? item.mobileImg ?? item.img : item.img,
+      image: item.kind === "website"
+        ? ("cardMobileImg" in item ? item.cardMobileImg : undefined) ?? item.mobileImg ?? item.img
+        : item.img,
       color: item.cardColor,
       website: item.kind === "website",
     }));
@@ -132,16 +140,14 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           <defs>
             <linearGradient id="detail-side-tab" x1="1" y1="0" x2="0" y2="0">
               <stop offset="0" stopColor="#ffffff" />
-              <stop offset="1" stopColor="#dddce5" />
+              <stop offset="1" stopColor="#dceee8" />
             </linearGradient>
           </defs>
         </svg>
-        <BreadcrumbBar items={breadcrumbs} />
-
         <div className={`${styles.container} ${styles.introBlock}`}>
           <header className={styles.intro}>
-            <div className={styles.introLogo}>
-              <Image src="/images/brand/novatech-wordmark-navy.webp" alt={companyInfo.brandName} width={640} height={241} sizes="190px" />
+            <div className={`${styles.introLogo} ${brandLogoOnDark ? styles.introLogoDark : ""}`}>
+              {brandLogo ? <Image src={brandLogo} alt={`لوگوی ${brandName}`} width={300} height={100} sizes="190px" /> : <span className={styles.brandWordmark}>{brandName}</span>}
             </div>
             <h1 className={styles.introTitle}>{study.pageHeading ?? study.title}</h1>
             <div className={styles.introEditor}>
@@ -179,6 +185,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               height={study.desktopImageHeight ?? (portrait ? 1402 : 900)}
               portrait={portrait}
               title={study.title}
+              website={Boolean(study.websiteUrl)}
             />
           )}
         </div>
@@ -191,18 +198,17 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             <section id="case-problem" className={styles.row}>
               {(shots[0] || study.mobileImage) && (
                 <div className={styles.rowMedia}>
-                  <Image
+                  <InlineImageCard
                     src={shots[0]?.src ?? study.mobileImage!}
                     alt={shots[0]?.alt ?? study.mobileImageAlt ?? study.title}
                     width={shots[0]?.width ?? 430}
                     height={shots[0]?.height ?? 932}
-                    sizes="(min-width: 800px) 46vw, 92vw"
-                    className={shots[0] ? undefined : styles.rowPhone}
+                    title={study.title}
                   />
                 </div>
               )}
               <div className={styles.rowText}>
-                <h2 className={styles.rowTitle}>{study.websiteUrl ? "هدف وب‌سایت" : "مشکلی که وجود داشت"}</h2>
+                <h2 className={styles.rowTitle}>{study.websiteUrl ? `درباره برند ${brandName}` : "مشکلی که وجود داشت"}</h2>
                 <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">
                   {study.problem.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
@@ -212,13 +218,19 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             </section>
 
             <section id="case-solution" className={`${styles.row} ${styles.rowLeft}`}>
-              {shots[1] && (
+              {(shots[1] || (study.websiteUrl && study.desktopImage)) && (
                 <div className={styles.rowMedia}>
-                  <Image src={shots[1].src} alt={shots[1].alt} width={shots[1].width} height={shots[1].height} sizes="(min-width: 800px) 46vw, 92vw" />
+                  <InlineImageCard
+                    src={shots[1]?.src ?? study.desktopImage!}
+                    alt={shots[1]?.alt ?? study.desktopImageAlt ?? study.title}
+                    width={shots[1]?.width ?? study.desktopImageWidth ?? 1440}
+                    height={shots[1]?.height ?? study.desktopImageHeight ?? 5311}
+                    title={study.title}
+                  />
                 </div>
               )}
               <div className={styles.rowText}>
-                <h2 className={styles.rowTitle}>راهکاری که ساخته شد</h2>
+                <h2 className={styles.rowTitle}>{study.websiteUrl ? `طراحی و توسعه وب‌سایت ${brandName} توسط نواتیک` : "راهکاری که ساخته شد"}</h2>
                 <MashalDetails enabled={isMashalCaseStudy} label="توضیح کامل">
                   {study.solution.map((paragraph) => (
                     <p key={paragraph}>{paragraph}</p>
@@ -228,13 +240,19 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
             </section>
 
             <section id="case-capabilities" className={styles.row}>
-              {shots[2] && (
+              {(shots[2] || (study.websiteUrl && study.mobileImage)) && (
                 <div className={styles.rowMedia}>
-                  <Image src={shots[2].src} alt={shots[2].alt} width={shots[2].width} height={shots[2].height} sizes="(min-width: 800px) 46vw, 92vw" />
+                  <InlineImageCard
+                    src={shots[2]?.src ?? study.mobileImage!}
+                    alt={shots[2]?.alt ?? study.mobileImageAlt ?? study.title}
+                    width={shots[2]?.width ?? 390}
+                    height={shots[2]?.height ?? 6467}
+                    title={study.title}
+                  />
                 </div>
               )}
               <div className={styles.rowText}>
-                <h2 className={styles.rowTitle}>امکاناتی که پیاده شد</h2>
+                <h2 className={styles.rowTitle}>{study.websiteUrl ? `امکانات و تجربه کاربری وب‌سایت ${brandName}` : "امکاناتی که پیاده شد"}</h2>
                 <ul className={styles.checks}>
                   {study.capabilities.map((capability) => (
                     <li key={capability}>
@@ -358,7 +376,18 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               </section>
             )}
 
-            <section className={styles.row}>
+            <section className={`${styles.row} ${study.websiteUrl ? styles.rowLeft : ""}`}>
+              {study.websiteUrl && study.desktopImage && (
+                <div className={styles.rowMedia}>
+                  <InlineImageCard
+                    src={study.desktopImage}
+                    alt={study.desktopImageAlt ?? study.title}
+                    width={study.desktopImageWidth ?? 1440}
+                    height={study.desktopImageHeight ?? 5311}
+                    title={study.title}
+                  />
+                </div>
+              )}
               <div className={styles.rowText}>
                 <h2 className={styles.rowTitle}>{study.websiteUrl ? "مشاهده پروژه" : "نتیجه در کار روزمره"}</h2>
                 {study.outcome.map((paragraph) => (
@@ -386,7 +415,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
               </div>
             </section>
           </div>
-          <HeroWave className={styles.waveDown} background="#050033" />
+          <HeroWave className={styles.waveDown} background="#54dcc6" />
         </div>
 
         <section className={styles.more} aria-labelledby="more-projects">
@@ -406,6 +435,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           </span>
           <HeroWave className={styles.waveUp} background="#ffffff" />
         </section>
+        <PortfolioClosing />
       </article>
     </>
   );

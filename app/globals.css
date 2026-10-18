@@ -2,13 +2,13 @@
 
 @theme {
   --color-primary: #54dcc6;
-  --color-primary-hover: #45bba7;
+  --color-primary-hover: #39cbb5;
   --color-text-dark: #111827;
   /* gray-900 */
   --color-text-muted: #374151;
   /* gray-700 */
-  --color-bg-light: #F5F5F5;
-  --color-bg-slate: #F3F4F6;
+  --color-bg-light: #f4fbf9;
+  --color-bg-slate: #f0f8f6;
 
   --font-iranyekan: var(--font-iranyekan-next), system-ui, sans-serif;
   --font-iranyekan-light: var(--font-iranyekan-next), system-ui, sans-serif;
@@ -805,3 +805,18 @@ canvas {
   will-change: transform;
   backface-visibility: hidden;
 }
+
+/* Shared interface palette; client artwork retains its own identity. */
+:root {
+  --brand-primary: #54dcc6;
+  --brand-hover: #39cbb5;
+  --brand-ink: #16332e;
+  --brand-deep: #143d35;
+  --brand-link: #0c7668;
+  --brand-muted: #526b65;
+  --brand-surface: #f3fbf8;
+  --brand-line: #dceee8;
+}
+::selection { background: #b8f2e7; color: #16332e; }
+.button-primary { color: var(--brand-ink); }
+.button-primary:hover { color: var(--brand-link); }

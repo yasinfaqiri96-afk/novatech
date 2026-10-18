@@ -461,36 +461,61 @@ export const caseStudies: CaseStudy[] = [
 
 // Website entries use the existing, published project descriptions and local
 // screenshots. They deliberately add no claims about results, dates or clients.
-const websiteDescriptions: Record<string, { purpose: string; capabilities: string[] }> = {
+const websiteDescriptions: Record<string, { purpose: string; brand: string; delivery: string; capabilities: string[]; seoTitle?: string; seoDescription?: string }> = {
   "le-petit-isenburg": {
+    brand: "Le Petit Isenburg در حوزه لباس کودک در آلمان فعالیت دارد. دسته‌بندی پوشاک و اطلاعات هر محصول، محتوای اصلی معرفی دیجیتال این برند را تشکیل می‌دهد.",
+    delivery: "نواتیک ساختار فروشگاه را با دسته‌بندی لباس کودک و صفحه معرفی محصول پیاده‌سازی کرده است. چیدمان دسکتاپ و موبایل، مسیر حرکت از دسته‌بندی به محصول و بررسی اطلاعات آن را در کنار هویت برند قرار می‌دهد.",
     purpose: "معرفی و فروش لباس کودک در یک وب‌سایت فروشگاهی با دسته‌بندی و صفحه محصول.",
     capabilities: ["دسته‌بندی لباس کودک", "صفحه معرفی محصول", "نمایش فروشگاه در موبایل و دسکتاپ"],
   },
   "ariana-motor": {
+    brand: "آریانا موتور در حوزه موتورسیکلت در افغانستان معرفی شده است. وب‌سایت این پروژه، جایگاهی برای شناخت مدل‌ها، دسترسی به اطلاعات نمایندگی‌ها و راه ارتباط با شرکت دارد.",
+    delivery: "نواتیک این پروژه را به صورت وب‌سایت شرکتی و کاتالوگ محصول طراحی و توسعه داده است. معرفی مدل‌های موتورسیکلت، بخش نمایندگی‌ها و راه‌های تماس، ساختار اصلی صفحات و ناوبری را می‌سازند؛ نماهای دسکتاپ و موبایل پروژه نیز در این صفحه ارائه شده‌اند.",
     purpose: "معرفی مدل‌های موتورسیکلت، نمایندگی‌ها و راه‌های تماس در یک وب‌سایت شرکتی.",
     capabilities: ["کاتالوگ مدل‌های موتورسیکلت", "معرفی نمایندگی‌ها", "راه‌های ارتباط با شرکت"],
   },
   "noor-al-madinah-hospital": {
+    brand: "شفاخانه نورالمدینه در افغانستان خدمات صحی ارائه می‌کند. معرفی بخش‌ها و داکتران و توضیح خدمات برای مراجعین، محور محتوایی وب‌سایت این مجموعه است.",
+    delivery: "نواتیک ساختار این وب‌سایت خدماتی را حول اطلاعات مورد نیاز مراجعین طراحی کرده است. بخش‌های شفاخانه، معرفی داکتران و محتوای خدمات در صفحات مشخص سازمان یافته‌اند؛ نمایش پروژه در موبایل و دسکتاپ در تصاویر همین صفحه قابل بررسی است.",
     purpose: "ارائه اطلاعات بخش‌ها، داکتران و خدمات شفاخانه به مراجعین در یک وب‌سایت خدماتی.",
     capabilities: ["معرفی بخش‌های شفاخانه", "معرفی داکتران", "اطلاعات خدمات برای مراجعین"],
   },
+  telionix: {
+    brand: "Telionix یک پروژه فروشگاه آنلاین با تمرکز بر معرفی برند و محصولات است. در این نمونه‌کار، ساختار فروشگاهی و شیوه نمایش محتوا در دو نمای دسکتاپ و موبایل ارائه شده است.",
+    delivery: "نواتیک طراحی و توسعه رابط فروشگاهی Telionix را با ساختار معرفی محصولات و چیدمان واکنش‌گرا انجام داده است. سلسله‌مراتب محتوا و ناوبری فروشگاه، کاربر را از مرور محصولات به بررسی جزئیات هدایت می‌کند و در اندازه‌های مختلف صفحه، هویت بصری یکپارچه‌ای ارائه می‌دهد.",
+    purpose: "طراحی و پیاده‌سازی وب‌سایت فروشگاهی واکنش‌گرا برای معرفی حرفه‌ای محصولات Telionix و ایجاد مسیر روشن برای بررسی و خرید آنلاین.",
+    capabilities: [
+      "ساختار حرفه‌ای معرفی برند و محصولات فروشگاهی",
+      "نمایش محصولات و محتوای فروشگاه در دسکتاپ و موبایل",
+      "تجربهٔ کاربری واکنش‌گرا برای مسیر بررسی و تصمیم‌گیری مشتری",
+      "طراحی رابط بصری یکپارچه برای اعتبار بیشتر برند",
+    ],
+    seoTitle: "طراحی وب‌سایت فروشگاهی Telionix | نمونه کار نواتیک",
+    seoDescription: "نمونه کار طراحی وب‌سایت فروشگاهی Telionix توسط نواتیک؛ تجربهٔ کاربری واکنش‌گرا، نمایش حرفه‌ای محصولات و ساختار مناسب دسکتاپ و موبایل.",
+  },
 };
 
-for (const item of portfolioData.filter((project) => project.kind === "website")) {
+// External showcase links without a caseStudySlug intentionally stay only in
+// the portfolio board; projects with a slug receive a local detail page.
+for (const item of portfolioData.filter((project) => project.kind === "website" && project.caseStudySlug)) {
   const slug = item.caseStudySlug;
   const description = slug ? websiteDescriptions[slug] : undefined;
   if (!slug || !description) throw new Error(`Website case study is missing: ${item.title}`);
   caseStudies.push({
     slug,
     title: item.title,
+    seoTitle: description.seoTitle,
+    seoDescription: description.seoDescription,
     industry: item.category,
     location: item.location,
     summary: item.summary,
-    problem: [description.purpose],
-    solution: [item.summary],
+    problem: [description.brand, description.purpose],
+    solution: [item.summary, description.delivery],
     capabilities: description.capabilities,
     outcome: ["نسخه دسکتاپ و موبایل این پروژه در تصاویر همین صفحه قابل مشاهده است. برای دیدن وب‌سایت، از دکمه بازدید استفاده کنید."],
     desktopImage: item.desktopImg ?? item.img,
+    desktopImageWidth: "desktopImageWidth" in item ? item.desktopImageWidth : undefined,
+    desktopImageHeight: "desktopImageHeight" in item ? item.desktopImageHeight : undefined,
     desktopImageAlt: item.imageAlt,
     mobileImage: item.mobileImg,
     mobileImageAlt: `نمایش موبایل ${item.title}`,

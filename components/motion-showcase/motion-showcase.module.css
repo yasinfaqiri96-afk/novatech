@@ -11,37 +11,52 @@
  */
 
 .section {
+  --u: min(2.1vw, 7px);
   position: relative;
-  z-index: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   width: 100%;
-  min-height: 90vh;
-  min-height: 90svh;
-  padding: clamp(3rem, 7vh, 5.5rem) 0 clamp(2.5rem, 6vh, 4.5rem);
-  overflow: hidden;
-  background: #090d0d;
+  overflow: clip;
+  background: #fff;
   direction: rtl;
   isolation: isolate;
 }
 
-/* Barely perceptible key light behind the focal line. Deliberately below the
-   threshold where it reads as a gradient. */
-.section::before {
+.waveTop,
+.waveBottom {
+  display: block;
+  width: 100%;
+  height: min(calc(var(--u) * 26), 22vw);
+  pointer-events: none;
+}
+
+.waveTop { margin-bottom: -1px; }
+.waveBottom {
   position: absolute;
-  z-index: -1;
+  right: 0;
+  bottom: -1px;
+  transform: scaleX(-1);
+}
+.waveTop path[data-band],
+.waveBottom path[data-band] {
+  fill: var(--legacy-wave-mobile);
+}
+
+.surface {
+  position: relative;
+  padding: clamp(2rem, 4vw, 4rem) 0 calc(min(calc(var(--u) * 26), 22vw) + 2rem);
+  background: #050033;
+}
+
+.surface::before {
+  position: absolute;
   inset: 0;
-  background:
-    radial-gradient(62% 54% at 50% 46%, rgb(29 129 128 / 11%), rgb(9 13 13 / 0%) 68%),
-    radial-gradient(120% 90% at 50% 50%, rgb(255 255 255 / 3%), rgb(9 13 13 / 0%) 60%);
+  background: radial-gradient(ellipse at 50% 42%, rgb(68 56 154 / 18%), transparent 66%);
   content: "";
   pointer-events: none;
 }
 
 .inner {
-  opacity: 0;
-  transform: translate3d(0, 20px, 0);
+  opacity: 1;
+  transform: none;
   transition:
     opacity 900ms cubic-bezier(0.22, 0.61, 0.36, 1),
     transform 900ms cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -102,7 +117,7 @@
   width: 100%;
   /* Extra room so the cinematic shadow is never clipped by overflow: hidden. */
   height: calc(var(--card-height) * 1.2);
-  overflow: hidden;
+  overflow: clip;
   /* The track uses one predictable coordinate system regardless of the RTL
      document direction; the text inside each poster opts back in to RTL. */
   direction: ltr;
@@ -238,11 +253,11 @@
   line-height: 1.45;
 }
 
-.caption {
+.section .caption {
   max-width: 34rem;
   margin: clamp(1.75rem, 4vh, 2.75rem) auto 0;
   padding: 0 1.5rem;
-  color: rgb(253 254 254 / 42%);
+  color: #d8e8e4;
   font-size: clamp(0.78rem, 0.95vw, 0.9rem);
   line-height: 2;
   text-align: center;
@@ -274,9 +289,8 @@
 }
 
 @media (max-width: 600px) {
-  .section {
-    min-height: 84svh;
-    padding: clamp(2.5rem, 6vh, 3.5rem) 0 clamp(2rem, 5vh, 3rem);
+  .surface {
+    padding-top: 1.5rem;
   }
 
   .viewport {
@@ -298,6 +312,37 @@
   }
 }
 
+/* Keep server-rendered links usable until the first animation frame is ready. */
+.viewport:not([data-motion-ready="true"]) {
+  overflow: clip;
+  touch-action: pan-y;
+}
+
+.viewport:not([data-motion-ready="true"]) .track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--card-gap);
+  width: max-content;
+  height: 100%;
+  padding: 0;
+  animation: fallbackMarquee linear infinite;
+}
+
+.viewport:not([data-motion-ready="true"]) .card {
+  position: relative;
+  inset: auto;
+  flex: 0 0 var(--card-width);
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+@keyframes fallbackMarquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
 /* ---- reduced motion ---------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -315,8 +360,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .viewport { height:auto; overflow-x:auto; cursor:auto; touch-action:auto; }
-  .track { position:relative; display:flex; gap:var(--card-gap); width:max-content; padding:16px 24px; }
-  .card { position:relative; inset:auto; flex:0 0 var(--card-width); opacity:1 !important; visibility:visible !important; transform:none !important; }
+  .viewport,
+  .viewport:not([data-motion-ready="true"]) { height:auto; overflow:clip; cursor:auto; touch-action:auto; }
+  .track,
+  .viewport:not([data-motion-ready="true"]) .track { position:relative; display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%, 250px), 1fr)); gap:clamp(12px, 2vw, 24px); box-sizing:border-box; width:100%; padding:16px 24px; animation:none; }
+  .card,
+  .viewport:not([data-motion-ready="true"]) .card { position:relative; inset:auto; width:100%; height:auto; aspect-ratio:10 / 13; opacity:1 !important; visibility:visible !important; transform:none !important; }
   .card[data-poster-copy="duplicate"] { display:none; }
+  .viewport:not([data-motion-ready="true"]) .card[data-poster-copy="duplicate"] { display: none; }
+}
+
+@media (min-width: 800px) {
+  .section { --u: min(0.57vw, 10px); }
+  .waveTop path[data-band], .waveBottom path[data-band] {
+    fill: var(--legacy-wave-desktop);
+  }
 }

@@ -12,6 +12,7 @@ type Item = {
   img: string;
   desktopImg?: string;
   mobileImg?: string;
+  cardMobileImg?: string;
   category: string;
   location: string;
   link: string;
@@ -105,7 +106,7 @@ function Card({ item, favourite, onFavourite }: { item: Item; favourite: boolean
         <div className={styles.cardSide}>
           {isSite && item.mobileImg ? (
             <div className={styles.cardPhone}>
-              <Image src={item.mobileImg} alt="" fill sizes="(min-width: 800px) 16vw, 40vw" className={styles.cardPhoneImg} />
+              <Image src={item.cardMobileImg ?? item.mobileImg} alt="" fill sizes="(min-width: 800px) 16vw, 40vw" className={styles.cardPhoneImg} loading="lazy" />
             </div>
           ) : (
             <div className={styles.cardInfo}>
@@ -238,9 +239,9 @@ export default function PortfolioBoard() {
             </div>
             <div className={styles.connector} aria-hidden="true">
               <svg viewBox="0 0 150 56" preserveAspectRatio="none" focusable="false">
-                <path fill="#562b51" d="M0 15h74c12 0 16-16 32-16h44v58h-44c-16 0-20-16-32-16H0z" />
-                <path fill="#cd6c58" d="M0 15h82c12 0 16-15.5 32-15.5h36v57h-36c-16 0-20-15.5-32-15.5H0z" />
-                <path fill="#07004c" d="M0 15h92c12 0 16-15 32-15h26v56h-26c-16 0-20-15-32-15H0z" />
+                <path fill="#279a85" d="M0 15h74c12 0 16-16 32-16h44v58h-44c-16 0-20-16-32-16H0z" />
+                <path fill="#54dcc6" d="M0 15h82c12 0 16-15.5 32-15.5h36v57h-36c-16 0-20-15.5-32-15.5H0z" />
+                <path fill="#16332e" d="M0 15h92c12 0 16-15 32-15h26v56h-26c-16 0-20-15-32-15H0z" />
               </svg>
               <span className={styles.connectorLogo}>
                 <Image src="/images/brand/novatech-mark-white.webp" alt="" width={128} height={128} sizes="28px" />

@@ -42,7 +42,7 @@ export default function MoreProjects({ items }: { items: MoreProject[] }) {
             </div>
             <Link href={item.href} className={styles.tallCard} aria-label={`${item.title} — ${item.category}`}>
               <span className={styles.tallImg}>
-                <Image src={item.image} alt="" fill sizes="(min-width: 800px) 22vw, 70vw" className={item.website ? styles.tallImgTop : undefined} />
+                <Image src={item.image} alt="" fill sizes="(min-width: 800px) 22vw, 70vw" className={item.website ? styles.tallImgTop : undefined} loading="lazy" />
               </span>
               <span className={styles.tallTitle}>{item.title}</span>
               <span className={styles.tallCat}>{item.category}</span>

@@ -61,7 +61,7 @@ export default function Footer() {
               alt=""
               width={320}
               height={320}
-              sizes="(min-width: 900px) 220px, 0px"
+              sizes="140px"
               className={styles.promoImage}
             />
           </div>

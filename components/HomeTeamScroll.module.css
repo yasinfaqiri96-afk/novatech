@@ -1,7 +1,11 @@
 .section {
   width: 100%;
-  padding: 5rem clamp(1rem, 5vw, 5rem) 4.5rem;
-  background: #f5f5f5;
+  padding: 6rem 0 5rem;
+  overflow: clip;
+  background:
+    radial-gradient(ellipse at 50% 38%, rgb(84 220 198 / 7%), transparent 48%),
+    #fbfdfc;
+  color: #16332e;
   direction: rtl;
 }
 
@@ -9,17 +13,16 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min(100%, 1240px);
+  width: min(calc(100% - 2rem), 1240px);
   margin: 0 auto 3.25rem;
   text-align: center;
 }
 
 .eyebrow {
   margin: 0 0 0.85rem;
-  color: #45bba7;
+  color: #167d70;
   font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
 }
 
 .title {
@@ -28,9 +31,10 @@
   gap: 0.35rem;
   justify-content: center;
   margin: 0;
-  color: #111827;
-  font-size: clamp(1.625rem, 2.4vw, 2rem);
-  line-height: 1.5;
+  color: #16332e;
+  font-size: clamp(1.75rem, 3vw, 2.45rem);
+  line-height: 1.6;
+  letter-spacing: -0.035em;
 }
 
 .signature {
@@ -42,22 +46,17 @@
 }
 
 .intro {
-  max-width: 42rem;
+  max-width: 44rem;
   margin: 1.15rem auto 0;
-  color: #64748b;
-  font-size: 0.95rem;
-  line-height: 2;
+  color: #526b65;
+  font-size: 0.96rem;
+  line-height: 2.1;
 }
 
-/* ---------------------------------------------------------------- track */
-
-/* The track is the scroll runway. Its extra height beyond the pinned frame is
-   the distance every member transition is scrubbed against. */
 .track {
   --team-pin-top: 88px;
-  --team-step: 150svh;
   position: relative;
-  width: min(100%, 1240px);
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -67,42 +66,16 @@
 }
 
 .stage {
-  display: grid;
+  display: flex;
   width: 100%;
 }
 
 .member {
-  --team-clip: 0%;
-  --team-plate-y: 0%;
-  --team-plate-scale: 1;
-  --team-divider: 1;
-  --team-line-0: 0%;
-  --team-line-1: 0%;
-  --team-line-2: 0%;
-  --team-line-3: 0%;
-}
-
-.visual {
-  position: relative;
-  width: 100%;
-  max-width: 30rem;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 1.75rem;
-  background: #e9ecef;
-  box-shadow: 0 24px 60px rgb(15 23 42 / 14%);
-}
-
-.plate {
-  width: 100%;
-  height: 100%;
-}
-
-.portrait {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 50% 22%;
+  --team-reveal: 1;
+  --team-opacity: 1;
+  display: grid;
+  gap: 1.5rem;
+  justify-items: center;
 }
 
 .info {
@@ -112,227 +85,175 @@
   text-align: center;
 }
 
-.line {
-  margin: 0;
-}
-
-.lineInner {
-  display: block;
-}
-
 .counter {
-  color: #94a3b8;
+  margin: 0;
+  color: #748983;
   font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   direction: ltr;
   unicode-bidi: isolate;
 }
 
 .counterCurrent {
-  color: #45bba7;
+  color: #167d70;
 }
 
 .name {
-  color: #111827;
-  font-size: clamp(1.75rem, 3.4vw, 3rem);
-  line-height: 1.45;
+  margin: 0;
+  color: #16332e;
+  font-size: clamp(2rem, 4vw, 3.55rem);
+  line-height: 1.5;
   text-wrap: balance;
 }
 
 .divider {
-  width: 3.25rem;
+  width: 4rem;
   height: 2px;
-  margin: 1.25rem auto;
+  margin: 1.15rem auto;
   border-radius: 999px;
   background: #54dcc6;
 }
 
 .role {
-  color: #374151;
-  font-size: clamp(1rem, 1.3vw, 1.2rem);
-  line-height: 2;
+  margin: 0;
+  color: #24564d;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  font-weight: 600;
+  line-height: 1.9;
 }
 
-/* ---------------------------------------------------------- flow layout */
-
-/* Default (mobile, tablet, reduced motion): a plain readable sequence, no pin,
-   no scroll hijacking. */
-.stage {
-  gap: 3.5rem;
+.visual {
+  position: relative;
+  width: min(100%, 34rem);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 88%);
+  border-radius: 1.4rem;
+  background: #e9f4f1;
+  box-shadow: 0 32px 72px -28px rgb(22 51 46 / 34%);
 }
 
-.member {
+.portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 22%;
+}
+
+.visualIndex {
+  position: absolute;
+  top: 1rem;
+  inset-inline-start: 1rem;
   display: grid;
-  gap: 1.5rem;
-  justify-items: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgb(255 255 255 / 38%);
+  border-radius: 0.65rem;
+  background: rgb(22 51 46 / 80%);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  direction: ltr;
 }
 
 .rail {
   display: none;
 }
 
-/* ------------------------------------------------- flow reveal (no pin) */
-
-/*
- * Below the pinned breakpoint the component scrubs these custom properties
- * against each member card's own entry into the viewport, so the stacked
- * column plays the same aperture wipe and line stagger the pinned layout uses
- * for its handover. The wipe is put on .plate rather than on .visual: a
- * clip-path on .visual would cut its own drop shadow off mid-reveal.
- */
-@media (max-width: 1023px) and (prefers-reduced-motion: no-preference) {
-  .plate {
-    clip-path: inset(var(--team-clip) 0 0 0);
-    will-change: clip-path;
-  }
-
-  .portrait {
-    transform: translate3d(0, var(--team-plate-y), 0) scale(var(--team-plate-scale));
-    transform-origin: 50% 45%;
-    will-change: transform;
-  }
-
-  /* Each line rides up into place behind its own mask. */
-  .line {
-    overflow: hidden;
-    padding-block: 0.12em;
-    margin-block: -0.12em;
-  }
-
-  .lineInner {
-    will-change: transform;
-  }
-
-  .counter .lineInner {
-    transform: translate3d(0, var(--team-line-0), 0);
-  }
-
-  .name .lineInner {
-    transform: translate3d(0, var(--team-line-1), 0);
-  }
-
-  .role .lineInner {
-    transform: translate3d(0, var(--team-line-3), 0);
-  }
-
-  .divider {
-    transform: scaleX(var(--team-divider));
-    transform-origin: center;
-  }
-}
-
-/* ---------------------------------------------------- pinned desktop layout */
-
-@media (min-width: 1024px) {
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
   .track {
-    height: calc(100svh - var(--team-pin-top) + (var(--team-count) - 1) * var(--team-step));
+    height: calc(
+      100svh - var(--team-pin-top) + var(--team-runway, 200vw)
+    );
   }
 
   .pin {
+    isolation: isolate;
     position: sticky;
     top: var(--team-pin-top);
     height: calc(100svh - var(--team-pin-top));
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 50% 55%, rgb(84 220 198 / 7%), transparent 55%),
+      #fbfdfc;
   }
 
   .stage {
-    position: relative;
-    gap: 0;
-    height: min(100%, 44rem);
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-direction: row-reverse;
+    width: max-content;
+    height: 100%;
+    direction: ltr;
+    transform: translate3d(var(--team-x, -200vw), 0, 0);
+    will-change: transform;
   }
 
   .member {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: clamp(2.5rem, 6vw, 6rem);
+    flex: 0 0 var(--team-scene-width, 100vw);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
     align-items: center;
     justify-items: stretch;
-    padding-left: 3.25rem;
-    opacity: 1;
-    transform: none;
-    transition: none;
-    pointer-events: none;
-  }
-
-  .isActive {
-    pointer-events: auto;
-  }
-
-  /* The aperture. Members are stacked in source order, so drawing this mask
-     open wipes the incoming portrait over the one already on screen — no
-     cross-fade, no double exposure. */
-  .visual {
-    max-width: none;
+    width: var(--team-scene-width, 100vw);
     height: 100%;
-    max-height: 40rem;
-    aspect-ratio: auto;
-    /* clip-path would clip the drop shadow mid-wipe, so the pinned layout
-       stays flat and lets the photography carry the composition. */
-    box-shadow: none;
-    clip-path: inset(var(--team-clip) 0 0 0 round 1.75rem);
-    transform: translate3d(var(--team-pointer-x, 0px), var(--team-pointer-y, 0px), 0);
-    will-change: clip-path, transform;
-  }
-
-  /* The photograph counter-moves inside the aperture, so the wipe reads as a
-     camera move rather than a sliding sheet. */
-  .plate {
-    transform: translate3d(0, var(--team-plate-y), 0) scale(var(--team-plate-scale));
-    transform-origin: 50% 45%;
-    will-change: transform;
+    direction: rtl;
+    padding: clamp(2rem, 5vw, 5rem) clamp(2rem, 7vw, 7rem);
+    opacity: var(--team-opacity);
   }
 
   .info {
     align-items: flex-start;
     text-align: right;
+    transform: translate3d(0, 1rem, 0);
+    transition: opacity 180ms linear, transform 220ms ease-out;
   }
 
-  /* Each line is handed over behind its own mask, staggered by a fraction of
-     the segment. The outgoing lines clear before the incoming ones arrive. */
-  .line {
-    overflow: hidden;
-    padding-block: 0.12em;
-    margin-block: -0.12em;
+  .isActive .info {
+    transform: none;
   }
 
-  .lineInner {
-    will-change: transform;
-  }
-
-  .counter .lineInner {
-    transform: translate3d(0, var(--team-line-0), 0);
-  }
-
-  .name .lineInner {
-    transform: translate3d(0, var(--team-line-1), 0);
-  }
-
-  .role .lineInner {
-    transform: translate3d(0, var(--team-line-3), 0);
+  .name {
+    max-width: 100%;
+    font-size: clamp(2.4rem, 4vw, 4.25rem);
   }
 
   .divider {
     margin-inline: 0;
-    transform: scaleX(var(--team-divider));
+    transform: scaleX(var(--team-reveal));
     transform-origin: right center;
-    will-change: transform;
   }
 
-  /* --------------------------------------------------------- progress */
+  .visual {
+    width: 100%;
+    height: min(100%, 42rem);
+    aspect-ratio: auto;
+    opacity: var(--team-opacity);
+    transform: translate3d(0, 1rem, 0) scale(0.96);
+    transform-origin: center;
+    transition: opacity 180ms linear, transform 220ms ease-out;
+  }
+
+  .isActive .visual {
+    transform: none;
+  }
 
   .rail {
     position: absolute;
-    top: 50%;
-    left: 0;
+    z-index: 2;
+    right: 50%;
+    bottom: 1.5rem;
     display: block;
-    width: 2px;
-    height: 9rem;
+    width: min(12rem, 30vw);
+    height: 2px;
     overflow: hidden;
     border-radius: 999px;
-    background: rgb(148 163 184 / 28%);
-    transform: translateY(-50%);
+    background: rgb(22 51 46 / 18%);
+    transform: translateX(50%);
   }
 
   .railFill {
@@ -341,67 +262,32 @@
     width: 100%;
     height: 100%;
     border-radius: inherit;
-    background: #54dcc6;
-    transform: scaleY(var(--team-rail));
-    transform-origin: top center;
-    will-change: transform;
-  }
-}
-
-@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
-  /* Reduced motion falls back to the plain stacked sequence. */
-  .track {
-    height: auto;
-  }
-
-  .pin {
-    position: static;
-    height: auto;
-  }
-
-  .stage {
-    gap: 4rem;
-    height: auto;
-  }
-
-  .member {
-    position: relative;
-    inset: auto;
-    pointer-events: auto;
-  }
-
-  .visual {
-    max-height: 34rem;
-    clip-path: none;
-    transform: none;
-  }
-
-  .plate,
-  .lineInner,
-  .divider {
-    transform: none;
-  }
-
-  .line {
-    overflow: visible;
-  }
-
-  .rail {
-    display: none;
+    background: #167d70;
+    transform: scaleX(var(--team-rail));
+    transform-origin: right center;
   }
 }
 
 @media (max-width: 1023px) {
   .section {
-    padding: 4rem 1rem 3.5rem;
+    padding: 4.5rem 1rem 4rem;
   }
 
   .heading {
     margin-bottom: 2.5rem;
   }
 
+  .stage {
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .member {
+    gap: 1.5rem;
+  }
+
   .visual {
-    max-width: 22rem;
+    width: min(100%, 22rem);
   }
 }
 
@@ -412,6 +298,50 @@
   }
 
   .visual {
-    max-width: 17.5rem;
+    width: min(100%, 17.5rem);
+  }
+
+  .name {
+    font-size: clamp(1.75rem, 8vw, 2.15rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    height: auto;
+  }
+
+  .pin {
+    position: static;
+    height: auto;
+    overflow: visible;
+  }
+
+  .stage {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    transform: none;
+  }
+
+  .member {
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    transform: none;
+  }
+
+  .info,
+  .visual {
+    opacity: 1;
+    transform: none;
+  }
+
+  .divider {
+    transform: none;
+  }
+
+  .rail {
+    display: none;
   }
 }

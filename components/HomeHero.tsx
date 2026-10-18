@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import HeroWave from "@/components/HeroWave";
 import { companyInfo } from "@/lib/site-content";
 import styles from "./HomeHero.module.css";
@@ -41,14 +40,8 @@ export default function HomeHero() {
           <HeroWave className={styles.wave} />
         </div>
 
-        <div className={styles.intro}>
+        <div className={styles.intro} aria-hidden="true">
           <i className={styles.dot} aria-hidden="true" />
-          <p>
-            {companyInfo.brandName} در <Link href="/herat">هرات</Link>{" "}
-            <Link href="/software-solutions">نرم افزار اختصاصی</Link> و{" "}
-            <Link href="/business-systems">سیستم مدیریت کسب و کار</Link> می سازد؛ تمام کار شما در یک
-            سیستم، تصمیم شما بر پایه داده درست.
-          </p>
         </div>
       </div>
     </section>

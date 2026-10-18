@@ -3,9 +3,9 @@
   --muted: #52616b;
   --line: #e3e9e7;
   --soft: #f6f9f8;
-  --accent: #00a896;
+  --accent: var(--brand-link);
   --accent-soft: #e9f8f5;
-  --night: #101a24;
+  --night: var(--brand-surface);
   overflow: hidden;
   background: #fff;
   color: var(--ink);
@@ -95,12 +95,12 @@
 }
 
 .primaryAction {
-  background: var(--accent);
-  color: #fff;
+  background: var(--brand-primary);
+  color: var(--brand-ink);
 }
 
 .primaryAction:hover {
-  background: #008f80;
+  background: var(--brand-hover);
   transform: translateY(-1px);
 }
 
@@ -263,21 +263,21 @@
   padding: clamp(1.8rem, 4vw, 3rem);
   border-radius: 22px;
   background:
-    radial-gradient(circle at 92% 10%, rgba(0,168,150,.2), transparent 24rem),
+    radial-gradient(circle at 92% 10%, rgba(84,220,198,.1), transparent 24rem),
     var(--night);
 }
 
 .closingCopy span {
   display: block;
   margin-bottom: .6rem;
-  color: #72dfd2;
+  color: var(--brand-link);
   font-size: .8rem;
   font-weight: 800;
 }
 
 .closingCopy h2 {
   margin: 0;
-  color: #fff;
+  color: var(--brand-ink);
   font-size: clamp(1.65rem, 3vw, 2.5rem);
   font-weight: 900;
   line-height: 1.45;
@@ -286,7 +286,7 @@
 .closingCopy p {
   max-width: 42rem;
   margin-top: .7rem;
-  color: #c7d1d6;
+  color: var(--brand-muted);
   font-size: .94rem;
 }
 
@@ -298,9 +298,9 @@
 }
 
 .closingActions .secondaryAction {
-  border-color: rgba(255,255,255,.28);
+  border-color: var(--brand-line);
   background: transparent;
-  color: #fff;
+  color: var(--brand-ink);
 }
 
 @media (max-width: 900px) {

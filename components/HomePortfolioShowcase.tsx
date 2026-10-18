@@ -7,6 +7,13 @@ import HeroWave from "@/components/HeroWave";
 import styles from "./HomePortfolioShowcase.module.css";
 
 type PortfolioSourceItem = (typeof portfolioSource)[number];
+type ShowcaseProps = {
+  eyebrow?: string;
+  title?: string;
+  accent?: string;
+  description?: string;
+  kind?: "all" | "website";
+};
 
 const items = portfolioSource as PortfolioSourceItem[];
 
@@ -26,49 +33,45 @@ function toProject(item: PortfolioSourceItem): MoreProject {
   };
 }
 
-export default function HomePortfolioShowcase() {
-  return <Showcase />;
+export default function HomePortfolioShowcase(props: ShowcaseProps = {}) {
+  return <Showcase {...props} />;
 }
 
-function Showcase() {
+function Showcase({
+  eyebrow = "پروژه‌های تحویل‌شده نواتیک",
+  title = "نمونه‌کارهای",
+  accent = "بیشتر",
+  description = "بخشی از سامانه‌ها و وب‌سایت‌هایی که برای کسب‌وکارهای مختلف طراحی و اجرا کرده‌ایم.",
+  kind = "all",
+}: ShowcaseProps) {
   const softwareProjects = items.filter((item) => item.kind === "software" && !item.hideOnHome).map(toProject);
   const websiteProjects = items.filter((item) => item.kind === "website" && !item.hideOnHome).map(toProject);
 
   return (
     <section className={`${detailStyles.page} ${styles.section}`} aria-labelledby="home-portfolio-title">
-      <HeroWave className={styles.waveTop} background="#050033" />
+      <HeroWave palette="legacy" className={styles.waveTop} background="#050033" />
       <div className={styles.surface}>
-        <input className={styles.tabInput} type="radio" name="home-portfolio-kind" id="home-portfolio-software" defaultChecked />
-        <input className={styles.tabInput} type="radio" name="home-portfolio-kind" id="home-portfolio-website" />
+        {kind === "all" && <>
+          <input className={styles.tabInput} type="radio" name="home-portfolio-kind" id="home-portfolio-software" defaultChecked />
+          <input className={styles.tabInput} type="radio" name="home-portfolio-kind" id="home-portfolio-website" />
+        </>}
         <div className={styles.inner}>
           <header className={styles.header}>
             <div>
-              <p className={styles.eyebrow}>پروژه‌های تحویل‌شده نواتیک</p>
-              <h2 id="home-portfolio-title">نمونه‌کارهای <span>بیشتر</span></h2>
-              <p className={styles.description}>
-                بخشی از سامانه‌ها و وب‌سایت‌هایی که برای کسب‌وکارهای مختلف طراحی و اجرا کرده‌ایم.
-              </p>
+              <p className={styles.eyebrow}>{eyebrow}</p>
+              <h2 id="home-portfolio-title">{title} <span>{accent}</span></h2>
+              <p className={styles.description}>{description}</p>
             </div>
-            <div className={styles.tabs} role="tablist" aria-label="دسته‌بندی نمونه‌کارها">
-              {tabs.map((tab) => (
-                <label
-                  key={tab.key}
-                  role="tab"
-                  htmlFor={`home-portfolio-${tab.key}`}
-                >
-                  {tab.label}
-                </label>
-              ))}
-            </div>
+            {kind === "all" && <div className={styles.tabs} role="tablist" aria-label="دسته‌بندی نمونه‌کارها">
+              {tabs.map((tab) => <label key={tab.key} role="tab" htmlFor={`home-portfolio-${tab.key}`}>{tab.label}</label>)}
+            </div>}
           </header>
 
           <div id="home-portfolio-projects" aria-live="polite">
-            <div className={`${styles.projectPanel} ${styles.softwarePanel}`}>
-              <MoreProjects items={softwareProjects} />
-            </div>
-            <div className={`${styles.projectPanel} ${styles.websitePanel}`}>
-              <MoreProjects items={websiteProjects} />
-            </div>
+            {kind === "website" ? <MoreProjects items={websiteProjects} /> : <>
+              <div className={`${styles.projectPanel} ${styles.softwarePanel}`}><MoreProjects items={softwareProjects} /></div>
+              <div className={`${styles.projectPanel} ${styles.websitePanel}`}><MoreProjects items={websiteProjects} /></div>
+            </>}
           </div>
 
           <div className={styles.footer}>
@@ -78,7 +81,7 @@ function Showcase() {
         <span className={styles.logo} aria-hidden="true">
           <Image src="/images/brand/novatech-mark-navy.webp" alt="" width={256} height={256} sizes="40px" />
         </span>
-        <HeroWave className={styles.waveBottom} background="#ffffff" />
+        <HeroWave palette="legacy" className={styles.waveBottom} background="#ffffff" />
       </div>
     </section>
   );

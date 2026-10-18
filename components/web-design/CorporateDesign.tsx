@@ -4,14 +4,14 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import LeadForm from "@/components/LeadForm";
+import HomePortfolioShowcase from "@/components/HomePortfolioShowcase";
+import WebDesignHero from "@/components/web-design/WebDesignHero";
 import type { FaqItem } from "@/components/ServiceFaq";
-import { companyInfo } from "@/lib/site-content";
-import portfolio from "@/lib/portfolio-data.json";
 import styles from "./CorporateDesign.module.css";
 
 const asset = (name: string) => `/images/web-design-reference/${name}`;
 
-function SectionWave({ from, to, accent = "#8a86ba" }: { from: string; to: string; accent?: string }) {
+function SectionWave({ from, to, accent = "#a7eada" }: { from: string; to: string; accent?: string }) {
   return <svg className={styles.wave} aria-hidden="true" viewBox="0 0 1440 180" preserveAspectRatio="none" style={{ background: from }}>
     <path fill={accent} opacity=".26" d="M0 48C200 156 395 154 641 87S1100-3 1440 68V180H0Z" />
     <path fill={accent} opacity=".48" d="M0 73C230 178 414 160 667 104S1130 14 1440 86V180H0Z" />
@@ -34,8 +34,6 @@ export default function CorporateDesign({ faq }: { faq: FaqItem[] }) {
   const [active, setActive] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  const projectTrack = useRef<HTMLDivElement>(null);
-  const projects = portfolio.filter((item) => item.kind === "website").slice(0, 7);
 
   function showSolution(index: number) {
     setSelected(index);
@@ -44,27 +42,8 @@ export default function CorporateDesign({ faq }: { faq: FaqItem[] }) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.crumb}><Link href="/">صفحه اصلی</Link><span>‹</span><span>طراحی سایت شرکتی</span></div>
-      <section className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <p className={styles.english} lang="en" dir="ltr">Corporate Website Design</p>
-          <img className={styles.heroTitleArt} src={asset("hero-title.svg")} alt="اعتبار برند شما در فضای دیجیتال" width="496" height="105" />
-          <h1>طراحی سایت شرکتی</h1>
-          <p>طراحی سایت در نواتیک، آغاز یک ارتباط حرفه‌ای با مشتریان شماست. هویت کسب‌وکار، خدمات و توانایی‌های شما را در ساختاری روشن و زیبا معرفی می‌کنیم؛ سایتی که در موبایل و دسکتاپ روان کار کند و پیدا کردن اطلاعات و برقراری ارتباط را برای مخاطب ساده کند.</p>
-          <p>از معرفی یک شرکت تا فروشگاه آنلاین و اتصال به سیستم‌های داخلی، مسیر طراحی با شناخت نیاز شما شروع می‌شود. ظاهر اختصاصی، مدیریت آسان محتوا و زیرساخت قابل توسعه، کنار هم قرار می‌گیرند تا سایت بخشی کاربردی از کسب‌وکار شما باشد.</p>
-          <p>برای انتخاب مسیر مناسب، <a href="#order">با تیم نواتیک گفت‌وگو کنید.</a></p>
-          <div className={styles.promises}><span><b>اختصاصی</b>متناسب با برند شما</span><span><b>واکنش‌گرا</b>برای هر اندازه نمایشگر</span></div>
-          <div className={styles.heroActions}><a href="#order" className={styles.button}>درخواست مشاوره <span>↗</span></a><a href={`tel:${companyInfo.primaryPhoneHref}`} className={styles.phone} dir="ltr">{companyInfo.primaryPhoneLabel}</a></div>
-        </div>
-        <div className={styles.heroArt}><img src={asset("hero.webp")} width="1256" height="1152" fetchPriority="high" alt="چیدمان خلاقانه طراحی سایت شرکتی در نمایشگر و صفحات وب" /></div>
-      </section>
-      <SectionWave from="#fff" to="#050033" />
-      <section className={styles.work} aria-labelledby="corporate-work-title">
-        <div className={styles.sectionTitle}><p className={styles.script}>نتیجه‌ی یک <span>همکاری خوب</span></p><h2 id="corporate-work-title">با نواتیک، یک قدم جلوتر</h2><p>نگاهی به تجربه‌هایی که برای کسب‌وکارهای واقعی ساخته‌ایم.</p></div>
-        <div className={styles.projectSlider}><button aria-label="نمونه‌کارهای قبلی" onClick={() => projectTrack.current?.scrollBy({ left: 260, behavior: "smooth" })}>→</button><div ref={projectTrack} className={styles.projects}>{projects.map((project, index) => <Link key={project.title} href={project.caseStudySlug ? `/portfolio/${project.caseStudySlug}` : project.link} target={project.caseStudySlug ? undefined : "_blank"} rel={project.caseStudySlug ? undefined : "noopener noreferrer"} className={styles.project} style={{ backgroundColor: ["#ffc400", "#d17c55", "#153d76", "#138d65", "#d6755e"][index % 5] }}><span className={styles.browserDots}>● ● ●</span><img src={project.img} alt={project.imageAlt} loading="lazy" width="300" height="600" /><strong>{project.title}</strong><span className={styles.browserDots}>● ● ●</span></Link>)}</div><button aria-label="نمونه‌کارهای بعدی" onClick={() => projectTrack.current?.scrollBy({ left: -260, behavior: "smooth" })}>←</button></div>
-        <Link href="/portfolio" className={styles.allWork}>همه نمونه‌کارها <span>↗</span></Link>
-      </section>
-      <SectionWave from="#050033" to="#fff" />
+      <WebDesignHero />
+      <HomePortfolioShowcase eyebrow="نتیجه‌ی یک همکاری خوب" title="با نواتیک،" accent="یک قدم جلوتر" description="نگاهی به تجربه‌هایی که برای کسب‌وکارهای واقعی ساخته‌ایم." kind="website" />
       <section className={styles.values} aria-label="رویکرد طراحی نواتیک"><p>کسب‌وکار شما، نقطه شروع طراحی ماست</p><div><span>هویت برند</span><span>تجربه کاربری</span><span>توسعه اختصاصی</span><span>پشتیبانی و آموزش</span><span>زیرساخت یکپارچه</span></div></section>
       <SectionWave from="#fff" to="#16171c" accent="#c6c5d1" />
       <section className={styles.features}>
@@ -72,7 +51,7 @@ export default function CorporateDesign({ faq }: { faq: FaqItem[] }) {
         <div className={styles.featureTrack}>{features.map((feature, index) => <button key={feature.title} aria-expanded={active === index} className={`${styles.feature} ${active === index ? styles.featureActive : ""}`} onClick={() => setActive(index)}><span className={styles.featureIcon} aria-hidden="true">{feature.icon}</span><h3>{feature.title}</h3><p>{feature.text}</p></button>)}</div>
         <div className={styles.dots}>{features.map((f, i) => <button key={f.title} aria-label={`نمایش ویژگی ${i + 1}`} aria-pressed={active === i} onClick={() => setActive(i)} />)}</div>
       </section>
-      <SectionWave from="#16171c" to="#eeeef4" accent="#8c8b99" />
+      <SectionWave from="#16171c" to="#f3fbf8" accent="#8c8b99" />
       <section className={styles.solutions}>
         <div className={styles.sectionTitle}><p className={styles.script}>راهکارهای جامع <span>نواتیک</span></p><h2>راهکارهایی کاربردی برای موفقیت کسب‌وکار شما</h2><p>جزئیات درست، یک وب‌سایت زیبا را به ابزاری مؤثر تبدیل می‌کنند.<br />راهکار مناسب شما را بر اساس مخاطب، هدف و فرآیند کاری انتخاب می‌کنیم.</p></div>
         <div className={styles.solutionGrid}>{solutions.map((solution, index) => <button className={styles.solution} key={solution.image} onClick={() => showSolution(index)} aria-haspopup="dialog"><img src={asset(`${solution.icon}.svg`)} alt="" width="58" height="58" loading="lazy" /><h3>{solution.title}</h3><span lang="en" dir="ltr">{solution.en}</span><b aria-hidden="true">+</b></button>)}</div>
