@@ -27,6 +27,7 @@ import {
   faqSchema,
   graph,
   serviceSchema,
+  softwareApplicationSchema,
   webPageSchema,
 } from "@/lib/seo";
 import { serviceByKey } from "@/lib/services";
@@ -47,6 +48,16 @@ const description =
  * back up: no price, no delivery guarantee, no client name.
  */
 const faq = [
+  {
+    question: "ناظر برای چه نوع کسب و کاری مناسب است؟",
+    answer:
+      "ناظر برای ثبت روزانه حسابات، دریافت و پرداخت، مصارف و راپورهای مالی ساخته شده است. نیازهای ثبت و راپور یک فروشگاه، شرکت خدماتی یا تجارت عمده یکسان نیست؛ به همین دلیل پیش از سفارش، نسخه پیشنهادی در دمو با جریان کار واقعی شما مقایسه می شود و هر نیاز اختصاصی جداگانه مشخص می شود.",
+  },
+  {
+    question: "اگر نسخه آماده کافی نباشد، نرم افزار حسابداری اختصاصی هم ساخته می شود؟",
+    answer:
+      "بله. نواتیک در کنار ناظر، راهکار حسابداری اختصاصی هم می سازد؛ مثلاً اتصال به انبار، پخش و توزیع، حقوق و دستمزد یا وب سایت. دامنه این کارها با امکانات نسخه آماده یکسان فرض نمی شود و پس از نیازسنجی، جداگانه مشخص و برآورد می شود.",
+  },
   {
     question: "تفاوت نرم افزار حسابداری با یک سیستم مدیریت کامل چیست؟",
     answer:
@@ -118,7 +129,9 @@ export default function AccountingSoftwarePage() {
           breadcrumbSchema(breadcrumbs),
           serviceSchema({
             path: service.path,
-            name: "نرم افزار حسابداری",
+            // Same name as this service's entry in the Organization offer
+            // catalog, which shares the `#service` @id.
+            name: service.navLabel,
             description,
             serviceType: service.serviceType,
             offerCatalog: [
@@ -129,6 +142,19 @@ export default function AccountingSoftwarePage() {
               "حقوق و دستمزد",
               "گزارش های مدیریتی",
             ],
+          }),
+          // Nazer is a product, so it is also described as one. Its feature
+          // list is exactly the scope panel the hero shows; no platform or
+          // screenshot is claimed because the page publishes neither.
+          softwareApplicationSchema({
+            path: service.path,
+            name: "Nazer",
+            alternateName: "ناظر؛ نرم افزار حسابداری",
+            description,
+            images: [],
+            applicationSubCategory: "Accounting software",
+            operatingSystem: null,
+            featureList: nazerScope,
           }),
           faqSchema(faq),
         )}
@@ -141,7 +167,7 @@ export default function AccountingSoftwarePage() {
       {/* 1. HERO SECTION */}
       <section className="container max-w-7xl px-5 sm:px-8 2xl:px-0 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-8 md:pt-12 pb-16 lg:pb-24">
         <div className="min-w-0 flex flex-col gap-4 items-start lg:col-span-7">
-          <p className="inline-flex items-center gap-2 rounded-full bg-[#e8f8f4] px-4 py-1 text-sm text-[#1d8180]">ناظر | NAZER · محصول نواتیک</p>
+          <p className="inline-flex items-center gap-[10px] text-sm bold text-[#0c7668] before:h-[2px] before:w-[22px] before:rounded-full before:bg-[#54dcc6] before:content-['']">ناظر | NAZER · محصول نواتیک</p>
           <h1 className="text-[1.7rem] lg:text-[2.4rem] fat font-black text-gray-900 leading-[1.6]">
             ناظر؛ نرم افزار حسابداری و مدیریت مالی برای کسب و کارهای افغانستان
           </h1>
@@ -149,10 +175,10 @@ export default function AccountingSoftwarePage() {
             ناظر محصول حسابداری نواتیک است: ثبت روزانه حسابات، دریافت و پرداخت، مصارف و راپورهای مالی در یک نرم افزار. برای دیدن نرم افزار و بررسی تناسب آن با حسابات کسب و کارتان درخواست دمو بدهید؛ نیازهای اختصاصی شرکت شما نیز در جلسه مشاوره بررسی می‌شود.
           </p>
           <div className="flex flex-wrap gap-3 mt-2">
-            <Link href="#order" className="inline-flex min-h-[46px] items-center gap-2 rounded-full bg-[#54dcc6] px-6 text-sm bold text-[#0e2f2e] transition-colors hover:bg-[#45bba7]">
+            <Link href="#order" className="site-btn inline-flex min-h-[48px] items-center gap-2 bg-[#54dcc6] px-6 text-sm bold text-[#16332e] shadow-[0_14px_28px_-14px_rgba(22,120,104,0.55)] transition-colors hover:bg-[#39cbb5]">
               درخواست دموی ناظر
             </Link>
-            <Link href="#nazer-review" className="inline-flex min-h-[46px] items-center gap-2 rounded-full border border-[#b8e4dc] px-6 text-sm text-[#1d8180] transition-colors hover:bg-[#effaf7]">
+            <Link href="#nazer-review" className="site-btn inline-flex min-h-[48px] items-center gap-2 bg-white px-6 text-sm bold text-[#16332e] shadow-[0_10px_24px_-16px_rgba(22,51,46,0.4),0_0_0_1px_rgba(22,51,46,0.06)] transition-colors hover:text-[#0c7668]">
               بررسی امکانات در دمو
             </Link>
           </div>
@@ -161,7 +187,7 @@ export default function AccountingSoftwarePage() {
         {/* No published Nazer screenshots exist yet, so the visual is the
             product identity and its scope, not a borrowed or mock screen. */}
         <div className="lg:col-span-5">
-          <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-[#123c3b] to-[#1d8180] p-7 text-white shadow-[0_30px_60px_-36px_rgba(14,46,48,0.7)]">
+          <div className="relative overflow-hidden rounded-[28px_28px_8px_28px] bg-gradient-to-br from-[#16332e] to-[#0c7668] p-7 text-white shadow-[0_40px_80px_-48px_rgba(22,51,46,0.6)]">
             <div className="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-[#54dcc6]/25 blur-2xl" aria-hidden="true" />
             <p className="relative text-[2.6rem] fat leading-tight">ناظر</p>
             <p className="relative text-xs tracking-[0.3em] text-white/70" dir="ltr">NAZER · ACCOUNTING</p>
@@ -178,7 +204,7 @@ export default function AccountingSoftwarePage() {
       </section>
 
       <NazerOverview />
-      <details id="accounting-solutions" className="container max-w-7xl mx-auto px-5 py-8 mb-12 border-y border-gray-200 scroll-mt-28">
+      <details id="accounting-solutions" className="container max-w-7xl mx-auto px-5 py-8 mb-12 border-y border-[#e2ecea] scroll-mt-28">
         <summary className="bold text-xl cursor-pointer py-3">معلومات تخصصی و راهکارهای اختصاصی حسابداری</summary>
         <p className="text-gray-600 leading-8 py-5">معلومات زیر درباره خدمات حسابداری و راهکارهای قابل شخصی‌سازی نواتیک است؛ دامنه این خدمات با امکانات نسخه آماده ناظر یکسان فرض نمی‌شود.</p>
       {/* 2. PORTFOLIO GRID */}
@@ -203,7 +229,7 @@ export default function AccountingSoftwarePage() {
             return (
               <div
                 key={item.name}
-                className="col-span-1 flex flex-col justify-center items-center gap-3 p-5 rounded-md border border-gray-100 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 bg-white text-center"
+                className="site-card col-span-1 flex flex-col justify-center items-center gap-3 p-6 bg-white text-center"
               >
                 <span className="size-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                   <Icon className="size-6" aria-hidden="true" />
@@ -232,7 +258,7 @@ export default function AccountingSoftwarePage() {
           </p>
           <Link
             href="#order"
-            className="bg-primary text-white px-10 py-4 rounded-md bold font-bold text-sm shadow-xl hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300 mt-4"
+            className="site-btn bg-[#54dcc6] text-[#16332e] px-10 py-4 bold font-bold text-sm shadow-[0_14px_28px_-14px_rgba(22,120,104,0.55)] hover:bg-[#39cbb5] hover:-translate-y-1 transition-all duration-300 mt-4"
           >
             شروع مشاوره
           </Link>
@@ -273,7 +299,7 @@ export default function AccountingSoftwarePage() {
               <span className="md:absolute -top-3 right-0 text-gray-800 text-sm bold text-center">
                 تحلیل نیاز و مشاوره
               </span>
-              <span className="absolute top-2 left-3 md:bottom-2 md:right-0 flex justify-center items-center bg-[#45505F] w-7 h-7 rounded-full text-white">
+              <span className="absolute top-2 left-3 md:bottom-2 md:right-0 flex justify-center items-center bg-[#16332e] w-7 h-7 rounded-full text-white">
                 1
               </span>
             </div>
@@ -314,7 +340,7 @@ export default function AccountingSoftwarePage() {
                 تحلیل داده ها <br className="block md:hidden" /> و ساختار
                 <br className="block md:hidden" /> دیتابیس
               </span>
-              <span className="absolute top-2 left-3 md:bottom-2 md:right-0 flex justify-center items-center bg-[#45505F] w-7 h-7 rounded-full text-white">
+              <span className="absolute top-2 left-3 md:bottom-2 md:right-0 flex justify-center items-center bg-[#16332e] w-7 h-7 rounded-full text-white">
                 3
               </span>
             </div>
@@ -354,7 +380,7 @@ export default function AccountingSoftwarePage() {
               <span className="md:absolute -top-3 right-0 text-gray-800 text-sm bold text-center">
                 استقرار، آموزش و پشتیبانی
               </span>
-              <span className="absolute top-2 left-3 md:bottom-2 md:right-0 flex justify-center items-center bg-[#45505F] w-7 h-7 rounded-full text-white">
+              <span className="absolute top-2 left-3 md:bottom-2 md:right-0 flex justify-center items-center bg-[#16332e] w-7 h-7 rounded-full text-white">
                 5
               </span>
             </div>
@@ -363,7 +389,7 @@ export default function AccountingSoftwarePage() {
         <div className="hidden w-full md:flex flex-col justify-center items-center">
           <a
             id="btn2"
-            className="bg-primary hover:shadow-xl transition-all duration-300 mt-3 rounded-md flex justify-center items-center gap-2 px-10 py-4"
+            className="site-btn bg-[#16332e] hover:bg-[#0c7668] transition-all duration-300 mt-3 flex justify-center items-center gap-2 px-10 py-4"
             href="#order"
           >
             <span className="bold text-white">درخواست نسخه اختصاصی</span>
@@ -389,7 +415,12 @@ export default function AccountingSoftwarePage() {
         </div>
       </section>
 
-      {/* 5. PRICING */}
+      {/* 5. PRICING
+          User counts, deployment time and support level read "پس از نیازسنجی"
+          until the owner confirms them. The previous values (3 users / 2
+          users, deployment "7" / "10" / "15" with no unit, support "1") had no
+          source and contradicted each other (the professional plan allowed
+          fewer users than the basic one). See docs/phase3-release-readiness.md. */}
       <section className="mb-40">
         <div className="container max-w-7xl mx-auto px-5 w-full flex flex-col justify-center items-center gap-5 mb-14">
           <h2 className="text-2xl md:text-4xl font-iranyekan-fat text-gray-900 text-center">
@@ -407,8 +438,8 @@ export default function AccountingSoftwarePage() {
         <div className="container max-w-7xl mx-auto px-5">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Plan 1 */}
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col group">
-              <div className="p-8 text-center bg-gray-50 border-b border-gray-100 flex flex-col items-center">
+            <div className="site-card bg-white overflow-hidden flex flex-col group">
+              <div className="p-8 text-center bg-[#f4f9f8] flex flex-col items-center">
                 <Image
                   src="/images/star.png"
                   alt=""
@@ -429,29 +460,29 @@ export default function AccountingSoftwarePage() {
                 </div>
               </div>
               <div className="p-8 flex-grow flex flex-col gap-4 font-iranyekan text-sm text-gray-600">
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>تعداد کاربران</span>
                   <span className="font-iranyekan-bold text-gray-900">
-                    3 کاربر
+                    پس از نیازسنجی
                   </span>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>مدت استقرار</span>
-                  <span className="font-iranyekan-bold text-gray-900">7</span>
+                  <span className="font-iranyekan-bold text-gray-900">پس از نیازسنجی</span>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>نوع پشتیبانی</span>
-                  <span className="font-iranyekan-bold text-gray-900">1</span>
+                  <span className="font-iranyekan-bold text-gray-900">پس از نیازسنجی</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>تعریف سرفصل ها و حساب ها</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>آموزش اولیه تیم مالی</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>گزارشات پایه و خروجی اکسل</span>
                 </div>
@@ -459,7 +490,7 @@ export default function AccountingSoftwarePage() {
               <div className="p-6">
                 <Link
                   href="#order"
-                  className="block w-full py-4 text-center rounded-xl bg-gray-900 text-white font-iranyekan-bold hover:bg-primary transition-colors duration-300"
+                  className="site-btn block w-full py-4 text-center bg-[#16332e] text-white font-iranyekan-bold hover:bg-[#0c7668] transition-colors duration-300"
                 >
                   درخواست مشاوره
                 </Link>
@@ -467,11 +498,11 @@ export default function AccountingSoftwarePage() {
             </div>
 
             {/* Plan 2 (Highlighted) */}
-            <div className="bg-white border-2 border-primary rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col transform md:-translate-y-4 relative">
-              <div className="absolute top-0 left-0 right-0 bg-primary text-white text-center py-1 text-xs font-iranyekan-bold tracking-wider">
-                پيشنهاد ويژه
+            <div className="site-card site-card-featured bg-white overflow-hidden flex flex-col md:-translate-y-4 relative">
+              <div className="absolute top-0 left-0 right-0 bg-[#54dcc6] text-[#16332e] text-center py-1 text-xs font-iranyekan-bold tracking-wider">
+                پیشنهاد ویژه
               </div>
-              <div className="p-8 text-center bg-red-50/50 border-b border-gray-100 flex flex-col items-center mt-6">
+              <div className="p-8 text-center bg-[#eef9f6] flex flex-col items-center mt-6">
                 <div className="flex gap-1 mb-2">
                   <Image
                     src="/images/star.png"
@@ -501,33 +532,33 @@ export default function AccountingSoftwarePage() {
                 </div>
               </div>
               <div className="p-8 flex-grow flex flex-col gap-4 font-iranyekan text-sm text-gray-600">
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>سطح پوشش</span>
                   <span className="font-iranyekan-bold text-primary">
                     چندبخشی
                   </span>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>مدت استقرار</span>
-                  <span className="font-iranyekan-bold text-gray-900">10</span>
+                  <span className="font-iranyekan-bold text-gray-900">پس از نیازسنجی</span>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>تعداد کاربران</span>
-                  <span className="font-iranyekan-bold text-gray-900">2</span>
+                  <span className="font-iranyekan-bold text-gray-900">پس از نیازسنجی</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>تعریف فرایند فروش و خزانه</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>گزارشات مدیریتی سفارشی</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>اتصال به انبار و کالا</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>پشتیبانی راه اندازی</span>
                 </div>
@@ -535,7 +566,7 @@ export default function AccountingSoftwarePage() {
               <div className="p-6">
                 <Link
                   href="#order"
-                  className="block w-full py-4 text-center rounded-xl bg-primary text-white font-iranyekan-bold hover:bg-gray-900 transition-colors duration-300"
+                  className="site-btn block w-full py-4 text-center bg-[#54dcc6] text-[#16332e] font-iranyekan-bold hover:bg-[#39cbb5] transition-colors duration-300"
                 >
                   درخواست مشاوره
                 </Link>
@@ -543,8 +574,8 @@ export default function AccountingSoftwarePage() {
             </div>
 
             {/* Plan 3 */}
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
-              <div className="p-8 text-center bg-gray-50 border-b border-gray-100 flex flex-col items-center">
+            <div className="site-card bg-white overflow-hidden flex flex-col">
+              <div className="p-8 text-center bg-[#f4f9f8] flex flex-col items-center">
                 <div className="flex gap-1 mb-2">
                   <Image
                     src="/images/star.png"
@@ -582,35 +613,35 @@ export default function AccountingSoftwarePage() {
                 </div>
               </div>
               <div className="p-8 flex-grow flex flex-col gap-4 font-iranyekan text-sm text-gray-600">
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>نوع استقرار</span>
                   <span className="font-iranyekan-bold text-primary">
                     اختصاصی
                   </span>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>مدت استقرار</span>
-                  <span className="font-iranyekan-bold text-gray-900">15</span>
+                  <span className="font-iranyekan-bold text-gray-900">پس از نیازسنجی</span>
                 </div>
-                <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                <div className="flex justify-between items-center pb-2 border-b border-[#e9f1ef]">
                   <span>تیم اجرایی</span>
                   <span className="font-iranyekan-bold text-gray-900">
                     تیم کامل
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>تمامی امکانات پلن قبلی</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>طراحی دیتابیس اختصاصی</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>داشبورد مدیریتی و KPI</span>
                 </div>
-                <div className="flex items-center gap-2 text-green-600">
+                <div className="flex items-center gap-2 text-[#0c7668]">
                   <CheckCircle size={18} />
                   <span>یکپارچه سازی با سایت و ابزارها</span>
                 </div>
@@ -618,7 +649,7 @@ export default function AccountingSoftwarePage() {
               <div className="p-6">
                 <Link
                   href="#order"
-                  className="block w-full py-4 text-center rounded-xl bg-gray-900 text-white font-iranyekan-bold hover:bg-primary transition-colors duration-300"
+                  className="site-btn block w-full py-4 text-center bg-[#16332e] text-white font-iranyekan-bold hover:bg-[#0c7668] transition-colors duration-300"
                 >
                   درخواست مشاوره
                 </Link>
@@ -632,11 +663,11 @@ export default function AccountingSoftwarePage() {
       {/* 6. ORDER FORM */}
       <section
         id="order"
-        className="container max-w-7xl mx-auto mb-40 px-8 md:px-14 shadow-2xl rounded-3xl h-auto md:h-[400px] grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-5 py-10 mt-32 bg-white relative overflow-hidden"
+        className="container max-w-7xl mx-auto mb-32 px-8 md:px-14 rounded-[36px_36px_10px_36px] shadow-[0_40px_80px_-50px_rgba(22,51,46,0.5),0_2px_12px_-6px_rgba(22,51,46,0.1)] h-auto md:h-[400px] grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-5 py-10 mt-24 bg-white relative overflow-hidden scroll-mt-[calc(var(--site-header-height,90px)+24px)]"
       >
-        {/* Decoration */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-red-50 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-blue-50 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2"></div>
+        {/* Decoration: two soft brand-mint glows. */}
+        <div className="absolute top-0 right-0 w-40 h-40 bg-[#54dcc6]/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#54dcc6]/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
 
         <div className="flex flex-col justify-center items-center md:items-start col-span-1 md:col-span-6 gap-4 z-10">
           <h3 className="font-iranyekan-fat text-3xl text-gray-900">
@@ -675,7 +706,7 @@ export default function AccountingSoftwarePage() {
             />
             <button
               type="submit"
-              className="w-full bg-primary text-white py-4 rounded-xl text-sm font-iranyekan-bold hover:bg-primary-hover duration-300 shadow-md hover:shadow-xl mt-2 flex justify-center items-center gap-2"
+              className="site-btn w-full bg-[#54dcc6] text-[#16332e] py-4 text-sm font-iranyekan-bold hover:bg-[#39cbb5] duration-300 shadow-[0_14px_28px_-14px_rgba(22,120,104,0.55)] mt-2 flex justify-center items-center gap-2"
             >
               <span>ثبت درخواست</span>
               <ShieldCheck size={18} aria-hidden="true" />

@@ -4,7 +4,7 @@ export const siteUrl =
 export const companyInfo = {
   brandName: "نواتیک",
   latinName: "Novatech",
-  displayName: "شرکت تکنولوژی نواتیک (NOVATECH)",
+  displayName: "نواتیک (Novatech Technology Solutions)",
   legalName: "Novatech Technology Solutions",
   title: "شرکت نرم افزاری و تکنالوژی در هرات، افغانستان",
   shortDescription:
@@ -20,6 +20,13 @@ export const companyInfo = {
   websiteUrl: "https://novatechsoft.com",
   instagramHandle: "@novatechsoft",
   instagramUrl: "https://instagram.com/novatechsoft",
+  /**
+   * Official profiles published as `sameAs`. Only the profile already linked
+   * from the site is listed. Add a Facebook, LinkedIn, Google Business Profile
+   * or directory URL here only after the owner confirms it is the company's own
+   * account (see docs/phase3-seo-geo-report.md, owner checklist).
+   */
+  sameAs: ["https://instagram.com/novatechsoft"] as string[],
   whatsappLabel: "0702008454",
   whatsappUrl: "https://wa.me/93702008454",
   address: "پاساژ الماس شرق، هرات، افغانستان",

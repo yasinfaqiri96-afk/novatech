@@ -16,10 +16,10 @@ import {
 import { breadcrumbSchema, faqSchema, graph, softwareApplicationSchema, webPageSchema } from "@/lib/seo";
 import styles from "@/components/MashalProductPage.module.css";
 
-const introduction = "MASHAL is oil and gas trading management software for Afghanistan, developed by NOVATECH Technology Solutions. It connects contracts, loading, transport, tanks, sales, partner accounts and profit reports in one system.";
+const introduction = "MASHAL is oil and gas trading management software for Afghanistan, developed by Novatech Technology Solutions. It connects contracts, loading, transport, tanks, sales, partner accounts and profit reports in one system.";
 
-const title = "Mashal Oil & Gas ERP Afghanistan | NOVATECH";
-const description = "Mashal is NOVATECH’s oil and gas ERP for contracts, tanker logistics, tank inventory, sales, multi-currency finance and profitability in Afghanistan.";
+const title = "Mashal Oil & Gas ERP Afghanistan | Novatech";
+const description = "Mashal is Novatech’s oil and gas ERP for contracts, tanker logistics, tank inventory, sales, multi-currency finance and profitability in Afghanistan.";
 
 const breadcrumbs = [
   { name: "Home", path: "/" },
@@ -51,13 +51,13 @@ const modules = [
 ] as const;
 
 const questions = [
-  ["What is Mashal?", "MASHAL is a NOVATECH Technology Solutions product for managing oil and gas trading in Afghanistan. It connects contracts, cargo, tanks, sales, partner accounts and profit reports."],
+  ["What is Mashal?", "MASHAL is a Novatech Technology Solutions product for managing oil and gas trading in Afghanistan. It connects contracts, cargo, tanks, sales, partner accounts and profit reports."],
   ["Who is it built for?", "It is designed for petroleum importers, distributors and trading companies that manage contracts, tankers, tanks, credit sales, multiple currencies or partners."],
   ["How is it different from general accounting software?", "General accounting records the financial document. Mashal also preserves the operational source: the contract, cargo, transport, tank movement or sale behind that document."],
   ["Does Mashal support USD and AFN?", "Yes. USD and AFN amounts and balances remain distinct, with exchange-rate context attached to the relevant operation."],
   ["Can it report profit by contract or cargo?", "Yes. Realized sales, source cost and linked expenses can be reviewed together without presenting unsold inventory as realized profit."],
   ["How are landed cost, losses and goods in transit tracked?", "Purchase cost, freight, customs and expenses stay linked to the cargo and contract. Loaded and delivered quantities and shortages are recorded at each stage; transport status and goods-in-transit inventory can also be tracked."],
-  ["How can we request a Mashal demo?", "Use the demo request form on the Dari product page with your name, company, phone number and business area, or contact NOVATECH. The demo is prepared around your company’s workflow."],
+  ["How can we request a Mashal demo?", "Use the demo request form on the Dari product page with your name, company, phone number and business area, or contact Novatech. The demo is prepared around your company’s workflow."],
 ] as const;
 
 export default function MashalEnglishPage() {

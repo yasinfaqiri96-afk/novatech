@@ -16,6 +16,17 @@ export type TeamMember = {
   width: number;
   height: number;
   alt: string;
+  /** Where the 4:5 portrait crop centres, as a CSS object-position (keeps every face at the same height). */
+  focus: string;
+  /**
+   * Personal profiles, published only when the handle plainly belongs to the
+   * named person. A link is left out rather than guessed: a profile under
+   * another name was removed in Phase 3 (see docs/phase3-release-readiness.md).
+   */
+  socialLinks: {
+    instagram?: string;
+    facebook?: string;
+  };
 };
 
 export const teamMembers: TeamMember[] = [
@@ -27,15 +38,25 @@ export const teamMembers: TeamMember[] = [
     width: 1086,
     height: 1448,
     alt: "یاسر فقیری، توسعه دهنده وب در نواتیک",
+    focus: "50% 18%",
+      socialLinks: {
+        instagram: "https://www.instagram.com/haji_yaser_faqiri/",
+        facebook: "https://www.facebook.com/yaser.faghery",
+      },
   },
   {
     slug: "ali-ahmad-bakhtyari",
     name: "علی احمد بختیاری",
     role: "طراح دیتابیس",
     image: "/images/ali.webp",
-    width: 1079,
-    height: 1457,
+    width: 1272,
+    height: 1237,
     alt: "علی احمد بختیاری، طراح دیتابیس در نواتیک",
+    focus: "55% 50%",
+      socialLinks: {
+        instagram: "https://www.instagram.com/aliahmadbakhtyari/",
+        facebook: "https://www.facebook.com/aliJoO.2006",
+      },
   },
   {
     slug: "sayed-mahdi-kazemi",
@@ -45,6 +66,12 @@ export const teamMembers: TeamMember[] = [
     width: 1227,
     height: 1281,
     alt: "سید مهدی کاظمی، طراح گرافیک در نواتیک",
+    focus: "58% 50%",
+      socialLinks: {
+        instagram: "https://www.instagram.com/mahdi_kazemi1212/",
+        // Profile name differs from the handle; confirmed as his by the site owner (2026-10-19).
+        facebook: "https://www.facebook.com/reza.kazemi.7583",
+      },
   },
 ];
 

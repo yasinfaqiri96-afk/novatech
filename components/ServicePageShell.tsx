@@ -46,11 +46,9 @@ export default function ServicePageShell({
     <div className={styles.root}>
       <section className={styles.hero}>
         <div className={styles.shell}>
-          <div className={styles.breadcrumbs}>
-            <Breadcrumbs items={breadcrumbs} />
-          </div>
+          <Breadcrumbs items={breadcrumbs} />
 
-          <div className={styles.heroGrid}>
+          <div className={heroImage ? styles.heroGrid : `${styles.heroGrid} ${styles.heroSolo}`}>
             <div>
               <p className={styles.eyebrow}>{eyebrow}</p>
               <h1 className={styles.title}>{title}</h1>
@@ -88,7 +86,7 @@ export default function ServicePageShell({
             <ul className={styles.highlights}>
               {highlights.map((item) => (
                 <li key={item}>
-                  <Check size={17} aria-hidden="true" />
+                  <span className={styles.checkMark}><Check size={15} strokeWidth={2.2} aria-hidden="true" /></span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -99,7 +97,7 @@ export default function ServicePageShell({
 
       <div className={styles.content}>
         {blocks.map((block) => (
-          <section key={block.heading} className={styles.block}>
+          <section key={block.heading} className={`${styles.block} defer-render`}>
             <h2>{block.heading}</h2>
 
             {block.paragraphs?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
@@ -108,7 +106,7 @@ export default function ServicePageShell({
               <ul className={styles.bulletList}>
                 {block.bullets.map((bullet) => (
                   <li key={bullet}>
-                    <Check size={17} aria-hidden="true" />
+                    <span className={styles.checkMark}><Check size={15} strokeWidth={2.2} aria-hidden="true" /></span>
                     <span>{bullet}</span>
                   </li>
                 ))}
@@ -140,7 +138,7 @@ export default function ServicePageShell({
 
       <RelatedLinks serviceKey={serviceKey} caseStudySlugs={caseStudySlugs} />
 
-      <section className={styles.closing}>
+      <section className={`${styles.closing} defer-render`}>
         <div className={styles.closingCard}>
           <div className={styles.closingCopy}>
             <span>قدم بعدی</span>

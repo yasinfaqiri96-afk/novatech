@@ -14,7 +14,7 @@ export default function ServiceFaq({
   if (items.length === 0) return null;
 
   return (
-    <section className={className ? `${styles.root} ${className}` : styles.root} aria-labelledby="service-faq-title">
+    <section className={`${className ? `${styles.root} ${className}` : styles.root} defer-render`} aria-labelledby="service-faq-title">
       <h2 id="service-faq-title" className={styles.heading}>{heading}</h2>
       <div className={styles.list}>
         {items.map((item) => (

@@ -87,6 +87,35 @@
   fill: #54dcc6;
 }
 
+/* Phones: the header notch hangs over the middle of the bar, so the trail
+   starts below it, keeps a readable size and drops the decorative slogan. */
+@media (max-width: 799px) {
+  .bar {
+    padding-top: calc(var(--u) * 7.4);
+    font-size: max(12px, calc(var(--u) * 1.75));
+  }
+  .bar ol {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .bar li {
+    flex: none;
+  }
+  /* A long article title would wrap the bar to two lines right above the same
+     title as the page's H1; the current item is cut to one line instead (the
+     full text stays in the DOM, matching the BreadcrumbList). */
+  .bar .current {
+    display: block;
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .slogan {
+    display: none;
+  }
+}
+
 @media (min-width: 800px) {
   .frame {
     --u: min(0.57vw, 10px);

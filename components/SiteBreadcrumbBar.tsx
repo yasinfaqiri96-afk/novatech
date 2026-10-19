@@ -2,70 +2,37 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { HOME_LABELS, ROUTE_LABELS, type BreadcrumbLanguage } from "@/lib/breadcrumbs";
 import styles from "./SiteBreadcrumbBar.module.css";
 
-type SiteLanguage = "fa-AF" | "en-AF" | "ps-AF";
-
-const homeLabels: Record<SiteLanguage, string> = {
-  "fa-AF": "صفحه اصلی",
-  "en-AF": "Home",
-  "ps-AF": "کورپاڼه",
-};
-
-const routeLabels: Record<SiteLanguage, Record<string, string>> = {
-  "fa-AF": {
-    "/portfolio": "نمونه‌کارها",
-    "/about": "درباره ما",
-    "/contact": "تماس با ما",
-    "/blog": "مقالات و راهنماها",
-    "/software-solutions": "توسعه نرم‌افزار اختصاصی",
-    "/database-solutions": "طراحی و توسعه دیتابس",
-    "/business-systems": "سیستم‌های مدیریت کسب‌وکار",
-    "/erp": "نرم‌افزار ERP",
-    "/accounting-software": "نرم‌افزار حسابداری ناظر",
-    "/web-design": "طراحی وب‌سایت",
-    "/graphic-design": "طراحی گرافیک",
-    "/oil-and-gas-software": "نرم‌افزار نفت و گاز مشعل",
-    "/oil-and-gas-software/features": "امکانات مشعل",
-    "/herat": "دفتر هرات",
-    "/privacy": "حریم خصوصی",
-  },
-  "en-AF": {
-    "/en/oil-and-gas-erp-afghanistan": "Oil and Gas ERP",
-  },
-  "ps-AF": {
-    "/ps/oil-and-gas-erp-afghanistan": "د تېلو او ګاز ERP",
-  },
-};
-
-function fallbackLabel(path: string, segment: string, language: SiteLanguage) {
-  if (path.startsWith("/portfolio/")) {
-    return language === "en-AF" ? "Portfolio details" : "جزئیات نمونه‌کار";
-  }
-  if (path.startsWith("/blog/")) {
-    return language === "en-AF" ? "Article" : "مقاله";
-  }
-  return segment.replaceAll("-", " ");
-}
-
-export default function SiteBreadcrumbBar({ language }: { language: SiteLanguage }) {
+/**
+ * The visible breadcrumb trail under the header. Labels come from the same
+ * table as the BreadcrumbList JSON-LD (`lib/breadcrumbs.ts`), and detail pages
+ * use the titles passed in `detailLabels`, so the bar never shows a raw slug.
+ * A path segment with no label of its own (`/en`, `/ps`) is not a page and is
+ * skipped rather than printed.
+ */
+export default function SiteBreadcrumbBar({
+  language,
+  detailLabels,
+}: {
+  language: BreadcrumbLanguage;
+  detailLabels: Record<string, string>;
+}) {
   const pathname = usePathname() || "/";
   if (pathname === "/") return null;
 
-  const segments = pathname.split("/").filter(Boolean);
-  const locale = segments[0] === "en" || segments[0] === "ps" ? segments.shift() : undefined;
-  let path = locale ? `/${locale}` : "";
-  const crumbs = [{ href: "/", label: homeLabels[language] }];
-
-  for (const segment of segments) {
+  const crumbs = [{ href: "/", label: HOME_LABELS[language] }];
+  let path = "";
+  for (const segment of pathname.split("/").filter(Boolean)) {
     path += `/${segment}`;
-    const label = routeLabels[language][path] ?? fallbackLabel(path, segment, language);
-    crumbs.push({ href: path, label });
+    const label = ROUTE_LABELS[path] ?? detailLabels[path];
+    if (label) crumbs.push({ href: path, label });
   }
 
   return (
     <div className={styles.frame}>
-      <nav className={styles.bar} aria-label={language === "en-AF" ? "Breadcrumb" : "مسیر صفحه"}>
+      <nav className={styles.bar} aria-label={language === "en-AF" ? "Breadcrumb" : language === "ps-AF" ? "د پاڼې لار" : "مسیر صفحه"}>
         <ol>
           {crumbs.map((crumb, index) =>
             index === crumbs.length - 1 ? (

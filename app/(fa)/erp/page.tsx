@@ -83,7 +83,7 @@ export default function ErpPage() {
           breadcrumbSchema(breadcrumbs),
           serviceSchema({
             path: service.path,
-            name: "پیاده سازی نرم افزار ERP",
+            name: service.navLabel,
             description: metadata.description as string,
             serviceType: service.serviceType,
             offerCatalog: [

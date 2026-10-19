@@ -58,7 +58,7 @@ const detailedServices = [
   {
     title: "نرم‌افزار فروش رستوران (POS)",
     image: "/images/portfolio/novatech-restaurant-pos-system.webp",
-    description: "ثبت سریع سفارشات، مدیریت میزها، کنترل موجودی آشپزخانه و حسابداری روزانه با رابط کاربری بسیار نرم.",
+    description: "ثبت سریع سفارشات، مدیریت میزها، کنترل موجودی آشپزخانه و حسابداری روزانه با رابط کاربری ساده.",
     items: [
       "ثبت سفارش سریع با رابط لمسی",
       "ارتباط مستقیم سالن با آشپزخانه",
@@ -102,7 +102,7 @@ const detailedServices = [
   {
     title: "مدیریت یکپارچه آژانس مسافرتی",
     image: "/images/portfolio/novatech-travel-agency-system.webp",
-    description: "مدیریت تورها، بلیط‌ها، اطلاعات مسافران و حسابداری آژانس به صورت کاملاً یکپارچه و بدون خطا.",
+    description: "مدیریت تورها، بلیط‌ها، اطلاعات مسافران و حسابداری آژانس در یک سیستم یکپارچه.",
     items: [
       "ثبت و مدیریت اطلاعات تور و پرواز",
       "بایگانی دقیق اطلاعات مسافران",
@@ -141,7 +141,7 @@ const trustHighlights = [
   },
   {
     image: "/images/design-landings/box-01.png",
-    title: "پشتیبانی همیشه در دسترس",
+    title: "پشتیبانی بعد از استقرار",
     description: "بعد از استقرار هم برای آموزش، توسعه و رفع نیازهای جدید کنار شما هستیم.",
   },
 ];
@@ -211,7 +211,7 @@ export default function SoftwareSolutionsClient() {
         </div>
         <div className="flex flex-col items-center text-center gap-6">
           <span className="text-gray-500 font-bold text-sm">
-            توسعه نرم افزار و دیتابس در هرات
+            توسعه نرم افزار اختصاصی در هرات
           </span>
           <h1 className="text-primary font-bold fat text-3xl md:text-5xl lg:text-6xl leading-normal w-full max-w-4xl">
             نرم افزار اختصاصی برای
@@ -287,7 +287,7 @@ export default function SoftwareSolutionsClient() {
             چرا
             <b className="text-[#0F0F0F] leading-normal">
               {" "}
-              راهکارهای دیتابیس نواتیک
+              نرم افزار اختصاصی نواتیک
             </b>
             {" "}برای کسب و کارها کاربردی است؟
           </h2>
@@ -339,7 +339,7 @@ export default function SoftwareSolutionsClient() {
             نمونه نرم افزارهای اجرا شده
           </span>
           <h2 className="fat text-3xl font-black leading-normal">
-            راهکارهای دیتابیس و نرم افزارهای
+            سیستم ها و نرم افزارهای
             <strong className="text-primary"> اختصاصی </strong>
             ما
           </h2>
@@ -402,11 +402,11 @@ export default function SoftwareSolutionsClient() {
                 <span className="text-primary">مدیریت داده‌هایتان</span> هستید؟
               </h2>
               <p className="text-gray-300 text-xl leading-relaxed">
-                شماره خود را ثبت کنید تا کارشناسان ارشد فنی ما در کوتاه‌ترین زمان برای ارائه مشاوره رایگان و تحلیل سناریو با شما تماس بگیرند.
+                شماره خود را ثبت کنید تا کارشناسان فنی ما برای ارائه مشاوره رایگان و تحلیل سناریو با شما تماس بگیرند.
               </p>
               <div className="flex items-center justify-center lg:justify-start gap-4 text-white/60">
                 <Check className="text-primary" aria-hidden="true" />
-                <span>مشاوره کاملاً رایگان و تخصصی</span>
+                <span>مشاوره رایگان و تخصصی</span>
               </div>
             </div>
 
@@ -418,8 +418,9 @@ export default function SoftwareSolutionsClient() {
                 </div>
                 <TextField name="name" placeholder="نام و نام خانوادگی" />
                 <TextField name="phone" type="tel" placeholder="شماره تماس (مثلاً 07...)" dir="ltr" />
-                <SelectField name="service" placeholder="نوع خدمت مورد نظر" options={serviceOptions} />
-                <button type="submit" className="w-full py-5 bg-primary text-white fat text-lg rounded-2xl hover:brightness-110 hover:shadow-2xl hover:shadow-primary/30 transition-all transform active:scale-95 mt-2">
+                {/* LeadForm reads `activity`; the chosen service travels with the lead. */}
+                <SelectField name="activity" placeholder="نوع خدمت مورد نظر" options={serviceOptions} />
+                <button type="submit" className="w-full py-5 bg-primary text-text-dark fat text-lg rounded-2xl hover:brightness-110 hover:shadow-2xl hover:shadow-primary/30 transition-all transform active:scale-95 mt-2">
                   ارسال درخواست و تماس
                 </button>
               </LeadForm>

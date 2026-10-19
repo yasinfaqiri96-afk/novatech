@@ -48,7 +48,7 @@ export default function RelatedLinks({
     .slice(0, 2);
 
   return (
-    <section className={styles.section} aria-labelledby="related-links-title">
+    <section className={`${styles.section} defer-render`} aria-labelledby="related-links-title">
       <div className={styles.shell}>
         <div className={styles.header}>
           <div>

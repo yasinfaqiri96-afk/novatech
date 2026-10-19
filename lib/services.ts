@@ -89,10 +89,12 @@ export const services: ServiceEntry[] = [
   {
     key: "accounting-software",
     path: "/accounting-software",
-    navLabel: "نرم افزار حسابداری",
+    navLabel: "ناظر؛ نرم افزار حسابداری",
     primaryTopic: "نرم افزار حسابداری و مدیریت مالی",
+    // Restricted to the scope the Nazer page states for the ready product;
+    // warehouse, payroll and distribution are listed there as custom work.
     teaser:
-      "ثبت سند، خزانه، انبار، حقوق و دستمزد و گزارش های مدیریتی در یک سیستم.",
+      "حسابات، دریافت و پرداخت، مصارف و راپور مالی به افغانی و دالر؛ و راهکار اختصاصی برای نیازهای بیشتر.",
     serviceType: "Accounting software",
     related: ["business-systems", "erp", "oil-and-gas-software"],
     caseStudies: ["restaurant-pos", "supermarket-management-system"],

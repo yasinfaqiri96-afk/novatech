@@ -165,6 +165,52 @@ sudo journalctl -u novatech -n 100 --no-pager
 sudo journalctl -u novatech -f
 ```
 
+## سرعت: کش HTML در Cloudflare
+
+همهٔ صفحات سایت هنگام build به HTML ثابت تبدیل می‌شوند، اما سرور فعلی روی HTML هدر `Cache-Control: no-store` می‌فرستد. نتیجه: Cloudflare هیچ صفحه‌ای را کش نمی‌کند (`cf-cache-status: DYNAMIC`)، هر بازدید تا سرور اصلی می‌رود، و دکمهٔ Back مرورگر صفحه را از نو بارگذاری می‌کند (`no-store` جلوی bfcache را می‌گیرد). درخواست‌های `/_next/image` هم به همین دلیل از Cloudflare عبور می‌کنند و کش نمی‌شوند.
+
+۱. در Nginx، داخل `location /`، هدر `no-store` را با هدری جایگزین کنید که مرورگر را مجبور به بررسی مجدد کند ولی bfcache را از کار نیندازد:
+
+```nginx
+proxy_hide_header Cache-Control;
+add_header Cache-Control "public, max-age=0, must-revalidate" always;
+```
+
+مسیر `/api/` نباید کش شود؛ اگر برای آن `location` جدا ندارید، بسازید و هدر `no-store` را فقط آنجا نگه دارید.
+
+۲. در Cloudflare، بخش Caching → Cache Rules، یک قانون بسازید:
+
+- شرط: `Hostname equals novatechsoft.com` و `URI Path does not start with /api/`
+- Cache eligibility: `Eligible for cache`
+- Edge TTL: `Ignore cache-control header and use this TTL` با مقدار ۱ روز
+- Browser TTL: `Respect origin`
+
+درخواست‌های داخلی Next.js پارامتر `?_rsc=` دارند، پس با HTML در کش قاطی نمی‌شوند.
+
+۳. بعد از هر انتشار، کش Cloudflare را پاک کنید (Caching → Configuration → Purge Everything، یا با API):
+
+```bash
+curl -X POST "https://api.cloudflare.com/client/v4/zones/<ZONE_ID>/purge_cache" \
+  -H "Authorization: Bearer <API_TOKEN>" -H "Content-Type: application/json" \
+  --data '{"purge_everything":true}'
+```
+
+۴. بررسی: دومین درخواست به یک صفحه باید `cf-cache-status: HIT` برگرداند:
+
+```bash
+curl -sI https://novatechsoft.com/ | grep -i cf-cache-status
+```
+
+## سرعت: فشرده‌سازی ویدیوها
+
+ویدیوهای پس‌زمینه بعد از بارگذاری صفحه یا هنگام رسیدن به دید کاربر دانلود می‌شوند (`components/LazyVideo.tsx`) و برای کاربران Data Saver و اینترنت 2G اصلاً دانلود نمی‌شوند. حجم فایل‌ها هنوز زیاد است (`new-reference-home.mp4` حدود 4.2MB، `novatech-portfolio-showreel.mp4` حدود 3.5MB، `Comp-3.mp4` حدود 2.2MB). با ffmpeg، بدون صدا و با `faststart`، معمولاً به یک‌سوم حجم می‌رسند:
+
+```bash
+ffmpeg -i in.mp4 -an -vf "scale='min(1280,iw)':-2,fps=24" -c:v libx264 -crf 28 -preset slow -pix_fmt yuv420p -movflags +faststart out.mp4
+```
+
+خروجی را قبل از جایگزینی فایل اصلی، از نظر کیفیت بصری بررسی کنید.
+
 ## نکات امنیتی و عملیاتی
 
 - فایل `.env.local` را در Git commit نکنید.

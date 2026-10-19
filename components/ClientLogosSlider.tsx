@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import type { CSSProperties } from "react";
 import Image from "next/image";
 import ViewportMotion from "./ViewportMotion";
 import styles from "./ClientLogosSlider.module.css";
@@ -12,59 +10,63 @@ import styles from "./ClientLogosSlider.module.css";
  * a verified business name stay uncaptioned rather than receiving an invented one. The spaced and
  * parenthesised originals were renamed to plain `client-NN.webp`, because the
  * image optimiser double-escaped them into 404s; keep new logos to that pattern.
+ * Every file is trimmed to its artwork on a transparent background and exported at
+ * exactly 2x its on-screen box, so it is served as-is: the optimiser's AVIF/q75
+ * re-encode smeared the fine lettering. `w`/`h` are the file's real pixel size;
+ * new logos must be prepared the same way.
  */
-const clientLogos: { src: string; name?: string }[] = [
-  { src: "/images/client/2.webp", name: "Arg Company" },
-  { src: "/images/client/4.webp", name: "Mirwais Yaqoobi Diagnostic Center" },
-  { src: "/images/client/5.webp", name: "قادری" },
-  { src: "/images/client/6.webp", name: "Manoto Potato Chips" },
-  { src: "/images/client/9a.webp", name: "Super Cola" },
-  { src: "/images/client/12.webp", name: "مرکز جلدی و زیبایی" },
-  { src: "/images/client/13.webp", name: "نورالمدینه" },
-  { src: "/images/client/14.webp", name: "شرکت نرم افزاری" },
-  { src: "/images/client/15.webp", name: "انستیتوت علوم صحی طلوع سعادت" },
-  { src: "/images/client/16.webp" },
-  { src: "/images/client/17.webp", name: "Qaderi" },
-  { src: "/images/client/77.webp", name: "گیلاتو؛ بستنی و فست فود" },
-  { src: "/images/client/200.webp", name: "خیاطی نوراحمد سلیمانی" },
-  { src: "/images/client/client-18.webp", name: "Telionix" },
-  { src: "/images/client/client-19.webp", name: "Pishro" },
-  { src: "/images/client/client-20.webp", name: "گروپ کمپنی‌های صدیقی" },
-  { src: "/images/client/client-21.webp", name: "زیتون زمرد" },
-  { src: "/images/client/client-22.webp", name: "Le Petit Isenburg" },
-  { src: "/images/client/client-23.webp", name: "شرکت باربری رحمانی (نور)" },
-  { src: "/images/client/client-24.webp", name: "Wesal Travel" },
-  { src: "/images/client/client-25.webp", name: "TURD KFC" },
+const clientLogos: { src: string; w: number; h: number; name?: string }[] = [
+  { src: "/images/client/2.webp", w: 290, h: 176, name: "Arg Company" },
+  { src: "/images/client/4.webp", w: 306, h: 168, name: "Mirwais Yaqoobi Diagnostic Center" },
+  { src: "/images/client/5.webp", w: 246, h: 208, name: "قادری" },
+  { src: "/images/client/6.webp", w: 222, h: 230, name: "Manoto Potato Chips" },
+  { src: "/images/client/9a.webp", w: 302, h: 170, name: "Super Cola" },
+  { src: "/images/client/12.webp", w: 220, h: 234, name: "مرکز جلدی و زیبایی" },
+  { src: "/images/client/13.webp", w: 220, h: 234, name: "نورالمدینه" },
+  { src: "/images/client/14.webp", w: 226, h: 228, name: "شرکت نرم افزاری" },
+  { src: "/images/client/15.webp", w: 226, h: 226, name: "انستیتوت علوم صحی طلوع سعادت" },
+  { src: "/images/client/16.webp", w: 210, h: 240 },
+  { src: "/images/client/17.webp", w: 224, h: 228, name: "Qaderi" },
+  { src: "/images/client/77.webp", w: 254, h: 202, name: "گیلاتو؛ بستنی و فست فود" },
+  { src: "/images/client/200.webp", w: 286, h: 180, name: "خیاطی نوراحمد سلیمانی" },
+  { src: "/images/client/client-18.webp", w: 432, h: 74, name: "Telionix" },
+  { src: "/images/client/client-19.webp", w: 270, h: 190, name: "Pishro" },
+  { src: "/images/client/client-20.webp", w: 432, h: 110, name: "گروپ کمپنی‌های صدیقی" },
+  { src: "/images/client/client-21.webp", w: 218, h: 236, name: "زیتون زمرد" },
+  { src: "/images/client/client-22.webp", w: 260, h: 196, name: "Le Petit Isenburg" },
+  { src: "/images/client/client-23.webp", w: 240, h: 214, name: "شرکت باربری رحمانی (نور)" },
+  { src: "/images/client/client-24.webp", w: 228, h: 224, name: "Wesal Travel" },
+  { src: "/images/client/client-25.webp", w: 214, h: 238, name: "TURD KFC" },
 ];
 
-export default function ClientLogosSlider() {
-  const [paused, setPaused] = useState(false);
+/** On-screen box at desktop size: half the file's pixels (the files are 2x). */
+const logoBox = (w: number, h: number) => ({ width: Math.round(w / 2), height: Math.round(h / 2) });
 
+export default function ClientLogosSlider() {
   return (
     <ViewportMotion className={styles.motionRoot}>
-      <section className={styles.section} aria-labelledby="client-logos-title" data-paused={paused}>
+      <section className={styles.section} aria-labelledby="client-logos-title">
         <div className={styles.inner}>
           <header className={styles.header}>
             <div className={styles.heading}>
               <span className={styles.eyebrow}>همراه در مسیر رشد</span>
-              <h2 id="client-logos-title"><span className="heavy">مشتریان</span> <span className="light">ما</span><span className={styles.titleDot} aria-hidden="true" /></h2>
+              <h2 id="client-logos-title"><span className="heavy">برندهایی</span> <span className="light">که به ما اعتماد کرده‌اند</span><span className={styles.titleDot} aria-hidden="true" /></h2>
             </div>
-            <button type="button" className={styles.pause} aria-controls="client-logos-ribbon" aria-pressed={paused} onClick={() => setPaused(value => !value)} aria-label={paused ? "ادامه حرکت لوگوهای مشتریان" : "توقف حرکت لوگوهای مشتریان"}>
-              <svg viewBox="0 0 20 20" aria-hidden="true">{paused ? <path d="m7 4 9 6-9 6z" /> : <path d="M7 4v12M13 4v12" />}</svg>
-              <span>{paused ? "ادامه حرکت" : "توقف حرکت"}</span>
-            </button>
           </header>
-          <div id="client-logos-ribbon" className={styles.ribbon} dir="ltr" tabIndex={0} role="region" aria-label="لوگوهای مشتریان نواتیک؛ برای مرور، حرکت را متوقف کنید">
+          <div className={styles.ribbon} dir="ltr" role="region" aria-label="لوگوی برندهایی که به نواتیک اعتماد کرده‌اند">
             <div className={styles.track}>
               {[0, 1].map(copy => (
                 <ul key={copy} className={styles.group} aria-hidden={copy === 1 ? true : undefined}>
-                  {clientLogos.map((logo, index) => (
-                    <li key={`${logo.src}-${copy}`} className={styles.item}>
-                      <span className={styles.mark}>
-                        <Image src={logo.src} alt={copy === 0 ? (logo.name ? `لوگوی ${logo.name}` : `لوگوی مشتری نواتیک ${index + 1}`) : ""} width={176} height={176} sizes="(max-width: 767px) 96px, 120px" loading="lazy" />
-                      </span>
-                    </li>
-                  ))}
+                  {clientLogos.map((logo, index) => {
+                    const box = logoBox(logo.w, logo.h);
+                    return (
+                      <li key={`${logo.src}-${copy}`} className={styles.item} style={{ "--i": index, "--lw": box.width, "--lh": box.height } as CSSProperties}>
+                        <span className={styles.float}>
+                          <Image className={styles.logo} src={logo.src} alt={copy === 0 ? (logo.name ? `لوگوی ${logo.name}` : `لوگوی مشتری نواتیک ${index + 1}`) : ""} width={logo.w} height={logo.h} unoptimized loading="lazy" />
+                        </span>
+                      </li>
+                    );
+                  })}
                 </ul>
               ))}
             </div>

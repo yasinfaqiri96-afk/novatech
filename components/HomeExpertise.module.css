@@ -1,0 +1,127 @@
+/*
+ * Home-page FAQ. Self-contained on purpose: importing the shared
+ * SitePage / ServiceFaq modules from the home page made Turbopack regroup the
+ * site's CSS chunks, and every service page then downloaded ~15KB (gzip) of
+ * unrelated portfolio and contact styles. The rules below mirror those modules'
+ * look (ink + mint palette, tinted FAQ rows).
+ */
+.root {
+  --ink: var(--brand-ink, #16332e);
+  --muted: var(--brand-muted, #526b65);
+  --link: var(--brand-link, #0c7668);
+  --mint: var(--brand-primary, #54dcc6);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --lift: 0 26px 50px -36px rgb(22 51 46 / 40%), 0 2px 10px -6px rgb(22 51 46 / 10%);
+  background: #fff;
+  color: var(--ink);
+}
+
+.container {
+  width: min(1200px, calc(100% - 2.5rem));
+  margin-inline: auto;
+  padding: 0 0 clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.title {
+  position: relative;
+  max-width: 30ch;
+  margin: 0;
+  padding-bottom: 1rem;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1.55;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.title::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.faq {
+  display: grid;
+  gap: .75rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.faqItem {
+  border-radius: 18px;
+  background: #f4f9f8;
+  transition: background-color .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+.faqItem[open] {
+  background: #fff;
+  box-shadow: var(--lift);
+}
+
+.faqItem summary {
+  position: relative;
+  display: block;
+  padding: 1.1rem 1.25rem;
+  padding-inline-end: 3.75rem;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+  font-size: .97rem;
+  font-weight: 700;
+  line-height: 1.85;
+}
+
+.faqItem summary::-webkit-details-marker { display: none; }
+
+.faqItem summary::after {
+  content: "+";
+  position: absolute;
+  inset-inline-end: 1.1rem;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--link);
+  font-size: 1.15rem;
+  line-height: 1;
+  box-shadow: 0 6px 14px -8px rgb(22 51 46 / 40%);
+  transform: translateY(-50%);
+  transition: transform .35s var(--ease), background-color .35s;
+}
+
+.faqItem[open] summary::after {
+  background: var(--mint);
+  color: var(--ink);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.faqItem summary:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 18px;
+}
+
+.faqItem p {
+  margin: 0;
+  padding: 0 1.25rem 1.25rem;
+  color: var(--muted);
+  font-size: .93rem;
+  line-height: 2.05;
+}
+
+@media (max-width: 640px) {
+  .container { width: calc(100% - 2rem); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faqItem,
+  .faqItem summary::after { transition: none; }
+}

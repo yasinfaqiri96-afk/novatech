@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { ArrowLeft, Clock, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowLeft, Check, Clock, Mail, MapPin, Phone } from "lucide-react";
 
 import Breadcrumbs from "@/components/Breadcrumbs";
 import JsonLd from "@/components/JsonLd";
 import MapEmbed from "@/components/MapEmbed";
+import ServiceFaq from "@/components/ServiceFaq";
+import ui from "@/components/SitePage.module.css";
 import { buildMetadata } from "@/lib/metadata";
 import { caseStudies } from "@/lib/case-studies";
 import {
@@ -126,136 +128,129 @@ export default function HeratPage() {
         )}
       />
 
-      <div className="overflow-hidden">
-        <section className="mx-auto w-full max-w-6xl px-5 pt-32 md:pt-36">
-          <Breadcrumbs items={breadcrumbs} />
+      <div className={ui.page}>
+        <section className={ui.hero}>
+          <div className={ui.container}>
+            <Breadcrumbs items={breadcrumbs} />
 
-          <div className="mt-8 grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
-            <div className="flex flex-col gap-4">
-              <p className="bold text-primary">هرات، افغانستان</p>
-              <h1 className="fat text-2xl font-black leading-normal text-gray-900 lg:text-3xl">
-                {companyInfo.brandName}؛ شرکت نرم افزاری و تکنالوژی در هرات
-              </h1>
-              <p className="leading-8 text-gray-700">
-                دفتر {companyInfo.brandName} در {companyInfo.address} است و تیم
-                تحلیل، توسعه و پشتیبانی از همین جا کار می کند. یعنی برای شروع یک
-                پروژه، جلسه حضوری ممکن است؛ برای آموزش کاربران، کسی به محل کارتان
-                می آید؛ و اگر بعد از راه اندازی مشکلی پیش بیاید، پشتیبانی در همین
-                شهر است.
-              </p>
-              <p className="leading-8 text-gray-700">
-                این صفحه برای کسانی نوشته شده که در هرات دنبال شرکت نرم افزاری،
-                طراحی سایت یا سیستم مدیریتی هستند و می خواهند قبل از تماس بدانند
-                با چه کسی طرف اند.
-              </p>
+            <div className={ui.heroGrid}>
+              <div>
+                <p className={ui.eyebrow}>هرات، افغانستان</p>
+                <h1 className={ui.title}>
+                  {companyInfo.brandName}؛ شرکت نرم افزاری و تکنالوژی در هرات
+                </h1>
+                <p className={ui.lead}>
+                  دفتر {companyInfo.brandName} در {companyInfo.address} است و تیم
+                  تحلیل، توسعه و پشتیبانی از همین جا کار می کند. یعنی برای شروع یک
+                  پروژه، جلسه حضوری ممکن است؛ برای آموزش کاربران، کسی به محل کارتان
+                  می آید؛ و اگر بعد از راه اندازی مشکلی پیش بیاید، پشتیبانی در همین
+                  شهر است.
+                </p>
+                <p className={ui.lead}>
+                  این صفحه برای کسانی نوشته شده که در هرات دنبال شرکت نرم افزاری،
+                  طراحی سایت یا سیستم مدیریتی هستند و می خواهند قبل از تماس بدانند
+                  با چه کسی طرف اند. اگر هنوز چند شرکت را مقایسه می کنید،{" "}
+                  <Link href="/blog/choosing-software-company-herat">
+                    معیارهای قابل بررسی برای انتخاب شرکت نرم افزاری
+                  </Link>{" "}
+                  و{" "}
+                  <Link href="/about">
+                    تیم و روش کار نواتیک
+                  </Link>{" "}
+                  را ببینید.
+                </p>
 
-              <div className="mt-4 flex flex-wrap gap-3">
-                <a
-                  href={`tel:${companyInfo.primaryPhoneHref}`}
-                  className="rounded-full bg-primary px-7 py-3 text-white transition-opacity duration-300 hover:opacity-90"
-                >
-                  تماس با دفتر هرات
-                </a>
-                <Link
-                  href="/contact"
-                  className="rounded-full border border-primary px-7 py-3 text-primary transition-colors duration-300 hover:bg-primary hover:text-white"
-                >
-                  فرم درخواست مشاوره
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-4 rounded-3xl border border-gray-200 bg-white p-6 shadow-sm">
-              <h2 className="bold text-lg text-gray-900">اطلاعات دفتر هرات</h2>
-
-              <div className="flex items-start gap-3 text-gray-700">
-                <MapPin className="mt-1 size-5 shrink-0 text-primary" aria-hidden="true" />
-                <p className="leading-8">{companyInfo.address}</p>
-              </div>
-
-              <div className="flex items-start gap-3 text-gray-700">
-                <Phone className="mt-1 size-5 shrink-0 text-primary" aria-hidden="true" />
-                <div className="flex flex-col gap-1">
-                  <a dir="ltr" href={`tel:${companyInfo.primaryPhoneHref}`}>
-                    {companyInfo.primaryPhoneLabel}
+                <div className={ui.actions}>
+                  <a href={`tel:${companyInfo.primaryPhoneHref}`} className={ui.btnPrimary}>
+                    تماس با دفتر هرات
+                    <Phone size={16} aria-hidden="true" />
                   </a>
-                  <a dir="ltr" href={`tel:${companyInfo.secondaryPhoneHref}`}>
-                    {companyInfo.secondaryPhoneLabel}
-                  </a>
+                  <Link href="/contact" className={ui.btnSecondary}>
+                    فرم درخواست مشاوره
+                    <ArrowLeft size={16} aria-hidden="true" />
+                  </Link>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 text-gray-700">
-                <Mail className="mt-1 size-5 shrink-0 text-primary" aria-hidden="true" />
-                <a href={`mailto:${companyInfo.email}`}>{companyInfo.email}</a>
-              </div>
+              <div className={ui.infoCard}>
+                <h2 className={ui.infoTitle}>اطلاعات دفتر هرات</h2>
 
-              <div className="flex items-start gap-3 text-gray-700">
-                <Clock className="mt-1 size-5 shrink-0 text-primary" aria-hidden="true" />
-                <p className="leading-8">
-                  {companyInfo.workHours}
-                  <span className="block text-sm text-gray-500">
-                    {companyInfo.workDays}
-                  </span>
-                </p>
-              </div>
+                <div className={ui.infoRow}>
+                  <span className={ui.infoIcon}><MapPin size={17} strokeWidth={1.7} aria-hidden="true" /></span>
+                  <p className="m-0">{companyInfo.address}</p>
+                </div>
 
-              <div className="mt-2 min-h-[220px] overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-                <MapEmbed
-                  title={`موقعیت دفتر ${companyInfo.brandName} در هرات`}
-                  src="https://www.openstreetmap.org/export/embed.html?bbox=62.1851%2C34.3423%2C62.2051%2C34.3623&layer=mapnik&marker=34.3523%2C62.1952"
-                  href="https://www.openstreetmap.org/?mlat=34.3523&mlon=62.1952#map=16/34.3523/62.1952"
-                  minHeight={220}
-                />
+                <div className={ui.infoRow}>
+                  <span className={ui.infoIcon}><Phone size={17} strokeWidth={1.7} aria-hidden="true" /></span>
+                  <div className="flex flex-col">
+                    <a dir="ltr" href={`tel:${companyInfo.primaryPhoneHref}`}>
+                      {companyInfo.primaryPhoneLabel}
+                    </a>
+                    <a dir="ltr" href={`tel:${companyInfo.secondaryPhoneHref}`}>
+                      {companyInfo.secondaryPhoneLabel}
+                    </a>
+                  </div>
+                </div>
+
+                <div className={ui.infoRow}>
+                  <span className={ui.infoIcon}><Mail size={17} strokeWidth={1.7} aria-hidden="true" /></span>
+                  <a href={`mailto:${companyInfo.email}`}>{companyInfo.email}</a>
+                </div>
+
+                <div className={ui.infoRow}>
+                  <span className={ui.infoIcon}><Clock size={17} strokeWidth={1.7} aria-hidden="true" /></span>
+                  <p className="m-0">
+                    {companyInfo.workHours}
+                    <span className="block text-sm">{companyInfo.workDays}</span>
+                  </p>
+                </div>
+
+                <div className={ui.mapFrame}>
+                  <MapEmbed
+                    title={`موقعیت دفتر ${companyInfo.brandName} در هرات`}
+                    src="https://www.openstreetmap.org/export/embed.html?bbox=62.1851%2C34.3423%2C62.2051%2C34.3623&layer=mapnik&marker=34.3523%2C62.1952"
+                    href="https://www.openstreetmap.org/?mlat=34.3523&mlon=62.1952#map=16/34.3523/62.1952"
+                    minHeight={220}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-5 py-16 lg:py-20">
-          <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
+        <section className={`${ui.section} ${ui.container}`}>
+          <h2 className={ui.sectionTitle}>
             کار با {companyInfo.brandName} در هرات چطور پیش می رود
           </h2>
-          <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2">
+          <div className={`${ui.sectionBody} ${ui.grid2}`}>
             {workingWithUs.map((step) => (
-              <div
-                key={step.title}
-                className="flex flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-5"
-              >
-                <h3 className="bold text-base text-gray-900">{step.title}</h3>
-                <p className="text-sm leading-7 text-gray-600">{step.text}</p>
+              <div key={step.title} className={ui.card}>
+                <h3 className={ui.cardTitle}>{step.title}</h3>
+                <p className={ui.cardText}>{step.text}</p>
               </div>
             ))}
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-5 pb-16 lg:pb-20">
-          <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
+        <section className={`${ui.section} ${ui.container}`}>
+          <h2 className={ui.sectionTitle}>
             کسب و کارهایی که برایشان سیستم ساخته ایم
           </h2>
-          <p className="mt-4 leading-8 text-gray-700">
+          <p className={ui.sectionIntro}>
             هر مورد زیر به شرح کامل همان سیستم وصل است: مشکلی که وجود داشت، آنچه
             ساخته شد و امکاناتی که در عمل پیاده شده است.
           </p>
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className={`${ui.sectionBody} ${ui.grid3}`}>
             {localIndustries.map((industry) => {
               const study = caseStudies.find(
                 (item) => item.slug === industry.slug,
               );
 
               return (
-                <Link
-                  key={industry.slug}
-                  href={`/portfolio/${industry.slug}`}
-                  className="group flex h-full flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg"
-                >
-                  <h3 className="bold text-base text-gray-900 transition-colors duration-300 group-hover:text-primary">
-                    {industry.title}
-                  </h3>
-                  <p className="text-sm leading-7 text-gray-600">
-                    {industry.text}
-                  </p>
-                  <span className="mt-auto flex items-center gap-1 pt-3 text-xs text-primary">
+                <Link key={industry.slug} href={`/portfolio/${industry.slug}`} className={ui.card}>
+                  <h3 className={ui.cardTitle}>{industry.title}</h3>
+                  <p className={ui.cardText}>{industry.text}</p>
+                  <span className={ui.cardMore}>
                     {study ? study.title : "مشاهده نمونه"}
                     <ArrowLeft size={14} aria-hidden="true" />
                   </span>
@@ -265,38 +260,26 @@ export default function HeratPage() {
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-5 pb-16 lg:pb-20">
-          <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-            خدماتی که در هرات ارائه می شود
-          </h2>
-          <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <section className={`${ui.section} ${ui.container}`}>
+          <h2 className={ui.sectionTitle}>خدماتی که در هرات ارائه می شود</h2>
+          <div className={`${ui.sectionBody} ${ui.grid4}`}>
             {services.map((service) => (
-              <Link
-                key={service.key}
-                href={service.path}
-                className="group flex h-full flex-col gap-2 rounded-2xl border border-gray-200 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary hover:shadow-lg"
-              >
-                <span className="bold text-base text-gray-900 transition-colors duration-300 group-hover:text-primary">
-                  {service.navLabel}
-                </span>
-                <span className="text-sm leading-7 text-gray-600">
-                  {service.teaser}
-                </span>
+              <Link key={service.key} href={service.path} className={ui.card}>
+                <span className={ui.cardTitle}>{service.navLabel}</span>
+                <span className={ui.cardText}>{service.teaser}</span>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-5 pb-16 lg:pb-20">
-          <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-            چیزهایی که در هرات فرق می کند
-          </h2>
-          <p className="mt-4 leading-8 text-gray-700">
+        <section className={`${ui.section} ${ui.container}`}>
+          <h2 className={ui.sectionTitle}>چیزهایی که در هرات فرق می کند</h2>
+          <p className={ui.sectionIntro}>
             سیستمی که برای شرایط جای دیگری ساخته شده، اینجا در جزئیات کم می آورد.
             این ها مواردی است که در پروژه های هرات به صورت پیش فرض در نظر گرفته
             می شود:
           </p>
-          <ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <ul className={`${ui.sectionBody} ${ui.checkList}`}>
             {[
               "کار هم زمان با افغانی و دالر و ثبت نرخ تبدیل روز",
               "پایداری در برابر قطعی برق و اینترنت با گزینه سرور محلی",
@@ -305,37 +288,17 @@ export default function HeratPage() {
               "امکان کار چند کاربره روی شبکه داخلی دفتر",
               "آموزش حضوری به کاربرانی که تجربه کار با سیستم ندارند",
             ].map((item) => (
-              <li
-                key={item}
-                className="rounded-2xl bg-bg-light p-4 text-sm leading-7 text-gray-700"
-              >
-                {item}
+              <li key={item}>
+                <span className={ui.checkMark}><Check size={15} strokeWidth={2.2} aria-hidden="true" /></span>
+                <span>{item}</span>
               </li>
             ))}
           </ul>
         </section>
 
-        <section className="mx-auto w-full max-w-6xl px-5 pb-16 lg:pb-20">
-          <h2 className="fat text-2xl leading-normal text-gray-900 md:text-3xl">
-            سوالات متداول درباره دفتر هرات
-          </h2>
-          <div className="mt-8 flex flex-col gap-3">
-            {faq.map((item) => (
-              <details
-                key={item.question}
-                className="group rounded-2xl border border-gray-200 bg-white p-5"
-              >
-                <summary className="bold cursor-pointer list-none text-base text-gray-900 transition-colors duration-200 group-open:text-primary">
-                  {item.question}
-                </summary>
-                <p className="mt-3 text-sm leading-8 text-gray-600">
-                  {item.answer}
-                </p>
-              </details>
-            ))}
-          </div>
-        </section>
-
+        <div className={`${ui.section} ${ui.container}`}>
+          <ServiceFaq items={faq} heading="سوالات متداول درباره دفتر هرات" />
+        </div>
       </div>
     </>
   );

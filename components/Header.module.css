@@ -3,8 +3,7 @@
    at any viewport width. */
 .header,
 .offcanvas,
-.overlay,
-.preloader {
+.overlay {
   --u: min(2.1vw, 7px);
   --c-primary: var(--brand-ink);
   --c-primary-100: var(--brand-surface);
@@ -27,8 +26,7 @@
 @media (min-width: 800px) {
   .header,
   .offcanvas,
-  .overlay,
-  .preloader {
+  .overlay {
     --u: min(0.57vw, 10px);
     --fs-14: calc(var(--u) * 1.4);
     --fs-15: calc(var(--u) * 1.5);
@@ -37,33 +35,9 @@
   }
 }
 
-/* ---------- Page-load intro ---------- */
-
-.preloader {
-  position: fixed;
-  inset: 0;
-  z-index: 99999;
-  pointer-events: none;
-  animation: hide 0s linear 2.2s forwards;
-}
-.preloaderTint,
-.preloaderBg {
-  position: absolute;
-  inset: 0;
-}
-.preloaderTint {
-  background: #16332e3a;
-  animation: fadeOut 2s var(--ease2) 0.2s both;
-}
-.preloaderBg {
-  background: var(--c-white);
-  animation: fadeOut 2s var(--ease2) both;
-}
-
-@keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes scaleIn { from { transform: scale(0); } to { transform: scale(1); } }
-@keyframes hide { to { visibility: hidden; } }
+/* No page-load intro: the header paints complete on the first frame. A white
+   preloader and staggered entrance fades used to hold the page visually blank
+   for ~2s on every hard load, which read as the site loading slowly. */
 
 /* ---------- Header ---------- */
 
@@ -79,6 +53,11 @@
   color: var(--c-primary);
   font-family: IranYekanRegular, sans-serif;
   line-height: 2;
+  transition: box-shadow 0.35s var(--ease4);
+}
+/* Pinned over scrolled content: a soft lift so the header reads as a layer, not a seam. */
+.header[data-scrolled="true"] {
+  box-shadow: 0 12px 32px -22px rgba(22, 51, 46, 0.32), 0 1px 0 rgba(16, 8, 70, 0.05);
 }
 
 .wrapper {
@@ -95,7 +74,6 @@
   height: calc(var(--u) * 1.8);
   transform: translateX(-50%);
   fill: #100846;
-  animation: fadeIn 1.5s var(--expo) 0.5s both;
 }
 
 .container {
@@ -119,7 +97,6 @@
   display: flex;
   align-items: center;
   gap: calc(var(--u) * 4);
-  animation: fadeIn 1.5s var(--ease2) 0.4s both;
 }
 .left {
   display: grid;
@@ -127,7 +104,6 @@
   align-items: center;
   justify-content: end;
   gap: calc(var(--u) * 1);
-  animation: fadeIn 1.5s var(--ease2) 0.55s both;
 }
 
 .navContainer {
@@ -258,7 +234,6 @@
   height: calc(var(--u) * 4.6);
   border-radius: 50%;
   background-color: var(--c-secondary);
-  animation: scaleIn 1.5s var(--expo) 0.2s both;
 }
 .circleInside {
   position: absolute;
@@ -266,7 +241,6 @@
   height: 94%;
   border-radius: 50%;
   background: var(--c-white);
-  animation: scaleIn 1.5s var(--expo) 0.35s both;
 }
 .circleMark {
   position: absolute;
@@ -274,7 +248,6 @@
   align-items: center;
   justify-content: center;
   width: 94%;
-  animation: scaleIn 1.5s var(--expo) 0.425s both;
 }
 .circleMark img {
   border-radius: 50%;
@@ -286,7 +259,6 @@
   display: block;
   width: calc(var(--u) * 9.7);
   height: calc(var(--u) * 3.13);
-  animation: fadeIn 1.5s var(--expo) 0.515s both;
 }
 .logotype img {
   display: block;
@@ -409,11 +381,11 @@
   width: calc(var(--u) * 2.2);
   height: calc(var(--u) * 2.2);
   margin-bottom: calc(var(--u) * 0.5);
-  animation: fadeIn 1.5s var(--expo) 0.53s both;
 }
 
-/* Inner pages: the notch floats over content, so it gets a soft shadow. */
-.inner .notch {
+/* Inner pages, and any page once scrolled: the notch floats over content, so it gets a soft shadow. */
+.inner .notch,
+.header[data-scrolled="true"] .notch {
   filter: drop-shadow(0 8px 4px #07004c1a);
 }
 
@@ -431,9 +403,6 @@
 }
 
 @media (min-width: 800px) {
-  .header {
-    position: relative;
-  }
   .grid {
     grid-template-columns: minmax(0, 1fr) calc(var(--u) * 16) minmax(0, 1fr);
     padding: calc(var(--u) * 1.8) calc(var(--u) * 4) 0;
@@ -543,8 +512,6 @@
 .offcanvasPhone { display: block; color: #353b52; text-align: center; font-size: 15px; line-height: 1.8; text-decoration: none; }
 .offcanvas :is(a, button, summary):focus-visible { outline: 2px solid #008d80; outline-offset: 3px; border-radius: 5px; }
 @media (prefers-reduced-motion: reduce) {
-  .preloader { display: none; }
-  .tab, .right, .left, .circle, .circleInside, .circleMark, .logotype, .notchBadge { animation: none; }
   .offcanvas, .overlay, .menuGroup summary span::after { transition: none; }
 }
 

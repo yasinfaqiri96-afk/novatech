@@ -16,6 +16,12 @@ import { breadcrumbSchema, graph, webPageSchema } from "@/lib/seo";
 import { serviceByKey } from "@/lib/services";
 import { companyInfo, siteUrl } from "@/lib/site-content";
 
+/** ISO date to the Jalali display form the articles already use, e.g. ۱۴۰۵/۷/۲۷. */
+const jalaliDate = (iso: string) =>
+  new Intl.DateTimeFormat("fa-IR-u-ca-persian", { dateStyle: "short", timeZone: "Asia/Kabul" }).format(
+    new Date(`${iso}T12:00:00Z`),
+  );
+
 type BlogArticlePageProps = {
   params: Promise<{ slug: string }>;
 };
@@ -106,7 +112,15 @@ export default async function BlogArticlePage({ params }: BlogArticlePageProps) 
             <div className={styles.articleMeta}>
               <span className={styles.category}>{article.category}</span>
               <span className={styles.metaItem}><PenLine size={14} aria-hidden="true" />{BLOG_AUTHOR}</span>
-              <span>{article.date}</span>
+              <time dateTime={article.isoDate}>{article.date}</time>
+              {/* Shown only for a real content revision, so the visible date
+                  always matches `dateModified` in the BlogPosting schema. */}
+              {article.isoModified && (
+                <span>
+                  به‌روزرسانی:{" "}
+                  <time dateTime={article.isoModified}>{jalaliDate(article.isoModified)}</time>
+                </span>
+              )}
               <span className={styles.metaItem}><Clock size={14} aria-hidden="true" />{article.time}</span>
             </div>
 

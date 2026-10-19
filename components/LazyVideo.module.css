@@ -1,0 +1,48 @@
+/* Play/pause control shown where the film is not started automatically
+   (phones, data saver, reduced motion). Centred over the poster until the
+   visitor starts the film, then tucked into the corner as a pause button. */
+.toggle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: 2px solid #ffffffd9;
+  border-radius: 50%;
+  background: #16332ecc;
+  color: #fff;
+  box-shadow: 0 10px 30px -10px #000000a6;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.toggle:hover {
+  background: #16332e;
+}
+.toggle:focus-visible {
+  outline: 3px solid #54dcc6;
+  outline-offset: 3px;
+}
+.toggle svg {
+  width: 26px;
+  height: 26px;
+  fill: currentColor;
+}
+
+.playing {
+  top: auto;
+  right: auto;
+  bottom: 12px;
+  left: 12px;
+  width: 44px;
+  height: 44px;
+  transform: none;
+}
+.playing svg {
+  width: 20px;
+  height: 20px;
+}

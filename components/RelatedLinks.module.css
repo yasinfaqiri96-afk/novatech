@@ -1,56 +1,90 @@
+/* Related services, case studies and reading: same cards as the rest of the site. */
 .section {
-  padding: 4.75rem 1rem 5.25rem;
-  background: #f6f9f8;
-  border-block: 1px solid #e3e9e7;
+  padding: clamp(3.5rem, 7vw, 5.5rem) 1.25rem clamp(3rem, 6vw, 4.5rem);
+  background: #fff;
   font-family: var(--font-iranyekan-next), IranYekanRegular, sans-serif;
+  --ink: var(--brand-ink, #16332e);
+  --muted: var(--brand-muted, #526b65);
+  --link: var(--brand-link, #0c7668);
+  --mint: var(--brand-primary, #54dcc6);
+  --leaf: 24px 24px 8px 24px;
+  --lift: 0 26px 50px -36px rgb(22 51 46 / 40%), 0 2px 10px -6px rgb(22 51 46 / 10%);
+  --ease: cubic-bezier(.22, 1, .36, 1);
 }
 
 .shell {
-  width: min(1120px, 100%);
+  width: min(1200px, 100%);
   margin-inline: auto;
 }
 
+/* Heading with a hairline and a short link-coloured segment, as on the home page. */
 .header {
+  position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
-  margin-bottom: 1.65rem;
+  padding-bottom: 1.4rem;
+  margin-bottom: .5rem;
+  border-bottom: 1px solid #e2ecea;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -1px;
+  width: 72px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--link);
 }
 
 .header p {
-  margin: 0 0 .35rem;
-  color: #00a896;
-  font-size: .78rem;
-  font-weight: 800;
+  margin: 0 0 .5rem;
+  color: var(--link);
+  font-size: .82rem;
+  font-weight: 700;
 }
 
 .header h2 {
   margin: 0;
-  color: #111827;
-  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
-  font-weight: 900;
+  color: var(--ink);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-weight: 800;
   line-height: 1.45;
+  letter-spacing: -.02em;
 }
 
 .groupLabel {
-  margin: 2.7rem 0 1rem;
-  color: #33444d;
-  font-size: .9rem;
-  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 2.5rem 0 1.1rem;
+  color: var(--ink);
+  font-size: .95rem;
+  font-weight: 700;
+}
+
+.groupLabel::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50% 50% 0 50%;
+  background: var(--mint);
 }
 
 .serviceGrid,
 .articleGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: .8rem;
+  gap: 1.1rem;
 }
 
 .proofGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .8rem;
+  gap: 1.1rem;
 }
 
 .serviceCard,
@@ -58,37 +92,42 @@
 .proofCard {
   position: relative;
   overflow: hidden;
-  border: 1px solid #e0e7e5;
-  border-radius: 15px;
+  border-radius: var(--leaf);
   background: #fff;
+  box-shadow: var(--lift);
   color: inherit;
   text-decoration: none;
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  transition: transform .45s var(--ease), box-shadow .45s var(--ease);
 }
 
 .serviceCard:hover,
 .articleCard:hover,
 .proofCard:hover {
-  transform: translateY(-3px);
-  border-color: rgba(0,168,150,.45);
-  box-shadow: 0 18px 44px -34px rgba(15,23,42,.65);
+  transform: translateY(-4px);
+  box-shadow: 0 36px 64px -40px rgb(22 51 46 / 50%), 0 2px 10px -6px rgb(22 51 46 / 10%);
 }
 
 .serviceCard {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: .9rem;
-  padding: 1.25rem;
+  gap: 1rem;
+  padding: 1.4rem;
 }
 
 .icon {
   display: grid;
-  width: 2.65rem;
-  height: 2.65rem;
+  width: 2.9rem;
+  height: 2.9rem;
   place-items: center;
-  border-radius: 10px;
-  background: #e9f8f5;
-  color: #008f80;
+  border-radius: 14px 14px 14px 4px;
+  background: #e6f7f3;
+  color: var(--link);
+  transition: background-color .35s var(--ease), color .35s var(--ease);
+}
+
+.serviceCard:hover .icon {
+  background: var(--mint);
+  color: var(--ink);
 }
 
 .cardBody {
@@ -97,91 +136,113 @@
 
 .cardBody strong {
   display: block;
-  color: #111827;
-  font-size: .98rem;
+  color: var(--ink);
+  font-size: 1rem;
   font-weight: 800;
   line-height: 1.65;
 }
 
 .cardBody p {
-  margin: .35rem 0 0;
-  color: #61717a;
-  font-size: .84rem;
-  line-height: 1.8;
+  margin: .4rem 0 0;
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.9;
 }
 
 .cardLink {
   display: inline-flex;
   align-items: center;
-  gap: .25rem;
-  margin-top: .75rem;
-  color: #008f80;
-  font-size: .78rem;
+  gap: .3rem;
+  margin-top: .85rem;
+  color: var(--link);
+  font-size: .8rem;
   font-weight: 700;
+  transition: gap .3s var(--ease);
+}
+
+.serviceCard:hover .cardLink {
+  gap: .55rem;
 }
 
 .media {
   position: relative;
   aspect-ratio: 16 / 9;
   overflow: hidden;
-  background: #edf2f1;
+  background: #eef5f3;
 }
 
 .media img {
   object-fit: cover;
-  transition: transform 300ms ease;
+  transition: transform .9s var(--ease);
 }
 
 .articleCard:hover .media img,
 .proofCard:hover .media img {
-  transform: scale(1.025);
+  transform: scale(1.04);
 }
 
 .articleContent,
 .proofContent {
-  padding: 1rem 1.1rem 1.15rem;
+  padding: 1.1rem 1.25rem 1.3rem;
 }
 
 .meta {
   display: block;
   margin-bottom: .45rem;
-  color: #008f80;
-  font-size: .73rem;
-  font-weight: 800;
+  color: var(--link);
+  font-size: .76rem;
+  font-weight: 700;
 }
 
 .articleContent strong,
 .proofContent strong {
   display: block;
-  color: #111827;
-  font-size: .93rem;
+  color: var(--ink);
+  font-size: .97rem;
   font-weight: 800;
   line-height: 1.75;
 }
 
 .proofContent p {
-  margin: .4rem 0 0;
-  color: #61717a;
-  font-size: .82rem;
-  line-height: 1.75;
+  margin: .45rem 0 0;
+  color: var(--muted);
+  font-size: .85rem;
+  line-height: 1.85;
+}
+
+.section a:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 3px;
 }
 
 @media (max-width: 850px) {
   .serviceGrid,
-  .articleGrid {
-    grid-template-columns: 1fr;
-  }
-
+  .articleGrid,
   .proofGrid {
     grid-template-columns: 1fr;
   }
 }
 
 .mediaContain {
-  background: #f3f6f5;
+  background: #f1f6f5;
 }
 
 .mediaContain img {
   object-fit: contain;
   padding: .55rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .serviceCard,
+  .articleCard,
+  .proofCard,
+  .media img {
+    transition: none;
+  }
+
+  .serviceCard:hover,
+  .articleCard:hover,
+  .proofCard:hover {
+    transform: none;
+  }
 }

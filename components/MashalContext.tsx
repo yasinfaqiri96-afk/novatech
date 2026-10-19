@@ -2,8 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { isMashalRoute } from "@/lib/mashal-navigation";
-import { mashalCanonicalPath, mashalEnglishPath, mashalPashtoPath } from "@/lib/mashal";
+import { isMashalRoute, mashalCanonicalPath, mashalEnglishPath, mashalPashtoPath } from "@/lib/mashal-paths";
 export default function MashalContext({children}:{children:ReactNode}){
  const path=usePathname();if(!isMashalRoute(path))return <>{children}</>;
  const lang=path.startsWith('/en/')?'en':path.startsWith('/ps/')?'ps':'fa';

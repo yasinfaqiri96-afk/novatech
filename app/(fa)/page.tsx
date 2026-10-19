@@ -1,18 +1,19 @@
 import HomeClient from "./HomeClient";
 import JsonLd from "@/components/JsonLd";
 import { buildMetadata } from "@/lib/metadata";
-import { breadcrumbSchema, graph, webPageSchema } from "@/lib/seo";
+import { homeFaq } from "@/components/HomeExpertise";
+import { breadcrumbSchema, faqSchema, graph, webPageSchema } from "@/lib/seo";
 import { companyInfo } from "@/lib/site-content";
 
 /**
  * The home page is a server component so it can own its metadata and structured
- * data; the interactive hero, portfolio slider and tabs live in `HomeClient`.
+ * data; the home sections are composed in `HomeClient`.
  */
 
-const homeTitle = `${companyInfo.brandName} | شرکت نرم افزاری و تکنالوژی در هرات، افغانستان`;
+const homeTitle = `${companyInfo.brandName} (${companyInfo.latinName}) | شرکت نرم افزاری و تکنالوژی در هرات، افغانستان`;
 
 const homeDescription =
-  "نواتیک، شرکت نرم افزاری در هرات افغانستان: توسعه نرم افزار اختصاصی، طراحی سایت، دیتابس، نرم افزار حسابداری ناظر، ERP نفت و گاز مشعل و سیستم مدیریتی.";
+  "نواتیک، شرکت نرم افزاری در هرات افغانستان: نرم افزار حسابداری ناظر، ERP نفت و گاز مشعل، نرم افزار اختصاصی، طراحی دیتابیس، سیستم مدیریتی و طراحی سایت.";
 
 export const metadata = buildMetadata({
   fullTitle: homeTitle,
@@ -32,6 +33,7 @@ export default function Home() {
             description: homeDescription,
           }),
           breadcrumbSchema([{ name: "صفحه اصلی", path: "/" }]),
+          faqSchema(homeFaq),
         )}
       />
       <HomeClient />

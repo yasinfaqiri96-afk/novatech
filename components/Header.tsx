@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
+import IntentLink from "@/components/IntentLink";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { companyInfo } from "@/lib/site-content";
@@ -18,12 +19,12 @@ const products = [
   { href: "/accounting-software", label: "ناظر؛ حسابداری و مدیریت مالی", en: "Nazer Accounting" },
 ];
 
+// Same four distinct services as the footer and the home page; business systems and ERP
+// overlap with database/software work, so they are reached from those pages instead.
 const services = [
-  { href: "/software-solutions", label: "طراحی نرم افزار اختصاصی", en: "Custom Software" },
-  { href: "/database-solutions", label: "طراحی دیتابس", en: "Database Solutions" },
-  { href: "/business-systems", label: "سیستم های مدیریت کسب و کار", en: "Business Systems" },
-  { href: "/erp", label: "نرم افزار ERP", en: "ERP Software" },
-  { href: "/web-design", label: "طراحی ویب سایت", en: "Web Design" },
+  { href: "/web-design", label: "طراحی سایت", en: "Web Design" },
+  { href: "/software-solutions", label: "نرم‌افزار اختصاصی", en: "Custom Software" },
+  { href: "/database-solutions", label: "طراحی و توسعه دیتابیس", en: "Database Solutions" },
   { href: "/graphic-design", label: "طراحی گرافیک", en: "Graphic Design" },
 ];
 
@@ -87,6 +88,37 @@ export default function Header() {
     return () => { document.removeEventListener("keydown", key); document.removeEventListener("pointerdown", outside); };
   }, []);
 
+  // The header stays pinned on every page: publish its height so pinned sections and
+  // anchor jumps land below it, and lift it with a shadow once the page moves under it.
+  // Neither value is read synchronously on mount: reading layout (scrollY,
+  // getBoundingClientRect) while the page hydrates forced the browser's first,
+  // most expensive layout into the middle of a script task. Both observers
+  // report after the browser has laid out on its own.
+  useEffect(() => {
+    const header = root.current;
+    if (!header) return;
+    const html = document.documentElement;
+    const sizing = new ResizeObserver(([entry]) => {
+      const height = `${Math.round(entry.borderBoxSize?.[0]?.blockSize ?? header.getBoundingClientRect().height)}px`;
+      // A custom property on <html> invalidates the style of the whole page, so
+      // it is only written when the header has actually changed height.
+      if (html.style.getPropertyValue("--site-header-height") !== height) html.style.setProperty("--site-header-height", height);
+    });
+    sizing.observe(header);
+    // `scrolled` is true once the page has moved more than 8px: a 1px marker at
+    // y=8 leaving the viewport says the same thing without a scroll listener.
+    const marker = document.createElement("span");
+    marker.setAttribute("aria-hidden", "true");
+    marker.style.cssText = "position:absolute;top:8px;left:0;width:1px;height:1px;pointer-events:none;visibility:hidden";
+    document.body.prepend(marker);
+    const scrolled = new IntersectionObserver(([entry]) => {
+      const next = String(!entry.isIntersecting);
+      if (header.dataset.scrolled !== next) header.dataset.scrolled = next;
+    });
+    scrolled.observe(marker);
+    return () => { sizing.disconnect(); scrolled.disconnect(); marker.remove(); };
+  }, []);
+
   useEffect(() => {
     if (menuOpen) {
       const previous = document.body.style.overflow;
@@ -101,7 +133,6 @@ export default function Header() {
 
   return (
     <>
-      <div className={styles.preloader} aria-hidden="true"><span className={styles.preloaderTint} /><span className={styles.preloaderBg} /></div>
       <header ref={root} id="header" className={`${styles.header} ${path !== "/" ? styles.inner : ""}`} lang="fa-AF" dir="rtl">
         <div className={styles.wrapper}>
           <svg className={styles.tab} viewBox="0 0 170 18" preserveAspectRatio="none" aria-hidden="true" focusable="false">
@@ -133,7 +164,7 @@ export default function Header() {
                         </summary>
                         <ul className={styles.dropdownList}>
                           {products.map(item => (
-                            <li key={item.href}><Link href={item.href} onClick={closeAll} aria-current={current(item.href)}>{item.label}</Link></li>
+                            <li key={item.href}><IntentLink href={item.href} onClick={closeAll} aria-current={current(item.href)}>{item.label}</IntentLink></li>
                           ))}
                         </ul>
                       </details>
@@ -199,9 +230,9 @@ export default function Header() {
         inert={!menuOpen}
       >
         <div className={styles.offcanvasHeader}>
-          <Link href="/" onClick={closeMenu} className={styles.offcanvasLogo} aria-label="صفحه اصلی نواتیک">
+          <IntentLink href="/" onClick={closeMenu} className={styles.offcanvasLogo} aria-label="صفحه اصلی نواتیک">
             <Image src="/images/brand/novatech-wordmark-navy.webp" alt="" width={640} height={241} sizes="150px" />
-          </Link>
+          </IntentLink>
           <button type="button" className={styles.offcanvasClose} onClick={closeMenu} aria-label="بستن منو">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
           </button>
@@ -209,9 +240,9 @@ export default function Header() {
         <div className={styles.offcanvasBody}>
           <nav aria-label="راهنمای سایت" className={styles.offcanvasNav}>
             <ul className={styles.flatMenu}>
-              <li><Link href="/" onClick={closeMenu} aria-current={current("/")}>صفحه اصلی</Link></li>
+              <li><IntentLink href="/" onClick={closeMenu} aria-current={current("/")}>صفحه اصلی</IntentLink></li>
               {flatLinks.map(item => (
-                <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</Link></li>
+                <li key={item.href}><IntentLink href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</IntentLink></li>
               ))}
             </ul>
             {[{ title: "محصولات نواتیک", items: products }, { title: "خدمات نواتیک", items: services }].map(group => (
@@ -219,14 +250,14 @@ export default function Header() {
                 <summary>{group.title}<span aria-hidden="true" /></summary>
                 <ul className={styles.levelMenu}>
                   {group.items.map(item => (
-                    <li key={item.href}><Link href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</Link></li>
+                    <li key={item.href}><IntentLink href={item.href} onClick={closeMenu} aria-current={current(item.href)}>{item.label}</IntentLink></li>
                   ))}
                 </ul>
               </details>
             ))}
           </nav>
           <div className={styles.offcanvasBtns}>
-            <Link href="/contact" onClick={closeMenu} className={styles.offcanvasRequest}>درخواست مشاوره</Link>
+            <IntentLink href="/contact" onClick={closeMenu} className={styles.offcanvasRequest}>درخواست مشاوره</IntentLink>
             <a href={`tel:${companyInfo.primaryPhoneHref}`} className={styles.offcanvasPhone} dir="ltr">{companyInfo.primaryPhoneLabel}</a>
           </div>
         </div>

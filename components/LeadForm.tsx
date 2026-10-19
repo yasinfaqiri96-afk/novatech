@@ -18,11 +18,24 @@ type LeadFormProps = {
   children: ReactNode;
 };
 
+/**
+ * "ok" is shown only when the server confirms a delivery target accepted the
+ * lead. "manual" means nothing was recorded and the visitor must send the
+ * prepared WhatsApp message themselves; "error" offers the same way out.
+ */
 type Status =
   | { kind: "idle" }
   | { kind: "sending" }
   | { kind: "ok"; message: string; whatsappUrl?: string }
-  | { kind: "error"; message: string };
+  | { kind: "manual"; message: string; whatsappUrl?: string }
+  | { kind: "error"; message: string; whatsappUrl?: string };
+
+type ContactResponse = {
+  ok: boolean;
+  message: string;
+  delivery?: "delivered" | "manual" | "failed";
+  field?: string;
+};
 
 /**
  * Wraps the hand-styled marketing forms so they actually submit.
@@ -74,31 +87,50 @@ export default function LeadForm({ source, className, id, children }: LeadFormPr
           source,
         }),
       });
-      const payload = (await response.json()) as { ok: boolean; message: string; delivery?: "whatsapp" | "delivered"; field?: string };
+      const payload = (await response.json().catch(() => ({ ok: false, message: "" }))) as ContactResponse;
+      // Offered as a link too, because a blocker can still eat the tab.
+      const link = whatsappUrl ?? undefined;
 
-      if (response.ok && payload.ok) {
+      if (response.ok && payload.ok && payload.delivery === "delivered") {
         if (whatsappUrl && whatsappTab && !whatsappTab.closed) {
           whatsappTab.location.href = whatsappUrl;
         }
         setStatus({
           kind: "ok",
-          message: payload.delivery === "whatsapp"
-            ? "برای تکمیل درخواست، پیام آماده را در واتس‌اپ ارسال کنید؛ هنوز به شرکت ارسال نشده است."
-            : whatsappUrl
-            ? "درخواست شما ثبت شد. برای پیگیری سریع تر، پیام واتساپ را ارسال کنید."
+          message: whatsappUrl
+            ? "درخواست شما ثبت شد. برای پیگیری سریع‌تر، پیام واتس‌اپ را هم ارسال کنید."
             : payload.message,
-          // Offered as a link too, because a blocker can still eat the tab.
-          whatsappUrl: whatsappUrl ?? undefined,
+          whatsappUrl: link,
         });
         form.reset();
+      } else if (payload.delivery === "manual" && whatsappUrl) {
+        // Nothing was stored on the server: WhatsApp is the only route, so the
+        // claimed tab goes there and the form keeps its values.
+        if (whatsappTab && !whatsappTab.closed) whatsappTab.location.href = whatsappUrl;
+        setStatus({
+          kind: "manual",
+          message: `درخواست هنوز ثبت نشده است. پیام آماده را در واتس‌اپ ارسال کنید یا با ${companyInfo.primaryPhoneLabel} تماس بگیرید.`,
+          whatsappUrl: link,
+        });
       } else {
         whatsappTab?.close();
-        setStatus({ kind: "error", message: payload.message || "ارسال انجام نشد." });
+        // Validation and rate-limit errors are the visitor's to fix; delivery
+        // failures get the WhatsApp hand-off so the request is not lost.
+        const deliveryProblem = payload.delivery === "failed" || payload.delivery === "manual" || response.status >= 500;
+        setStatus({
+          kind: "error",
+          message: payload.message || "ارسال انجام نشد.",
+          whatsappUrl: deliveryProblem ? link : undefined,
+        });
         if (payload.field) form.querySelector<HTMLInputElement>(`[name="${payload.field}"]`)?.focus();
       }
     } catch {
       whatsappTab?.close();
-      setStatus({ kind: "error", message: "ارتباط با سرور برقرار نشد. اتصال خود را بررسی کنید." });
+      setStatus({
+        kind: "error",
+        message: "ارتباط با سرور برقرار نشد. اتصال خود را بررسی کنید یا از واتس‌اپ پیام دهید.",
+        whatsappUrl: whatsappUrl ?? undefined,
+      });
     }
   }
 
@@ -114,7 +146,7 @@ export default function LeadForm({ source, className, id, children }: LeadFormPr
       data-pending={status.kind === "sending" ? "true" : undefined}
     >
       {children}
-      <p className="text-xs leading-6 text-gray-600">معلومات شما برای پیگیری همین درخواست استفاده می‌شود. <Link href="/privacy" className="underline">پالیسی محرمیت</Link></p>
+      <p className="text-xs leading-6 text-gray-600">معلومات شما برای پیگیری همین درخواست استفاده می‌شود. <Link href="/privacy" className="underline! underline-offset-2">پالیسی محرمیت</Link></p>
 
       {/* Honeypot: hidden from users and assistive tech, irresistible to bots. */}
       <input
@@ -135,19 +167,21 @@ export default function LeadForm({ source, className, id, children }: LeadFormPr
             ? "absolute h-px w-px -m-px overflow-hidden p-0"
             : `w-full text-sm leading-6 ${
                 status.kind === "error"
-                  ? "text-red-600"
-                  : status.kind === "ok"
-                    ? "text-emerald-600"
-                    : "text-gray-500"
+                  ? "text-red-700"
+                  : status.kind === "manual"
+                    ? "text-amber-800"
+                    : status.kind === "ok"
+                      ? "text-emerald-700"
+                      : "text-gray-600"
               }`
         }
       >
         {status.kind === "sending"
           ? "در حال ارسال..."
-          : status.kind === "ok" || status.kind === "error"
+          : status.kind !== "idle"
             ? status.message
             : "\u00a0"}
-        {status.kind === "ok" && status.whatsappUrl ? (
+        {(status.kind === "ok" || status.kind === "manual" || status.kind === "error") && status.whatsappUrl ? (
           <>
             {" "}
             <a
@@ -156,7 +190,7 @@ export default function LeadForm({ source, className, id, children }: LeadFormPr
               rel="noopener noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              ارسال در واتساپ
+              ارسال در واتس‌اپ
             </a>
           </>
         ) : null}

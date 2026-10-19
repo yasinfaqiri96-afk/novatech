@@ -485,12 +485,27 @@
   flex: 1;
   width: 100%;
 }
+/* Same section heading as the rest of the site: bold ink with a short mint stroke under it. */
 .rowTitle {
-  margin: 0 0 calc(var(--u) * 1.4);
-  font-family: IranYekanRegular, sans-serif;
+  position: relative;
+  margin: 0 0 calc(var(--u) * 1.8);
+  padding-bottom: calc(var(--u) * 1.4);
+  color: var(--brand-ink, #16332e);
+  font-family: IranYekanBold, sans-serif;
   font-weight: normal;
   font-size: var(--fs-32);
   line-height: 1.6;
+  letter-spacing: -.02em;
+}
+.rowTitle::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--brand-primary, #54dcc6);
 }
 .rowText p,
 .gallery > p {
@@ -568,6 +583,9 @@
 .services h2 {
   text-align: center;
 }
+.services h2::after {
+  inset-inline-start: calc(50% - 22px);
+}
 .gallery > p {
   max-width: calc(var(--u) * 90);
   margin-right: auto;
@@ -631,16 +649,16 @@
   flex-direction: column;
   gap: calc(var(--u) * 0.8);
   padding: calc(var(--u) * 2.4);
-  border: 1px solid var(--brand-line);
-  border-radius: calc(var(--u) * 2.4);
+  border-radius: 24px 24px 8px 24px;
+  background: #fff;
+  box-shadow: 0 26px 50px -36px rgb(22 51 46 / 40%), 0 2px 10px -6px rgb(22 51 46 / 10%);
   color: var(--c-primary);
   text-decoration: none;
-  transition: border-color var(--t-ease) var(--ease2), transform var(--t-ease) var(--ease2), box-shadow var(--t-ease) var(--ease2);
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1), box-shadow .45s cubic-bezier(.22, 1, .36, 1);
 }
 .serviceCard:hover {
-  border-color: var(--c-primary-500);
-  box-shadow: 0 calc(var(--u) * 1.2) calc(var(--u) * 3) rgb(22 51 46 / 10%);
-  transform: translateY(calc(var(--u) * -0.4));
+  box-shadow: 0 36px 64px -40px rgb(22 51 46 / 50%), 0 2px 10px -6px rgb(22 51 46 / 10%);
+  transform: translateY(-4px);
 }
 .serviceCard b {
   font-family: IranYekanBold, sans-serif;

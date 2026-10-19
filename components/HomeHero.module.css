@@ -1,14 +1,17 @@
 /* Same sizing unit as the header (see Header.module.css). */
 .hero {
   --u: min(2.1vw, 7px);
-  --c-primary: var(--brand-ink);
+  --c-ink: var(--brand-ink, #16332e);
+  --c-deep: var(--brand-deep, #143d35);
+  --c-mint: var(--brand-primary, #54dcc6);
+  --c-mint-hover: var(--brand-hover, #39cbb5);
   --c-primary-500: var(--brand-link);
   --c-secondary: var(--brand-link);
   position: relative;
   display: flex;
   flex-direction: column;
   background: #fff;
-  color: var(--c-primary);
+  color: var(--c-ink);
 }
 
 .container {
@@ -22,59 +25,88 @@
   position: relative;
 }
 
+/* The panel is the video: the clip runs edge to edge, the short copy sits on its
+   empty light corner and the wave cuts into its bottom. The light fill matches
+   the clip's backdrop, so the panel never shows a seam while the clip loads. */
 .frame {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  padding: calc(var(--u) * 10) 0 18vw;
   border-radius: calc(var(--u) * 4) calc(var(--u) * 4) 0 0;
-  background: var(--c-primary);
+  background: #dce5f1;
 }
 
-.image,
-.video {
-  object-fit: cover;
+.copy {
+  position: relative;
+  z-index: 2;
+  padding: 0 calc(var(--u) * 3) calc(var(--u) * 3);
+  text-align: right;
 }
+
+.title {
+  margin: 0;
+  color: var(--c-ink);
+  font-family: IranYekanHeavy, sans-serif;
+  font-size: calc(var(--u) * 3.7);
+  font-weight: 800;
+  line-height: 1.6;
+  text-wrap: balance;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(var(--u) * 1.4);
+  margin-top: calc(var(--u) * 2.6);
+}
+
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 calc(var(--u) * 3);
+  border-radius: calc(var(--u) * 1.6);
+  background: var(--c-ink);
+  color: #fff;
+  font-family: IranYekanBold, sans-serif;
+  font-size: max(15px, calc(var(--u) * 2));
+  line-height: 1.4;
+  box-shadow: 0 14px 30px -14px #16332ecc;
+  transition: background-color 0.25s ease;
+}
+.primary:hover {
+  background: var(--brand-link, #0c7668);
+}
+.primary:focus-visible {
+  outline: 3px solid var(--c-ink);
+  outline-offset: 3px;
+}
+
+/* The poster frame sets the box; the clip plays over it. */
+.visual {
+  position: relative;
+  margin: 0;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
-/* Darkens the corner the copy sits on so white text stays readable. */
-.shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, #16332eb3 0%, #16332e66 45%, #16332e00 75%);
-}
-
-.copy {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-.title {
-  margin: 0;
-  font-family: IranYekanHeavy, sans-serif;
-  font-size: calc(var(--u) * 3.6);
-  line-height: 1.45;
-  text-shadow: 0 2px 18px #16332e80;
-}
-.title span {
-  display: block;
-}
-.subtitle {
-  margin: calc(var(--u) * 1.2) 0 0;
-  font-family: IranYekanRegular, sans-serif;
-  font-size: calc(var(--u) * 1.9);
-  line-height: 1.8;
-  opacity: 0.92;
+@media (prefers-reduced-motion: reduce) {
+  .video {
+    display: none;
+  }
 }
 
 .wave {
@@ -85,7 +117,7 @@
   z-index: 5;
   display: block;
   width: 100%;
-  height: 40vw;
+  height: 24vw;
   pointer-events: none;
 }
 .wave path[data-band] {
@@ -98,22 +130,6 @@
   align-items: center;
   margin: calc(var(--u) * 2) auto 0;
   text-align: center;
-}
-.intro p {
-  margin: calc(var(--u) * 1.6) 0 0;
-  font-family: IranYekanRegular, sans-serif;
-  font-size: calc(var(--u) * 1.9);
-  line-height: 1.8;
-}
-.intro a {
-  color: var(--c-primary-500);
-  text-decoration: underline;
-  text-decoration-color: #0c766880;
-  text-underline-offset: 0.3em;
-  transition: color 0.3s ease;
-}
-.intro a:hover {
-  color: var(--c-secondary);
 }
 
 /* Coral ring with a navy dot. */
@@ -130,30 +146,41 @@
   position: absolute;
   inset: 22%;
   border-radius: 50%;
-  background: var(--c-primary);
+  background: var(--c-ink);
+}
+
+@media (max-width: 479px) {
+  .title {
+    font-size: max(22px, calc(var(--u) * 3.4));
+  }
 }
 
 @media (min-width: 800px) {
   .hero {
     --u: min(0.57vw, 10px);
   }
+  /* The clip sets the panel height; the copy floats on its empty right side. */
   .frame {
-    aspect-ratio: 16 / 9;
+    padding: 0;
     border-radius: calc(var(--u) * 7) calc(var(--u) * 7) 0 0 / calc(var(--u) * 8) calc(var(--u) * 8) 0 0;
   }
-  .shade {
-    background: radial-gradient(ellipse 55% 75% at 22% 80%, #16332eb3 0%, #16332e66 50%, #16332e00 100%);
+  .copy {
+    position: absolute;
+    top: 15%;
+    right: 0;
+    width: 27%;
+    padding: 0 calc(var(--u) * 6) 0 0;
   }
   .title {
-    font-size: calc(var(--u) * 5);
-    line-height: 1.4;
+    font-size: calc(var(--u) * 4.4);
+    line-height: 1.5;
   }
-  .subtitle {
-    margin-top: calc(var(--u) * 1.6);
-    font-size: calc(var(--u) * 2.2);
+  .primary {
+    min-height: calc(var(--u) * 6.2);
+    font-size: max(15px, calc(var(--u) * 1.9));
   }
   .wave {
-    height: min(calc(var(--u) * 63), 40vw);
+    height: min(calc(var(--u) * 30), 22vw);
   }
   .wave path[data-band] {
     fill: url(#hero-wave-desktop);
@@ -162,19 +189,10 @@
     width: 53%;
     margin-top: calc(var(--u) * 1.5);
   }
-  .intro p {
-    font-size: calc(var(--u) * 1.8);
-  }
 }
 
 @media (min-width: 1680px) {
   .wave {
     width: 1680px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .video {
-    display: none;
   }
 }

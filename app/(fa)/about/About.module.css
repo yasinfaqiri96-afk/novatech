@@ -1,0 +1,307 @@
+/* About-page specifics on top of SitePage.module.css. */
+.heroGrid {
+  align-items: center;
+}
+
+.inlineLink {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: rgb(12 118 104 / 30%);
+  text-underline-offset: 4px;
+}
+
+/* Portrait floats on a soft mint glow, like the service-page artwork. */
+.portrait {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 440px);
+  margin: 0;
+  isolation: isolate;
+}
+
+.portrait::before {
+  content: "";
+  position: absolute;
+  inset: 10% -10% -6% -10%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgb(84 220 198 / 22%), rgb(84 220 198 / 0%));
+}
+
+.portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 28px 28px 8px 28px;
+  box-shadow: 0 40px 80px -48px rgb(22 51 46 / 50%);
+}
+
+.stat {
+  flex-direction: row;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.statIcon {
+  flex: none;
+  width: 72px;
+  height: 72px;
+  border-radius: 20px 20px 6px 20px;
+  object-fit: cover;
+}
+
+.statValue {
+  color: var(--link);
+  font-family: IranYekanFat, IranYekanBold, sans-serif;
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+/* Timeline: icons on a vertical mint line, cards beside them. */
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+  max-width: 860px;
+  margin-inline: auto;
+  padding: 0;
+  list-style: none;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 2rem;
+  bottom: 2rem;
+  inset-inline-start: 2rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--mint), rgb(84 220 198 / 15%));
+}
+
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem minmax(0, 1fr);
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.stepIcon {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 6px #fff, 0 16px 30px -18px rgb(22 51 46 / 45%);
+}
+
+.stepIcon img {
+  width: 2.6rem;
+  height: 2.6rem;
+  object-fit: contain;
+}
+
+.stepCard {
+  gap: .4rem;
+}
+
+@media (max-width: 640px) {
+  .step {
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: .9rem;
+  }
+
+  .stepIcon {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .stepIcon img {
+    width: 2.1rem;
+    height: 2.1rem;
+  }
+
+  .timeline::before {
+    inset-inline-start: 1.6rem;
+  }
+}
+
+/* Team: one portrait per member, a fixed square crop so every face sits at the
+   same height. The `id` on each card is the anchor the Person JSON-LD points at. */
+.member {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  scroll-margin-top: 7rem;
+}
+
+.memberPhoto {
+  flex: none;
+  width: 84px;
+  height: 84px;
+  border-radius: 20px 20px 6px 20px;
+  object-fit: cover;
+}
+
+.memberRole {
+  margin: 0;
+  color: var(--link);
+  font-size: .85rem;
+  font-weight: 700;
+}
+
+.memberLinks {
+  display: flex;
+  gap: .9rem;
+  margin: .35rem 0 0;
+  font-size: .8rem;
+}
+
+.memberLinks a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.memberLinks a:hover,
+.memberLinks a:focus-visible {
+  color: var(--link);
+}
+
+/* Numbered method steps reuse the card; the counter replaces an icon. */
+.methodStep {
+  counter-increment: method;
+}
+
+.methodTitle::before {
+  content: counter(method, persian) ". ";
+  color: var(--link);
+}
+
+.method {
+  counter-reset: method;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contactList {
+  display: grid;
+  gap: .35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: .93rem;
+  line-height: 2;
+}
+
+.contactList a {
+  color: var(--link);
+}
+
+/* FAQ rows, same look as ServiceFaq. Kept local because importing the shared
+   ServiceFaq module here regrouped CSS chunks and added the About styles to
+   every service page. */
+.faqHeading {
+  position: relative;
+  margin: 0 0 .4rem;
+  padding-bottom: 1rem;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+  font-weight: 800;
+  line-height: 1.55;
+  letter-spacing: -.02em;
+}
+
+.faqHeading::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.faqList {
+  display: grid;
+  gap: .75rem;
+  margin-top: 1.1rem;
+}
+
+.faqItem {
+  border-radius: 18px;
+  background: var(--soft);
+  transition: background-color .35s var(--ease), box-shadow .35s var(--ease);
+}
+
+.faqItem[open] {
+  background: #fff;
+  box-shadow: var(--lift);
+}
+
+.faqItem summary {
+  position: relative;
+  display: block;
+  padding: 1.1rem 1.25rem;
+  padding-inline-end: 3.75rem;
+  cursor: pointer;
+  list-style: none;
+  color: var(--ink);
+  font-size: .97rem;
+  font-weight: 700;
+  line-height: 1.85;
+}
+
+.faqItem summary::-webkit-details-marker { display: none; }
+
+.faqItem summary::after {
+  content: "+";
+  position: absolute;
+  inset-inline-end: 1.1rem;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--link);
+  font-size: 1.15rem;
+  line-height: 1;
+  box-shadow: 0 6px 14px -8px rgb(22 51 46 / 40%);
+  transform: translateY(-50%);
+  transition: transform .35s var(--ease), background-color .35s;
+}
+
+.faqItem[open] summary::after {
+  background: var(--mint);
+  color: var(--ink);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.faqItem summary:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 2px;
+  border-radius: 18px;
+}
+
+.faqItem p {
+  margin: 0;
+  padding: 0 1.25rem 1.25rem;
+  color: var(--muted);
+  font-size: .93rem;
+  line-height: 2.05;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faqItem,
+  .faqItem summary::after { transition: none; }
+}

@@ -1,0 +1,130 @@
+{
+  "$comment": "Keyword groups from docs/phase3-content-keyword-map.md. Used by scripts/gsc-report.mjs to classify Search Console queries. Patterns are case-insensitive regular expressions matched against the query after Arabic/Persian letter normalisation (ي→ی, ك→ک, zero-width non-joiner→space). Edit the map and this file together.",
+  "brandPatterns": [
+    "نواتیک",
+    "نوا تیک",
+    "novatech",
+    "nova tech",
+    "novatechsoft"
+  ],
+  "productPatterns": [
+    "ناظر",
+    "nazer",
+    "مشعل",
+    "mashal"
+  ],
+  "groups": [
+    {
+      "key": "brand",
+      "label": "شرکت و برند",
+      "target": "/",
+      "support": [
+        "/about",
+        "/herat",
+        "/contact"
+      ],
+      "patterns": [
+        "نواتیک",
+        "novatech",
+        "شرکت (نرم ?افزار|تکنالوژی|تکنولوژی|برنامه ?نویسی|توسعه نرم ?افزار)"
+      ]
+    },
+    {
+      "key": "herat-local",
+      "label": "خدمات محلی هرات",
+      "target": "/herat",
+      "support": [
+        "/contact",
+        "/about",
+        "/blog/choosing-software-company-herat"
+      ],
+      "patterns": [
+        "هرات",
+        "herat"
+      ]
+    },
+    {
+      "key": "accounting",
+      "label": "حسابداری",
+      "target": "/accounting-software",
+      "support": [
+        "/blog/choosing-accounting-software",
+        "/blog/what-is-erp-and-when-you-need-it",
+        "/oil-and-gas-software/accounting"
+      ],
+      "patterns": [
+        "حسابداری",
+        "حسابات",
+        "accounting",
+        "چند ?ارزی",
+        "مدیریت فروش",
+        "ناظر",
+        "nazer"
+      ]
+    },
+    {
+      "key": "database",
+      "label": "دیتابیس",
+      "target": "/database-solutions",
+      "support": [
+        "/blog/database-design-for-growing-business",
+        "/blog/migrating-data-from-excel",
+        "/blog/database-vs-excel-for-business-data"
+      ],
+      "patterns": [
+        "دیتابیس",
+        "دیتابس",
+        "دیتا ?بیس",
+        "پایگاه داده",
+        "database",
+        "اکسل",
+        "excel"
+      ]
+    },
+    {
+      "key": "custom-software",
+      "label": "نرم‌افزار اختصاصی",
+      "target": "/software-solutions",
+      "support": [
+        "/business-systems",
+        "/erp",
+        "/blog/custom-software-vs-off-the-shelf",
+        "/blog/custom-software-cost-afghanistan"
+      ],
+      "patterns": [
+        "اختصاصی",
+        "سفارشی",
+        "برنامه ?نویسی",
+        "custom software",
+        "erp",
+        "سیستم مدیریت",
+        "گدام",
+        "انبار"
+      ]
+    },
+    {
+      "key": "oil-gas",
+      "label": "محصولات تخصصی نفت و گاز",
+      "target": "/oil-and-gas-software",
+      "support": [
+        "/oil-and-gas-software/features",
+        "/en/oil-and-gas-erp-afghanistan",
+        "/ps/oil-and-gas-erp-afghanistan",
+        "/portfolio/oil-and-gas-management-system"
+      ],
+      "patterns": [
+        "مشعل",
+        "mashal",
+        "نفت",
+        "نفتی",
+        "گاز",
+        "مخزن",
+        "تانکر",
+        "petroleum",
+        "oil",
+        "تېلو",
+        "ګازو"
+      ]
+    }
+  ]
+}

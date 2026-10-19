@@ -2,7 +2,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Link from "next/link";
 import LeadForm from "@/components/LeadForm";
 import HomePortfolioShowcase from "@/components/HomePortfolioShowcase";
 import WebDesignHero from "@/components/web-design/WebDesignHero";
@@ -67,7 +66,7 @@ export default function CorporateDesign({ faq }: { faq: FaqItem[] }) {
         <aside id="order" className={styles.consultation}><img src="/images/portfolio/novatech-contact-operator.jpg" alt="مشاوره و ارتباط با تیم نواتیک" width="400" height="400" loading="lazy" /><h2>از ایده شما شروع کنیم</h2><p>شماره خود را بگذارید تا درباره پروژه گفت‌وگو کنیم.</p><LeadForm source="web-design-hero" id="web-design-order-form1" className={styles.form}><label htmlFor="web-design-name">نام و نام خانوادگی</label><input id="web-design-name" name="name" autoComplete="name" required placeholder="نام و نام خانوادگی" /><label htmlFor="web-design-phone">شماره تماس</label><input id="web-design-phone" name="phone" type="tel" inputMode="tel" autoComplete="tel" required placeholder="شماره تماس" /><button type="submit" className={styles.button}>ثبت درخواست مشاوره ↗</button></LeadForm></aside>
       </section>
 
-      <section className={styles.banners} aria-label="خدمات مرتبط"><Link href="#order"><img src={asset("ecommerce.webp")} alt="طراحی فروشگاه اینترنتی؛ ویترین آنلاین کسب‌وکار شما" width="1650" height="750" loading="lazy" /><span>طراحی فروشگاه اینترنتی <b>↗</b></span></Link><Link href="#order"><img src={asset("seo.webp")} alt="استراتژی سئو و رشد حضور کسب‌وکار در جست‌وجو" width="1650" height="750" loading="lazy" /><span>سئو و بهینه‌سازی سایت <b>↗</b></span></Link></section>
+      {/* The e-commerce and SEO banners now sit above the footer on every page. */}
 
       <dialog aria-labelledby="solution-title" ref={dialog} className={styles.dialog} onClick={(event) => { if (event.target === event.currentTarget) dialog.current?.close(); }}><button className={styles.close} onClick={() => dialog.current?.close()} aria-label="بستن جزئیات">×</button>{selected !== null && <><img src={asset(`${solutions[selected].image}.png`)} alt={solutions[selected].title} width="800" height="400" /><h2 id="solution-title">{solutions[selected].title}</h2><p>{solutions[selected].text}</p><a href="#order" className={styles.button} onClick={() => dialog.current?.close()}>گفت‌وگو درباره این راهکار ↗</a></>}</dialog>
     </div>

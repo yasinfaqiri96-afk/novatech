@@ -1,0 +1,462 @@
+/*
+ * Shared page primitives for the standalone pages (Herat, About, Privacy, Blog, …),
+ * in the same language as the home, portfolio, web-design and contact pages and the
+ * service template: white ground, ink + mint palette, eyebrow with a short mint mark,
+ * section headings underlined by a mint stroke, borderless cards with a soft shadow
+ * and the site's leaf-cut corner, leaf-cornered buttons.
+ */
+.page {
+  --ink: var(--brand-ink, #16332e);
+  --muted: var(--brand-muted, #526b65);
+  --link: var(--brand-link, #0c7668);
+  --mint: var(--brand-primary, #54dcc6);
+  --soft: #f4f9f8;
+  --line: #e2ecea;
+  --leaf: 24px 24px 8px 24px;
+  --lift: 0 26px 50px -36px rgb(22 51 46 / 40%), 0 2px 10px -6px rgb(22 51 46 / 10%);
+  --lift-hover: 0 36px 64px -40px rgb(22 51 46 / 50%), 0 2px 10px -6px rgb(22 51 46 / 10%);
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  overflow: hidden;
+  background: #fff;
+  color: var(--ink);
+}
+
+.container {
+  width: min(1200px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+.narrow {
+  width: min(860px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+/* ---- hero ---------------------------------------------------------------- */
+.hero {
+  padding: clamp(4rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4rem);
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.heroCentered {
+  text-align: center;
+}
+
+.heroCentered .eyebrow {
+  justify-content: center;
+}
+
+.heroCentered .title,
+.heroCentered .lead {
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 0 0 1rem;
+  color: var(--link);
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.eyebrow::before {
+  content: "";
+  flex: none;
+  width: 22px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.title {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--ink);
+  font-family: IranYekanBold, sans-serif;
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+
+.lead {
+  max-width: 42rem;
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 2.05;
+}
+
+.lead a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: rgb(12 118 104 / 30%);
+  text-underline-offset: 4px;
+}
+
+.lead + .lead {
+  margin-top: .85rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: 2rem;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  gap: .55rem;
+  padding: .75rem 1.35rem;
+  border-radius: 14px 14px 14px 4px;
+  font-size: .9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color .3s var(--ease), color .3s var(--ease), transform .3s var(--ease);
+}
+
+.btnPrimary {
+  background: var(--mint);
+  color: var(--ink);
+  box-shadow: 0 14px 28px -14px rgb(22 120 104 / 55%);
+}
+
+.btnPrimary:hover {
+  background: var(--brand-hover, #39cbb5);
+  transform: translateY(-2px);
+}
+
+.btnSecondary {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 10px 24px -16px rgb(22 51 46 / 40%), 0 0 0 1px rgb(22 51 46 / 6%);
+}
+
+.btnSecondary:hover {
+  color: var(--link);
+  transform: translateY(-2px);
+}
+
+/* ---- sections ------------------------------------------------------------ */
+.section {
+  padding: 0 0 clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.sectionTitle {
+  position: relative;
+  max-width: 30ch;
+  margin: 0;
+  padding-bottom: 1rem;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 2.5vw, 2.15rem);
+  font-weight: 800;
+  line-height: 1.55;
+  letter-spacing: -.02em;
+  text-wrap: balance;
+}
+
+.sectionTitle::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 44px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.centerTitle {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.centerTitle::after {
+  inset-inline-start: calc(50% - 22px);
+}
+
+.sectionIntro {
+  max-width: 46rem;
+  margin: 1.1rem 0 0;
+  color: var(--muted);
+  font-size: .97rem;
+  line-height: 2.05;
+}
+
+.sectionBody {
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* ---- grids & cards ------------------------------------------------------- */
+.grid2,
+.grid3,
+.grid4 {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.grid2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1.5rem 1.5rem 1.6rem;
+  border-radius: var(--leaf);
+  background: #fff;
+  box-shadow: var(--lift);
+  color: inherit;
+  text-decoration: none;
+}
+
+/* A short mint tab hanging from the top edge, as on the service step cards. */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  inset-inline-start: 1.5rem;
+  width: 36px;
+  height: 4px;
+  border-radius: 0 0 6px 6px;
+  background: var(--mint);
+}
+
+a.card {
+  transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+
+a.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--lift-hover);
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 800;
+  line-height: 1.7;
+  transition: color .3s var(--ease);
+}
+
+a.card:hover .cardTitle {
+  color: var(--link);
+}
+
+.cardText {
+  margin: 0;
+  color: var(--muted);
+  font-size: .9rem;
+  line-height: 1.95;
+}
+
+.cardMore {
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  margin-top: auto;
+  padding-top: .75rem;
+  color: var(--link);
+  font-size: .8rem;
+  font-weight: 700;
+  transition: gap .3s var(--ease);
+}
+
+a.card:hover .cardMore {
+  gap: .55rem;
+}
+
+/* Soft tinted rows with a mint check, for short lists of facts. */
+.checkList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkList li {
+  display: flex;
+  align-items: flex-start;
+  gap: .75rem;
+  padding: .95rem 1.1rem;
+  border-radius: 16px;
+  background: var(--soft);
+  color: var(--ink);
+  font-size: .93rem;
+  line-height: 1.9;
+}
+
+.checkMark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-top: .1rem;
+  border-radius: 50%;
+  background: #e2f5f0;
+  color: var(--link);
+}
+
+/* An information panel: white card with icon rows. */
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border-radius: 28px 28px 8px 28px;
+  background: #fff;
+  box-shadow: 0 40px 80px -50px rgb(22 51 46 / 50%), 0 2px 12px -6px rgb(22 51 46 / 10%);
+}
+
+.infoTitle {
+  position: relative;
+  margin: 0 0 .25rem;
+  padding-bottom: .8rem;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.infoTitle::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 26px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.infoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: .8rem;
+  color: var(--muted);
+  font-size: .93rem;
+  line-height: 1.95;
+}
+
+.infoRow a {
+  color: var(--ink);
+  text-decoration: none;
+  transition: color .25s var(--ease);
+}
+
+.infoRow a:hover {
+  color: var(--link);
+}
+
+.infoIcon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 50%;
+  background: #eaf7f4;
+  color: var(--link);
+}
+
+.mapFrame {
+  min-height: 220px;
+  margin-top: .25rem;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--soft);
+}
+
+/* Long-form text (policy pages): calm measure, mint-marked headings. */
+.prose h2 {
+  position: relative;
+  margin: 2.25rem 0 .9rem;
+  padding-inline-start: 1rem;
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.7;
+}
+
+.prose h2::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: .35em;
+  bottom: .35em;
+  width: 3px;
+  border-radius: 999px;
+  background: var(--mint);
+}
+
+.prose p {
+  margin: 0;
+  color: var(--muted);
+  font-size: .98rem;
+  line-height: 2.1;
+}
+
+.prose a {
+  color: var(--link);
+  text-decoration: underline;
+  text-decoration-color: rgb(12 118 104 / 30%);
+  text-underline-offset: 4px;
+}
+
+.page a:focus-visible,
+.page summary:focus-visible {
+  outline: 3px solid var(--link);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px) {
+  .heroGrid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .container,
+  .narrow { width: calc(100% - 2rem); }
+  .grid2,
+  .grid3,
+  .grid4,
+  .checkList { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btnPrimary,
+  .btnSecondary,
+  a.card,
+  .cardMore {
+    transition: none;
+  }
+
+  .btnPrimary:hover,
+  .btnSecondary:hover,
+  a.card:hover {
+    transform: none;
+  }
+}

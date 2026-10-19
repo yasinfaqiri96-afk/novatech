@@ -1,4 +1,4 @@
-"use client";
+import LazyVideo from "@/components/LazyVideo";
 import styles from "./Portfolio.module.css";
 
 export type IntroStat = { value: string; label: string };
@@ -35,9 +35,7 @@ export default function PortfolioIntro({ stats }: { stats: IntroStat[] }) {
 
         <div className={styles.introMedia}>
           <div className={styles.introVideo}>
-            <video autoPlay muted loop playsInline preload="metadata" poster="/media/novatech-portfolio-showreel-poster.png" aria-label="نمایش سامانه‌ها و وب‌سایت‌های نواتیک روی مانیتور">
-              <source src="/media/novatech-portfolio-showreel.mp4" type="video/mp4" />
-            </video>
+            <LazyVideo src="/media/novatech-portfolio-showreel.mp4" start="idle" poster="/media/novatech-portfolio-showreel-poster.webp" aria-label="نمایش سامانه‌ها و وب‌سایت‌های نواتیک روی مانیتور" />
           </div>
         </div>
       </div>

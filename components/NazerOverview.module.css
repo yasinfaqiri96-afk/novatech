@@ -1,3 +1,41 @@
-.root{font-family:IranYekanRegular,sans-serif;color:#111827;line-height:1.9;width:min(1240px,calc(100% - 40px));margin-inline:auto}.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 24px;padding:20px 0;border-block:1px solid #dfeae7}.nav a{color:#169b86;text-decoration:none}.section{padding:56px 0;scroll-margin-top:100px}.head{max-width:760px;margin:0 auto 32px;text-align:center}.head h2{font-family:IranYekanFat,IranYekanBold,sans-serif;font-size:clamp(24px,2.5vw,32px);line-height:1.6;margin:8px 0 16px}.head>p:first-child{color:#169b86}.head p,.cards p,.steps p{color:#4b5563;margin:8px 0}.cards,.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.cards article,.steps li{padding:24px;border:1px solid #dfeae7;border-radius:16px;background:#fff}.cards h3,.steps h3{font-family:IranYekanBold,sans-serif;font-size:18px;margin:0 0 12px}.steps{padding-inline-start:24px}.steps li{padding-inline-start:28px}.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}.actions a{border:1px solid #cbded9;border-radius:12px;padding:12px 22px;color:#111827;text-decoration:none}.actions a:first-child{background:#54dcc6}.root a:focus-visible{outline:3px solid #169b86;outline-offset:4px}@media(max-width:767px){.cards,.steps{grid-template-columns:1fr}.section{padding:36px 0}}
-.band{position:relative;isolation:isolate}.band::before{content:"";position:absolute;z-index:-1;inset:0 calc(50% - 50vw);background:linear-gradient(180deg,#f3faf8,#f8fbfb)}.four{grid-template-columns:repeat(4,minmax(0,1fr))}.cards article{box-shadow:0 12px 30px -24px rgb(15 23 42 / 30%)}.cards h3{color:#1d8180}
-@media(max-width:1023px){.four{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:767px){.four{grid-template-columns:1fr}}
+/* Nazer overview, in the site's shared card language (see SitePage.module.css). */
+.root{--ink:var(--brand-ink,#16332e);--muted:var(--brand-muted,#526b65);--link:var(--brand-link,#0c7668);--mint:var(--brand-primary,#54dcc6);--leaf:24px 24px 8px 24px;--lift:0 26px 50px -36px rgb(22 51 46 / 40%),0 2px 10px -6px rgb(22 51 46 / 10%);--ease:cubic-bezier(.22,1,.36,1);font-family:IranYekanRegular,sans-serif;color:var(--ink);line-height:1.9;width:min(1200px,calc(100% - 40px));margin-inline:auto}
+
+/* In-page navigation as quiet pills instead of a ruled strip. */
+.nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:8px 0 24px}
+.nav a{padding:8px 18px;border-radius:999px;background:#f1f8f6;color:var(--link);font-size:14px;text-decoration:none;transition:background-color .3s var(--ease),color .3s var(--ease)}
+.nav a:hover{background:var(--mint);color:var(--ink)}
+
+.section{padding:clamp(40px,6vw,64px) 0;scroll-margin-top:calc(var(--site-header-height,90px) + 24px)}
+.head{max-width:760px;margin:0 auto 34px;text-align:center}
+.head>p:first-child{display:inline-flex;align-items:center;gap:10px;color:var(--link);font-size:14px;font-weight:700}
+.head>p:first-child::before,.head>p:first-child::after{content:"";width:22px;height:2px;border-radius:999px;background:var(--mint)}
+.head h2{position:relative;font-family:IranYekanBold,sans-serif;font-size:clamp(24px,2.5vw,34px);font-weight:800;line-height:1.6;color:var(--ink);margin:8px 0 14px;padding-bottom:14px}
+.head h2::after{content:"";position:absolute;bottom:0;left:calc(50% - 22px);width:44px;height:3px;border-radius:999px;background:var(--mint)}
+.head p,.cards p,.steps p{color:var(--muted);margin:8px 0}
+
+.cards,.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.cards article,.steps li{position:relative;padding:26px 24px 24px;border-radius:var(--leaf);background:#fff;box-shadow:var(--lift);transition:transform .45s var(--ease),box-shadow .45s var(--ease)}
+.cards article::before,.steps li::before{content:"";position:absolute;top:0;inset-inline-start:24px;width:36px;height:4px;border-radius:0 0 6px 6px;background:var(--mint)}
+.cards article:hover,.steps li:hover{transform:translateY(-3px);box-shadow:0 34px 60px -38px rgb(22 51 46 / 48%),0 2px 10px -6px rgb(22 51 46 / 10%)}
+.cards h3,.steps h3{font-family:IranYekanBold,sans-serif;font-size:17px;color:var(--ink);margin:0 0 8px}
+
+/* Numbered steps: the number sits in a mint circle, the list keeps its order semantics. */
+.steps{counter-reset:step;padding:0;list-style:none}
+.steps li{counter-increment:step;padding-top:64px}
+.steps li::after{content:counter(step);position:absolute;top:22px;inset-inline-start:24px;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:#e6f7f3;color:var(--link);font-family:IranYekanBold,sans-serif;font-size:15px}
+
+.actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.actions a{display:inline-flex;align-items:center;min-height:48px;padding:12px 22px;border-radius:14px 14px 14px 4px;background:#fff;color:var(--ink);font-weight:700;text-decoration:none;box-shadow:0 10px 24px -16px rgb(22 51 46 / 40%),0 0 0 1px rgb(22 51 46 / 6%);transition:transform .3s var(--ease),background-color .3s var(--ease),color .3s var(--ease)}
+.actions a:first-child{background:var(--mint);box-shadow:0 14px 28px -14px rgb(22 120 104 / 55%)}
+.actions a:hover{transform:translateY(-2px)}
+.actions a:not(:first-child):hover{color:var(--link)}
+.root a:focus-visible{outline:3px solid var(--link);outline-offset:4px}
+
+/* Tinted panel with the leaf-cut corners instead of a full-bleed band, so no hard seam crosses the page. */
+.band{position:relative;isolation:isolate;padding-inline:clamp(16px,3vw,40px);border-radius:40px 40px 12px 40px;background:radial-gradient(circle at 8% 0%,rgb(84 220 198 / 14%),transparent 26rem),linear-gradient(180deg,#f3f9f7,#f7fbfa)}
+.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+@media(max-width:1023px){.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:767px){.cards,.steps,.four{grid-template-columns:1fr}.band{border-radius:28px 28px 8px 28px}}
+@media(prefers-reduced-motion:reduce){.cards article,.steps li,.actions a,.nav a{transition:none}.cards article:hover,.steps li:hover,.actions a:hover{transform:none}}

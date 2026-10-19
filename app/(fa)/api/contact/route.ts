@@ -41,39 +41,54 @@ async function postWebhook(lead: LeadPayload, at: Date): Promise<void> {
 }
 
 /**
- * Delivers the lead to every configured target. WhatsApp is the primary route;
- * an optional webhook runs alongside it. The lead counts as delivered when at
- * least one target accepts it, and every attempt is logged either way.
+ * - "delivered": at least one server-side target accepted the lead.
+ * - "manual": no target is configured, so nothing was recorded on the server;
+ *   the visitor has to send the prepared WhatsApp message (or call) themselves.
+ * - "failed": targets are configured but every one of them refused the lead.
  */
-async function forward(lead: LeadPayload): Promise<"whatsapp" | "delivered"> {
+type Delivery = "delivered" | "manual" | "failed";
+
+/** Error text only: target errors never contain the lead's personal data. */
+const reason = (error: unknown) => (error instanceof Error ? error.message : String(error)).slice(0, 400);
+
+/**
+ * Delivers the lead to every configured target. WhatsApp is the primary route;
+ * an optional webhook runs alongside it. The lead counts as delivered only when
+ * at least one target accepts it, and every failed attempt is logged with its
+ * cause.
+ */
+async function forward(lead: LeadPayload): Promise<Delivery> {
   const at = new Date();
-  const targets: Array<Promise<void>> = [];
+  const targets: Array<{ name: string; send: Promise<void> }> = [];
 
   if (isWhatsappConfigured()) {
-    targets.push(sendWhatsAppLead(lead, at));
+    targets.push({ name: "whatsapp", send: sendWhatsAppLead(lead, at) });
   }
   if (process.env.LEAD_WEBHOOK_URL) {
-    targets.push(postWebhook(lead, at));
+    targets.push({ name: "webhook", send: postWebhook(lead, at) });
   }
 
   if (targets.length === 0) {
-    return "whatsapp";
+    console.error(`[lead] no delivery target configured; source=${JSON.stringify(lead.source)} handed to the visitor's WhatsApp`);
+    return "manual";
   }
 
-  const results = await Promise.allSettled(targets);
-  for (const result of results) {
-    if (result.status === "rejected") console.error("[lead] target failed");
-  }
+  const results = await Promise.allSettled(targets.map((target) => target.send));
+  results.forEach((result, index) => {
+    if (result.status === "rejected") console.error(`[lead] ${targets[index].name} failed: ${reason(result.reason)}`);
+  });
   if (results.every((result) => result.status === "rejected")) {
-    // Record failure metadata without exposing personal lead data.
-    console.error("[lead] delivery failed");
-    throw new Error("no delivery target accepted the lead");
+    console.error(`[lead] delivery failed on every target; source=${JSON.stringify(lead.source)}`);
+    return "failed";
   }
   return "delivered";
 }
 
 export async function POST(request: Request) {
+  // Cloudflare sets CF-Connecting-IP itself, so a client cannot forge it the way
+  // it can prepend entries to X-Forwarded-For.
   const ip =
+    request.headers.get("cf-connecting-ip") ||
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
     "unknown";
@@ -105,16 +120,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, message: "درخواست نامعتبر است." }, { status: 400 });
   }
 
-  let delivery: "whatsapp" | "delivered";
+  let delivery: Delivery;
   try {
     delivery = await forward(result.data);
-  } catch {
-    console.error("[lead] delivery failed");
+  } catch (error) {
+    console.error(`[lead] delivery threw: ${reason(error)}`);
+    delivery = "failed";
+  }
+
+  if (delivery === "manual") {
+    // Nothing was recorded, so this is not a success: the client keeps the form
+    // filled in and points the visitor at WhatsApp or the phone instead.
     return NextResponse.json(
-      { ok: false, message: "ثبت درخواست با خطا مواجه شد. لطفا تماس بگیرید." },
+      { ok: false, delivery, message: "درخواست هنوز ثبت نشده است. برای ثبت، پیام آماده را در واتس‌اپ ارسال کنید یا تماس بگیرید." },
+      { status: 503 }
+    );
+  }
+  if (delivery === "failed") {
+    return NextResponse.json(
+      { ok: false, delivery, message: "ثبت درخواست با خطا مواجه شد. لطفاً از واتس‌اپ پیام دهید یا تماس بگیرید." },
       { status: 502 }
     );
   }
 
-  return NextResponse.json({ ok: true, delivery, message: delivery === "whatsapp" ? "برای تکمیل درخواست، پیام واتس‌اپ را ارسال کنید." : result.message });
+  return NextResponse.json({ ok: true, delivery, message: result.message });
 }

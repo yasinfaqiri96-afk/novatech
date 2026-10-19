@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import MotionCard from "./MotionCard";
 import HeroWave from "../HeroWave";
 import { MOTION, TRACK_COPIES } from "./config";
-import { posterIndexLabels, posters } from "./data";
+import type { Poster } from "./data";
 import styles from "./motion-showcase.module.css";
 
 /**
@@ -24,19 +24,29 @@ import styles from "./motion-showcase.module.css";
  * style on each frame, and React only ever re-renders for the one-shot reveal.
  */
 
-const cards = Array.from({ length: TRACK_COPIES }, (_, copy) =>
-  posters.map((poster, index) => ({
-    poster,
-    indexLabel: posterIndexLabels[index],
-    copy,
-    key: `${copy}-${poster.key}`,
-  })),
-).flat();
+/** ۰۱ … ۰۸, matching the numbering style used by the services section. */
+const indexLabel = (index: number) =>
+  `۰${index + 1}`.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+
+const buildCards = (posters: Poster[]) =>
+  Array.from({ length: TRACK_COPIES }, (_, copy) =>
+    posters.map((poster, index) => ({
+      poster,
+      indexLabel: indexLabel(index),
+      copy,
+      key: `${copy}-${poster.key}`,
+    })),
+  ).flat();
 
 const clamp01 = (value: number) => (value < 0 ? 0 : value > 1 ? 1 : value);
 const lerp = (from: number, to: number, t: number) => from + (to - from) * t;
 
-export default function MotionShowcase() {
+/**
+ * `posters` comes from the server (see MotionShowcaseSection): the case-study
+ * catalogue it is drawn from stays out of the client bundle.
+ */
+export default function MotionShowcase({ posters }: { posters: Poster[] }) {
+  const cards = useMemo(() => buildCards(posters), [posters]);
   const rootRef = useRef<HTMLElement | null>(null);
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const gapProbeRef = useRef<HTMLSpanElement | null>(null);
@@ -360,8 +370,11 @@ export default function MotionShowcase() {
     let readyTimer = 0;
     const settleListeners: Array<() => void> = [];
 
+    let startFrame = 0;
     if (pending.length === 0) {
-      start();
+      // Next frame, not now: start() measures the cards, and measuring inside
+      // this effect forced the page's first full layout into hydration.
+      startFrame = window.requestAnimationFrame(start);
     } else {
       let remaining = pending.length;
       pending.forEach((image) => {
@@ -455,6 +468,7 @@ export default function MotionShowcase() {
 
     return () => {
       disposed = true;
+      window.cancelAnimationFrame(startFrame);
       delete viewport.dataset.motionReady;
       viewport.removeEventListener("focusin", onFocusIn);
       viewport.removeEventListener("focusout", onFocusOut);
@@ -471,7 +485,7 @@ export default function MotionShowcase() {
       document.removeEventListener("visibilitychange", onVisibilityChange);
       reduceMotionQuery.removeEventListener("change", onReduceMotionChange);
     };
-  }, []);
+  }, [cards]);
 
   return (
     <section

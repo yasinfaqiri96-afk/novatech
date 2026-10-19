@@ -17,4 +17,4 @@ export const mashalNavigationGroups = [
     { href: `${mashalCanonicalPath}#mashal-demo`, label: "درخواست دمو" },
   ] },
 ];
-export const isMashalRoute = (path: string) => path.startsWith(mashalCanonicalPath) || path === mashalEnglishPath || path === mashalPashtoPath || path === "/portfolio/oil-and-gas-management-system" || path === "/blog/oil-and-gas-software-guide";
+export { isMashalRoute } from "@/lib/mashal-paths";

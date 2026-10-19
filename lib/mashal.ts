@@ -1,7 +1,6 @@
-export const mashalIntroduction = "مشعل (MASHAL)، نرم‌افزار مدیریت تجارت نفت و گاز افغانستان، محصول شرکت تکنولوژی نواتیک (NOVATECH) است. قرارداد، بارگیری، حمل، تانک، فروش، حساب شرکا و راپور مفاد را در یک سیستم به هم وصل می‌کند.";
-export const mashalCanonicalPath = "/oil-and-gas-software";
-export const mashalEnglishPath = "/en/oil-and-gas-erp-afghanistan";
-export const mashalPashtoPath = "/ps/oil-and-gas-erp-afghanistan";
+import { mashalCanonicalPath, mashalEnglishPath, mashalPashtoPath } from "@/lib/mashal-paths";
+export const mashalIntroduction = "مشعل (MASHAL)، نرم‌افزار مدیریت تجارت نفت و گاز افغانستان، محصول نواتیک (Novatech Technology Solutions) است. قرارداد، بارگیری، حمل، تانک، فروش، حساب شرکا و راپور مفاد را در یک سیستم به هم وصل می‌کند.";
+export { mashalCanonicalPath, mashalEnglishPath, mashalPashtoPath };
 export const mashalContentDate = "2026-10-04";
 export const mashalProductContentDate = "2026-10-08";
 
@@ -256,7 +255,7 @@ export const mashalCapabilityGroups = [
 export const mashalFaq = [
   {
     question: "مشعل چیست؟",
-    answer: "مشعل (MASHAL) محصول شرکت تکنولوژی نواتیک (NOVATECH) برای مدیریت تجارت نفت و گاز افغانستان است؛ قرارداد، بار، تانک، فروش، حساب شرکا و راپور مفاد را به هم وصل می‌کند.",
+    answer: "مشعل (MASHAL) محصول نواتیک (Novatech Technology Solutions) برای مدیریت تجارت نفت و گاز افغانستان است؛ قرارداد، بار، تانک، فروش، حساب شرکا و راپور مفاد را به هم وصل می‌کند.",
   },
   {
     question: "آیا مشعل یک سیستم دیتابیس نفت و گاز است؟",
@@ -315,7 +314,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "contracts",
     navLabel: "مدیریت قرارداد نفت",
-    metaTitle: "مدیریت قرارداد خرید نفت با مشعل | NOVATECH",
+    metaTitle: "مدیریت قرارداد خرید نفت با مشعل | نواتیک",
     description: "مدیریت قرارداد خرید مواد نفتی، تحویل‌دهنده، شرکا، Platts، نرخ ارز، بارگیری و میزان اجرای قرارداد در نرم افزار مشعل.",
     eyebrow: "قراردادمحور از روز اول",
     title: "مدیریت قرارداد خرید مواد نفتی در مشعل",
@@ -391,7 +390,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "partner-settlement",
     navLabel: "حساب و تسویه شرکا",
-    metaTitle: "حساب شرکا در تجارت نفت با مشعل | NOVATECH",
+    metaTitle: "حساب شرکا در تجارت نفت با مشعل | نواتیک",
     description: "مدیریت سهم، تأمین پول، پرداخت، مانده و تسویه شرکای شرکت نفتی بر پایه قراردادها و اسناد واقعی در مشعل.",
     eyebrow: "هر شریک، یک موقعیت روشن",
     title: "حساب و تسویهٔ شرکا در تجارت نفت",
@@ -429,7 +428,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "petroleum-trading",
     navLabel: "تجارت و توزیع مواد نفتی",
-    metaTitle: "Petroleum Trading Software Afghanistan | Mashal",
+    metaTitle: "نرم افزار تجارت و توزیع مواد نفتی افغانستان | مشعل",
     description: "مشعل برای مدیریت تجارت مواد نفتی در افغانستان؛ از قرارداد و بارگیری تا حمل، مخزن، فروش، مالی و سودآوری.",
     eyebrow: "ERP برای تجارت مواد نفتی",
     title: "سیستم یکپارچهٔ واردات و توزیع مواد نفتی",
@@ -448,7 +447,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "loading",
     navLabel: "بارگیری مواد نفتی",
-    metaTitle: "مدیریت بارگیری مواد نفتی با مشعل | NOVATECH",
+    metaTitle: "مدیریت بارگیری مواد نفتی با مشعل | نواتیک",
     description: "ثبت بارگیری مواد نفتی، رسید، مقدار، سند حمل، کرایه، نرخ و تخصیص هر بار به قرارداد خرید در نرم افزار مشعل.",
     eyebrow: "مقدار مبدأ با منبع روشن",
     title: "مدیریت بارگیری مواد نفتی؛ از قرارداد تا رسید",
@@ -467,7 +466,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "customs",
     navLabel: "گمرک مواد نفتی",
-    metaTitle: "مدیریت گمرک مواد نفتی در مشعل | NOVATECH",
+    metaTitle: "مدیریت گمرک مواد نفتی در مشعل | نواتیک",
     description: "ثبت اظهارنامه گمرکی مواد نفتی، جواز و مالک جواز، نوع گمرک، وزن، مصارف، ضمایم و نحوه تسویه در مشعل.",
     eyebrow: "گمرک داخل همان زنجیرهٔ بار",
     title: "اظهارنامه، وزن و مصارف گمرکی در یک پرونده",
@@ -502,7 +501,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "reports",
     navLabel: "راپورهای مدیریتی",
-    metaTitle: "راپورهای مدیریتی شرکت نفتی در مشعل | NOVATECH",
+    metaTitle: "راپورهای مدیریتی شرکت نفتی در مشعل | نواتیک",
     description: "راپور موجودی، کالاهای در راه، گردش پول، طلبات و بدهی‌ها، حساب مشتری و تحویل‌دهنده، قرارداد و مفاد در مشعل.",
     eyebrow: "تصمیم از دادهٔ متصل",
     title: "راپورهای مدیریتی برای عملیات و مالی شرکت نفتی",
@@ -521,7 +520,7 @@ export const mashalIntentPages: MashalIntentPage[] = [
   {
     slug: "security",
     navLabel: "امنیت و سطح دسترسی",
-    metaTitle: "امنیت و سطح دسترسی در ERP مشعل | NOVATECH",
+    metaTitle: "امنیت و سطح دسترسی در ERP مشعل | نواتیک",
     description: "کاربر، نقش، سطح دسترسی، قفل دوره عملیاتی، ثبت فعالیت‌های حساس و پشتیبان‌گیری در نرم افزار ERP مشعل.",
     eyebrow: "دسترسی به اندازهٔ مسئولیت",
     title: "کنترول دسترسی و حفاظت از جریان عملیات",

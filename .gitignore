@@ -51,3 +51,11 @@ next-env.d.ts
 /qa-artifacts/
 
 __pycache__/
+
+# local tool output (agent sessions, other build tools, audit runs) — never deploy
+/.output/
+/.manus/
+/.wrangler/
+/.claude/
+/.work/
+debug.log

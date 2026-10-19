@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "@/app/legacy-base.css";
 import "@/app/globals.css";
 import MashalContext from "@/components/MashalContext";
@@ -7,48 +6,16 @@ import Header from "@/components/Header";
 import SiteBreadcrumbBar from "@/components/SiteBreadcrumbBar";
 import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
+import { detailBreadcrumbLabels } from "@/lib/breadcrumb-details";
 import { graph, organizationSchema, websiteSchema } from "@/lib/seo";
 import { companyInfo, siteUrl } from "@/lib/site-content";
 
-// WOFF2 rather than the TTFs that ship alongside them: same faces, ~70% smaller
-// (25-27KB vs 84-86KB each), so the swap from the fallback font happens sooner
-// and the text reflow it causes is smaller.
-const iranYekan = localFont({
-  src: [
-    {
-      path: "../public/fonts/IRANYekanXFaNum-Light.woff2",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/IRANYekanXFaNum-Regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/IRANYekanXFaNum-Medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/IRANYekanXFaNum-Bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/IRANYekanXFaNum-ExtraBlack.woff2",
-      weight: "900",
-      style: "normal",
-    },
-  ],
-  variable: "--font-iranyekan-next",
-  display: "swap",
-  // The visible typography comes from the `IranYekan*` faces declared in
-  // legacy-base.css, which override `body` with `!important`. This family is
-  // only reached through the `font-iranyekan*` Tailwind utilities, so
-  // preloading it would download ~130KB that never paints anything.
-  preload: false,
-});
+// Fonts: every face is declared once in CSS against the files in /public/fonts
+// (the per-weight `IranYekan*` families in legacy-base.css and the multi-weight
+// `IranYekanX` family behind `--font-iranyekan-next` in globals.css). Both point
+// at the same URLs, so each weight is downloaded at most once. next/font is not
+// used: it re-published the same files under /_next/static/media, and pages that
+// used both names downloaded Regular, Bold and ExtraBlack twice.
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -82,6 +49,12 @@ export const metadata: Metadata = {
   },
 };
 
+const CV_FRAGMENT_GUARD =
+  "(function(){var d=document.documentElement,o=function(){d.classList.add('cv-off')};" +
+  "if(location.hash.length>1)o();" +
+  "addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*=\"#\"]');if(a&&a.hash)o()},true);" +
+  "addEventListener('hashchange',o)})();";
+
 export default function SiteDocument({
   children,
   language = "fa-AF",
@@ -90,8 +63,13 @@ export default function SiteDocument({
   language?: "fa-AF" | "en-AF" | "ps-AF";
 }>) {
   return (
-    <html lang={language} dir={language === "en-AF" ? "ltr" : "rtl"} data-scroll-behavior="smooth">
+    <html lang={language} dir={language === "en-AF" ? "ltr" : "rtl"} data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
+        {/* Turns deferred rendering (`.defer-render`, see globals.css) off before
+            any jump to a #fragment: on a deep link it runs before the first
+            layout, and on a click it runs in the capture phase, before the
+            browser or the router scrolls. Everything else keeps the saving. */}
+        <script dangerouslySetInnerHTML={{ __html: CV_FRAGMENT_GUARD }} />
         {/* The two faces that paint above the fold on every page. They are
             referenced from a stylesheet, so without these hints the browser
             only discovers them after CSS parsing, which is what makes the
@@ -111,13 +89,13 @@ export default function SiteDocument({
           crossOrigin="anonymous"
         />
       </head>
-      <body style={{ direction: language === "en-AF" ? "ltr" : "rtl" }} className={`${iranYekan.variable} font-sans antialiased text-text-dark bg-white flex flex-col min-h-screen`}>
+      <body style={{ direction: language === "en-AF" ? "ltr" : "rtl" }} className={`font-sans antialiased text-text-dark bg-white flex flex-col min-h-screen`}>
         <a href="#main-content" className="skip-to-content">
           {language === "en-AF" ? "Skip to main content" : language === "ps-AF" ? "اصلي منځپانګې ته لاړ شئ" : "رفتن به محتوای اصلی"}
         </a>
         {/* Header sets its own lang/dir so the sticky header is not trapped in a wrapper. */}
         <Header />
-        <SiteBreadcrumbBar language={language} />
+        <SiteBreadcrumbBar language={language} detailLabels={detailBreadcrumbLabels()} />
         <main id="main-content" className="flex-grow">
           <MashalContext>{children}</MashalContext>
         </main>

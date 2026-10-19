@@ -63,12 +63,28 @@ test("company is a real lead field and the bot honeypot has a separate name", ()
   assert.doesNotMatch(route, /\.company \?\? ""/);
 });
 
-test("Mashal retains grouped guides in the footer and established Persian typefaces", () => {
+// The site-wide footer was redesigned to a curated set of links: it keeps the
+// Mashal product and its feature catalogue, and the full guide index moved to
+// the Mashal hub, where every topic page also links its siblings. The guides
+// must stay reachable from there; `npm run seo:audit` additionally fails on any
+// sitemap URL that no page links to.
+test("Mashal guides stay reachable: footer links the product, the hub indexes every guide", () => {
   const footer = read("components/Footer.tsx");
+  const hub = read("components/MashalProductPage.tsx");
+  const topic = read("components/MashalIntentPage.tsx");
+
+  assert.match(footer, /href: "\/oil-and-gas-software"/);
+  assert.match(footer, /href: "\/oil-and-gas-software\/features"/);
+  assert.match(hub, /mashalIntentPages\.map\(\(page\) =>[\s\S]*href=\{`\$\{mashalCanonicalPath\}\/\$\{page\.slug\}`\}/);
+  assert.match(hub, /href=\{mashalPashtoPath\}/);
+  assert.match(hub, /href=\{mashalEnglishPath\}/);
+  assert.match(topic, /href=\{`\$\{mashalCanonicalPath\}\/\$\{item\.slug\}`\}/);
+});
+
+test("Mashal keeps its established Persian typefaces", () => {
   const styles = read("components/MashalProductPage.module.css");
   const landingStyles = read("components/mashal/MashalLanding.module.css");
 
-  assert.match(footer, /mashalNavigationGroups/);
   assert.match(styles, /\.page:lang\(fa\)[\s\S]*font-family:\s*IranYekanRegular/);
   assert.match(styles, /\.page:lang\(fa\) :is\(h1, h2\)[\s\S]*font-family:\s*IranYekanBold/);
   assert.match(styles, /font-family:\s*IranYekanBold/);

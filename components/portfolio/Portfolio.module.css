@@ -297,6 +297,10 @@
 .catActive {
   color: var(--c-secondary) !important;
 }
+/* The bar is dark green: the link teal reads at ~2:1 there, the brand mint at ~7:1. */
+.catActive {
+  color: #54dcc6 !important;
+}
 .selector {
   position: absolute;
   right: auto;

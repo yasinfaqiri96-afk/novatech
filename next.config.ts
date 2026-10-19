@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: ONE_YEAR,
   },
   experimental: {
-    optimizePackageImports: ["lucide-react", "swiper"],
+    optimizePackageImports: ["lucide-react"],
   },
   // 301 is used explicitly instead of `permanent: true` (which emits 308).
   // Both are permanent to Google, but 301 is what every third-party SEO
@@ -106,6 +106,13 @@ const nextConfig: NextConfig = {
       {
         source: "/en/:path*",
         headers: [{ key: "Content-Language", value: "en" }],
+      },
+      {
+        // Lead submissions carry personal data and are never cacheable. Next
+        // sends no Cache-Control on these responses at all, so a CDN rule that
+        // caches by default could otherwise store one.
+        source: "/api/:path*",
+        headers: [{ key: "Cache-Control", value: "no-store" }],
       },
       {
         // Hashed filenames are not used here, but these assets are content-stable

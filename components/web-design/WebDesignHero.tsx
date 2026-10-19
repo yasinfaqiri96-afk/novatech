@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import LazyVideo from "@/components/LazyVideo";
 import { companyInfo } from "@/lib/site-content";
 import styles from "./CorporateDesign.module.css";
 
@@ -32,17 +33,13 @@ export default function WebDesignHero({ homepage = false }: { homepage?: boolean
         )}
       </div>
       <div className={styles.heroArt}>
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster="/media/novatech-portfolio-showreel-poster.png"
+        {/* Above the fold on /web-design, far below it on the home page. */}
+        <LazyVideo
+          src="/media/novatech-portfolio-showreel.mp4"
+          start={homepage ? "visible" : "idle"}
+          poster="/media/novatech-portfolio-showreel-poster.webp"
           aria-label="نمایش نمونه‌کارهای نواتیک در مانیتور"
-        >
-          <source src="/media/novatech-portfolio-showreel.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
     </section>
   );

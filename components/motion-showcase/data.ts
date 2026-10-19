@@ -115,8 +115,3 @@ export const posters: Poster[] = artwork.map((entry) => {
     tint: entry.tint,
   };
 });
-
-/** ۰۱ … ۰۸, matching the numbering style used by the services section. */
-export const posterIndexLabels = posters.map((_, index) =>
-  `۰${index + 1}`.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]),
-);

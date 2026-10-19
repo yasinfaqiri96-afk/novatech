@@ -1,60 +1,51 @@
-.root{background:#fff;color:#263c46;border-top:1px solid #e3eaec;font-family:IranYekanRegular,sans-serif;font-size:15px;line-height:1.9}
+.root{--ink:var(--brand-ink,#16332e);--muted:var(--brand-muted,#526b65);--link:var(--brand-link,#0c7668);--mint:var(--brand-primary,#54dcc6);--line:#e2ecea;--ease:cubic-bezier(.22,1,.36,1);background:#fff;color:var(--ink);font-family:IranYekanRegular,sans-serif;font-size:15px;line-height:1.9}
+
+/* ---- service banners ------------------------------------------------ */
+/* The artwork is the card (its dark panel, title and arrow are drawn in), so the link
+   adds no box of its own: only a lift and a soft shadow that follows the artwork. */
+.banners{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.4vw,28px);width:min(1200px,calc(100% - 40px));margin:0 auto;padding:clamp(28px,4vw,48px) 0 clamp(36px,5vw,64px)}
+.banner{display:block;border-radius:22px;transition:transform .5s var(--ease)}
+.bannerImage{display:block;width:100%;height:auto;filter:drop-shadow(0 22px 26px rgb(16 8 70 / 16%));transition:filter .5s var(--ease)}
+.banner:hover{transform:translateY(-5px)}
+.banner:hover .bannerImage{filter:drop-shadow(0 30px 34px rgb(16 8 70 / 24%))}
+
+/* ---- footer sheet ---------------------------------------------------- */
+/* A calm tinted sheet with the site's leaf-cut top corners, so the footer reads as its own layer. */
+.sheet{background:linear-gradient(180deg,#f3f9f7 0%,#f7fbfa 100%);border-radius:44px 44px 0 0}
 .shell{width:min(1200px,calc(100% - 40px));margin-inline:auto}
+.main{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,.9fr)) minmax(0,1.35fr);gap:clamp(24px,3vw,44px);padding:clamp(48px,6vw,72px) 0 clamp(40px,5vw,56px)}
 
-/* ---- promotional banner --------------------------------------------- */
-.promoWrap{width:min(1200px,calc(100% - 32px));margin:0 auto;padding:32px 0 0}
-.promo{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;padding:22px 28px;border:1px solid var(--brand-line);border-radius:18px;color:var(--brand-ink);background:#fff;box-shadow:none}
-.promo::before{content:"";position:absolute;inset:30px 0 30px auto;width:4px;border-radius:4px;background:var(--brand-primary)}
-.promoCopy{max-width:640px}
-.promoKicker{display:inline-block;color:var(--brand-link);font-size:14px;letter-spacing:.02em}
-.promoTitle{margin:5px 0 8px;font-family:IranYekanFat,IranYekanBold,sans-serif;font-size:clamp(20px,2.2vw,26px);line-height:1.6;color:var(--brand-ink)}
-.promoTitle span{color:var(--brand-link)}
-.promoText{margin:0;max-width:56ch;color:var(--brand-muted);font-size:14px;line-height:2}
-.promoActions{display:flex;flex-wrap:wrap;gap:10px;margin-top:15px}
-.promoPrimary,.promoSecondary{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:8px 18px;border-radius:10px;font-size:15px;text-decoration:none;transition:background-color .2s ease,color .2s ease,transform .2s ease}
-.promoPrimary{background:#54dcc6;color:#0b2627;font-family:IranYekanBold,sans-serif;box-shadow:0 10px 24px -10px rgb(84 220 198 / 70%)}
-.promoPrimary:hover{background:#7ae6d4;transform:translateY(-1px)}
-.promoSecondary{border:1px solid #c7e2d9;color:var(--brand-ink);background:#fff}
-.promoSecondary:hover{background:#e6f6f0}
-.promoPortrait{position:relative;width:140px;height:150px;border:1px solid #d1e9e0;border-radius:20px;padding:7px;background:#fff;box-shadow:0 12px 30px -24px rgb(22 51 46 / 30%)}
-.promoImage{width:100%;height:100%;border-radius:14px;object-fit:cover;display:block}
-
-/* ---- footer body ---------------------------------------------------- */
-.main{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,.85fr)) 1.15fr;gap:32px;padding:48px 0 36px}
+.logoLink{display:inline-block}
 .logo{width:150px;height:auto;display:block}
-.brand p{color:#5a6b73;font-size:14px;line-height:2.05;margin:16px 0 18px;max-width:34ch}
-.socials{display:flex;gap:8px}
-.social{display:grid;place-items:center;width:38px;height:38px;border:1px solid #d5e3e1;border-radius:50%;color:#1d8180;background:#fff;transition:background-color .2s ease,color .2s ease}
-.social:hover{background:#1d8180;color:#fff}
-.col h3,.contact h3{font-family:IranYekanBold,sans-serif;font-size:15px;margin:0 0 14px;color:#1b2f37}
-.col ul{list-style:none;padding:0;margin:0;display:grid;gap:8px}
-.col a{color:#53656e;font-size:14px;text-decoration:none;transition:color .2s ease}
-.col a:hover,.contact a:hover{color:#1d8180}
-.contact{display:grid;align-content:start;gap:8px;font-style:normal}
-.contact a,.contact span{display:flex;align-items:flex-start;gap:8px;color:#53656e;font-size:14px;text-decoration:none;overflow-wrap:anywhere}
-.contact svg{flex:none;margin-top:6px;color:#1d8180}
+.brand p{color:var(--muted);font-size:14px;line-height:2.1;margin:18px 0 22px;max-width:34ch}
+.socials{display:flex;gap:10px}
+.social{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--link);background:#fff;box-shadow:0 8px 20px -12px rgb(22 51 46 / 35%);transition:background-color .3s var(--ease),color .3s var(--ease),transform .3s var(--ease)}
+.social:hover{background:var(--mint);color:var(--ink);transform:translateY(-2px)}
 
-/* ---- Mashal guide index -------------------------------------------- */
-.guides{border-top:1px solid #e3eaec;padding:14px 0}
-.guides summary{display:inline-flex;align-items:center;gap:6px;min-height:44px;color:#1d8180;cursor:pointer;font-family:IranYekanBold,sans-serif;font-size:14px;list-style:none}
-.guides summary::-webkit-details-marker{display:none}
-.guidesIcon{transition:transform .2s ease}
-.guides[open] .guidesIcon{transform:rotate(180deg)}
-.guideGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px 32px;padding:12px 0 18px}
-.guideGroup h4{margin:0 0 8px;font-family:IranYekanBold,sans-serif;font-size:13px;color:#1b2f37}
-.guideGroup ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
-.guideGroup a{color:#5a6b73;font-size:13px;text-decoration:none}
-.guideGroup a:hover{color:#1d8180;text-decoration:underline}
+/* Column titles carry a short mint mark, the same accent the section headings use. */
+.col h3,.contact h3{position:relative;margin:0 0 18px;padding-bottom:12px;font-family:IranYekanBold,sans-serif;font-size:15px;color:var(--ink)}
+.col h3::after,.contact h3::after{content:"";position:absolute;inset-inline-start:0;bottom:0;width:22px;height:2px;border-radius:999px;background:var(--mint)}
+.col ul{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.col a{display:inline-block;color:var(--muted);font-size:14px;line-height:1.8;text-decoration:none;transition:color .25s var(--ease),transform .25s var(--ease)}
+.col a:hover{color:var(--link);transform:translateX(-3px)}
 
-.bottom{border-top:1px solid #e3eaec;padding:18px 0 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;font-size:13px;color:#6b7a82}
-.bottomLinks{display:flex;flex-wrap:wrap;gap:18px}
-.bottom a{color:#53656e;text-decoration:none}
-.bottom a:hover{color:#1d8180}
-.root :is(a,summary):focus-visible{outline:3px solid #1d8180;outline-offset:3px;border-radius:4px}
+/* Contact sits in a white card: the one place on the sheet that asks for an action. */
+.contact{display:grid;align-content:start;gap:12px;padding:24px 22px;font-style:normal;background:#fff;border-radius:24px 24px 8px 24px;box-shadow:0 26px 50px -36px rgb(22 51 46 / 40%)}
+.contact a,.contact>span{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:14px;line-height:1.8;text-decoration:none;overflow-wrap:anywhere;transition:color .25s var(--ease)}
+.contact a:hover{color:var(--link)}
+.contact .phone{color:var(--ink);font-family:IranYekanBold,sans-serif;font-size:15px}
+.contactIcon{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;color:var(--link);background:#eef8f5}
 
-@media(max-width:1080px){.main{grid-template-columns:repeat(4,minmax(0,1fr))}.brand{grid-column:1/-1}.brand p{max-width:60ch}}
-@media(max-width:900px){.promo{grid-template-columns:minmax(0,1fr) auto}.promoPortrait{justify-self:center}.guideGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:640px){.shell{width:calc(100% - 32px)}.main{grid-template-columns:1fr 1fr;gap:28px 20px;padding-top:36px}.contact{grid-column:1/-1}.promoActions a{flex:1 1 auto}.guideGrid{grid-template-columns:1fr}.bottom{flex-direction:column;align-items:flex-start}}
-@media(prefers-reduced-motion:reduce){.promoPrimary,.promoPrimary:hover{transition:none;transform:none}.guidesIcon{transition:none}}
+.bottom{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0 24px;border-top:1px solid var(--line);font-size:13px;color:#6b7d79}
+.bottomLinks{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.bottom a{color:var(--muted);text-decoration:none;transition:color .25s var(--ease)}
+.bottom a:hover{color:var(--link)}
+.dot{width:4px;height:4px;border-radius:50%;background:#c3d6d1}
+.toTop{display:grid;place-items:center;width:38px;height:38px;margin-inline-start:6px;border-radius:50%;background:#fff;color:var(--link)!important;box-shadow:0 8px 20px -12px rgb(22 51 46 / 35%);transition:background-color .3s var(--ease),transform .3s var(--ease)}
+.toTop:hover{background:var(--mint);color:var(--ink)!important;transform:translateY(-2px)}
 
-@media(max-width:640px){.promo{padding:20px;grid-template-columns:1fr}.promoPortrait{display:none}.promoActions a{flex:0 1 auto}}
+.root :is(a,summary):focus-visible{outline:3px solid var(--link);outline-offset:3px;border-radius:6px}
+
+@media(max-width:1080px){.main{grid-template-columns:repeat(3,minmax(0,1fr))}.brand{grid-column:1/-1}.brand p{max-width:60ch}.contact{grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr))}.contact h3{grid-column:1/-1}}
+@media(max-width:640px){.banners{grid-template-columns:1fr;width:calc(100% - 32px)}.sheet{border-radius:32px 32px 0 0}.shell{width:calc(100% - 32px)}.main{grid-template-columns:1fr 1fr;gap:32px 20px}.main>nav:last-of-type{grid-column:1/-1}.contact{grid-template-columns:1fr;padding:20px}.bottom{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.banner,.banner:hover,.bannerImage,.col a,.col a:hover,.social,.social:hover,.toTop,.toTop:hover{transition:none;transform:none}}

@@ -1,3 +1,4 @@
+import { ROUTE_LABELS } from "@/lib/breadcrumbs";
 import { services } from "@/lib/services";
 import { companyInfo, siteUrl } from "@/lib/site-content";
 import { teamMembers } from "@/lib/team";
@@ -67,7 +68,7 @@ export const organizationSchema = {
   "@type": "Organization",
   "@id": ORGANIZATION_ID,
   name: companyInfo.legalName,
-  alternateName: [companyInfo.brandName, companyInfo.latinName, companyInfo.displayName],
+  alternateName: [companyInfo.brandName, companyInfo.latinName],
   url: siteUrl,
   logo: {
     "@type": "ImageObject",
@@ -85,7 +86,10 @@ export const organizationSchema = {
     { "@type": "City", name: "Herat" },
   ],
   knowsLanguage: ["fa-AF", "ps", "en"],
-  sameAs: [companyInfo.instagramUrl],
+  // The subjects this organization has a service page for, read from the same
+  // service graph as the offer catalog — never a wish list of topics.
+  knowsAbout: services.map((service) => service.serviceType),
+  sameAs: companyInfo.sameAs,
   hasOfferCatalog: organizationOfferCatalog,
   employee: employeeNodes,
   contactPoint: [
@@ -142,7 +146,7 @@ export const localBusinessSchema = {
     { "@type": "City", name: "Herat" },
     { "@type": "Country", name: "Afghanistan" },
   ],
-  sameAs: [companyInfo.instagramUrl],
+  sameAs: companyInfo.sameAs,
 };
 
 export const websiteSchema = {
@@ -157,13 +161,18 @@ export const websiteSchema = {
 
 export type BreadcrumbEntry = { name: string; path: string };
 
+/**
+ * Fixed routes are named from `ROUTE_LABELS`, the same table the visible
+ * breadcrumb bar reads, so the markup always describes the trail on screen.
+ * Detail pages keep the name they pass (their own title).
+ */
 export function breadcrumbSchema(entries: BreadcrumbEntry[]) {
   return {
     "@type": "BreadcrumbList",
     itemListElement: entries.map((entry, index) => ({
       "@type": "ListItem",
       position: index + 1,
-      name: entry.name,
+      name: ROUTE_LABELS[entry.path] ?? entry.name,
       item: `${siteUrl}${entry.path}`,
     })),
   };
@@ -236,6 +245,27 @@ export function serviceSchema({
   };
 }
 
+/**
+ * Mashal's verified capabilities (see docs/MASHAL-PHASE2-EVIDENCE.md). It is the
+ * default feature list because Mashal is the product the helper was written
+ * for; any other product passes its own list, restricted to what its page shows.
+ */
+const MASHAL_FEATURES = [
+  "Petroleum contract management",
+  "Loading and purchase receipts",
+  "Tanker logistics and goods in transit",
+  "Customs declarations, documents and settlement",
+  "Fuel tank inventory",
+  "Petroleum sales",
+  "Petroleum quality inspection records",
+  "Multi-currency finance",
+  "Partner settlement",
+  "Contract and cargo profitability",
+  "Operational asset and maintenance records",
+  "Management reports",
+  "Role-based access and operational period locks",
+];
+
 export function softwareApplicationSchema({
   path,
   name,
@@ -243,6 +273,9 @@ export function softwareApplicationSchema({
   description,
   images,
   inLanguage = "fa-AF",
+  applicationSubCategory = "Oil and gas enterprise resource planning",
+  operatingSystem = "Web browser",
+  featureList = MASHAL_FEATURES,
 }: {
   path: string;
   name: string;
@@ -250,6 +283,10 @@ export function softwareApplicationSchema({
   description: string;
   images: readonly string[];
   inLanguage?: string;
+  applicationSubCategory?: string;
+  /** Omitted from the node when `null`: only state a platform the page states. */
+  operatingSystem?: string | null;
+  featureList?: readonly string[];
 }) {
   return {
     "@type": "SoftwareApplication",
@@ -259,28 +296,14 @@ export function softwareApplicationSchema({
     url: `${siteUrl}${path}`,
     description,
     applicationCategory: "BusinessApplication",
-    applicationSubCategory: "Oil and gas enterprise resource planning",
-    operatingSystem: "Web browser",
+    applicationSubCategory,
+    ...(operatingSystem ? { operatingSystem } : {}),
     inLanguage,
-    creator: { "@id": ORGANIZATION_ID, name: companyInfo.displayName },
+    creator: { "@id": ORGANIZATION_ID, name: companyInfo.legalName },
     provider: { "@id": ORGANIZATION_ID },
     areaServed: { "@type": "Country", name: "Afghanistan" },
-    image: images.map((image) => `${siteUrl}${image}`),
-    featureList: [
-      "Petroleum contract management",
-      "Loading and purchase receipts",
-      "Tanker logistics and goods in transit",
-      "Customs declarations, documents and settlement",
-      "Fuel tank inventory",
-      "Petroleum sales",
-      "Petroleum quality inspection records",
-      "Multi-currency finance",
-      "Partner settlement",
-      "Contract and cargo profitability",
-      "Operational asset and maintenance records",
-      "Management reports",
-      "Role-based access and operational period locks",
-    ],
+    ...(images.length ? { image: images.map((image) => `${siteUrl}${image}`) } : {}),
+    featureList: [...featureList],
   };
 }
 
